@@ -1,3 +1,5 @@
+
+------------------------------------------------
 # Itsmebroarif Github!
 ---
 #### This is my Repository
@@ -13,7 +15,5 @@ Halo Semua, Nama Aku Arif Dan Aku Adalah Seorang mentor dan juga admin dari Code
 
 
 
-- 👋 Hi, I’m @itsmebroarif
-- 👀 I’m interested in Programming
-- 🌱 I’m currently learning Fullstack Developer
+
 
