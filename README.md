@@ -1,5 +1,8 @@
 # 💫 About Me:
-- 🔭 I’m currently working on **Fullstack Web Developer**<br><br>- 🌱 I’m currently learning **Most Popular Programming Language In The World**<br><br>- 🤝 I’m looking for help with **Frontend Web Development & UI/UX Design**<br><br>- 💬 Ask me about **Web & App Development Or Design**
+- 🔭 I’m currently working on **Fullstack Web Developer**<br><br> 
+- 🌱 I’m currently learning **Most Popular Programming Language In The World**<br><br>
+- 🤝 I’m looking for help with **Frontend Web Development & UI/UX Design**<br><br>
+- 💬 Ask me about **Web & App Development Or Design**
 
 
 ## 🌐 Socials:
