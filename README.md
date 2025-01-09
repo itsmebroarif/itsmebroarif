@@ -46,3 +46,4 @@
 
 ## 💰 You can help me by Donating
 [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://trakteer.id/itsmebroarif/tip?open=true)  
+[![Trakteer](https://img.shields.io/badge/Trakteer-red?style=for-the-badge&logo=trakteer&logoColor=white)](https://trakteer.id/itsmebroarif/tip?open=true)
