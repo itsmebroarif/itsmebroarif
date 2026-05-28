@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://capsule-render.vercel.app/content?type=waving&color=auto&height=250&section=header&text=Hi,%20I'm%20Arif%20👋&fontSize=70&animation=fadeIn&theme=dark" width="100%" />
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThJnJYEnqQlN3cLw-2kHChi77iXkpVWf4YuQ&s" width="100%" />
 </p>
 
 <p align="center">
