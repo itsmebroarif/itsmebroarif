@@ -77,7 +77,6 @@
   <img src="https://img.shields.io/badge/Bahasa%20Indonesia-%23E33B26.svg?style=for-the-badge" alt="Indonesian" />
   <img src="https://img.shields.io/badge/English-%230080C9.svg?style=for-the-badge" alt="English" />
   <img src="https://img.shields.io/badge/Japanese-%23BC002D.svg?style=for-the-badge" alt="Japanese" />
-  <img src="https://img.shields.io/badge/Korean-%23007A48.svg?style=for-the-badge" alt="Korean" />
 </p>
 
 ---
