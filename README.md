@@ -1,12 +1,13 @@
 <p align="center">
- 
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=4000&pause=1000&color=F7DF1E&center=true&vCenter=true&width=600&height=100&lines=Fullstack+Web+Developer;Building+Modern+Applications;UI%2FUX+Design+Enthusiast;Passionate+About+Technology" alt="Typing SVG" />
 </p>
 
 <p align="center">
-  <a href="https://github.com/itsmebroarif">
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=F7DF1E&center=true&vCenter=true&width=500&lines=Fullstack+Web+Developer;Building+Modern+Applications;UI%2FUX+Design+Enthusiast" alt="Typing SVG" />
-  </a>
+  <img src="https://avatars.githubusercontent.com/u/68406328?v=4" width="200" height="200" alt="Broarif" style="border-radius: 20px; border: 4px solid #F7DF1E; box-shadow: 0 10px 30px rgba(247, 223, 30, 0.3);" />
 </p>
+
+<h1 align="center">Hey there! 👋 I'm Arif</h1>
+
 
 ---
 
@@ -15,22 +16,23 @@
 <table align="center" width="100%">
   <tr>
     <td width="60%" valign="top">
-      <ul>
-        <li>🔭 I’m currently working as <strong>Fullstack Web Developer</strong></li>
-        <li>🌱 I’m currently learning <strong>Most Popular Programming Language For Website</strong></li>
-        <li>🤝 I’m looking for help with <strong>Fullstack Web Development & UI/UX Design</strong></li>
-        <li>💬 Ask me about <strong>Web & App Development Or Design</strong></li>
+      <ul style="list-style: none; padding: 0;">
+        <li>🔭 <strong>Currently Working:</strong> Fullstack Web Developer crafting modern web experiences</li>
+        <li>🌱 <strong>Learning:</strong> Advanced JavaScript patterns & Modern web architectures</li>
+        <li>🤝 <strong>Passionate About:</strong> Fullstack Web Development & UI/UX Design</li>
+        <li>💬 <strong>Ask Me About:</strong> Web & App Development, Design, or anything tech-related</li>
+        <li>⚡ <strong>Fun Fact:</strong> I love solving complex problems with elegant solutions</li>
       </ul>
     </td>
     <td width="40%" align="center" valign="middle">
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3NidXF3cXp3M3p5YjE1b3V0YmR4ZDJ0NjB0eW9tcmVpNHR0cjVkYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/L1R1tvI9svkIWwpVYr/giphy.gif" width="160px" alt="Coding GIF">
+      <img src="https://miro.medium.com/v2/resize:fit:2400/1*99hHL9XJ7EzQeC6RB5_Qiw.jpeg" width="100%" alt="Web Development" style="border-radius: 12px;" />
     </td>
   </tr>
 </table>
 
 ---
 
-## 💻 Tech Stack
+## 🛠️ Tech Stack
 
 ### 🚀 Core Programming Languages
 <p align="left">
@@ -59,37 +61,67 @@
   <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
   <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS" />
   <img src="https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
-  <img src="https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7" alt="Netlify" />
+  <img src="https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=%2300C7B7" alt="Netlify" />
   <img src="https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase" alt="Firebase" />
   <img src="https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white" alt="Heroku" />
 </p>
 
-### 🎨 UI/UX & Design Tools
+### 🎨 Design & UI/UX Tools
 <p align="left">
   <img src="https://img.shields.io/badge/adobephotoshop-%2331A8FF.svg?style=for-the-badge&logo=adobephotoshop&logoColor=white" alt="Adobe Photoshop" />
   <img src="https://img.shields.io/badge/adobeillustrator-%23FF9A00.svg?style=for-the-badge&logo=adobeillustrator&logoColor=white" alt="Adobe Illustrator" />
-  <img src="https://img.shields.io/badge/Adobe%20XD-470137?style=for-the-badge&logo=Adobe%20XD&logoColor=#FF61F6" alt="Adobe XD" />
+  <img src="https://img.shields.io/badge/Adobe%20XD-470137?style=for-the-badge&logo=Adobe%20XD&logoColor=%23FF61F6" alt="Adobe XD" />
   <img src="https://img.shields.io/badge/Canva-%2300C4CC.svg?style=for-the-badge&logo=Canva&logoColor=white" alt="Canva" />
+</p>
+
+### ✨ Animation & 3D Creation
+<p align="left">
+  <img src="https://img.shields.io/badge/Aseprite-FF00FF?style=for-the-badge&logo=aseprite&logoColor=white" alt="Aseprite" />
+  <img src="https://img.shields.io/badge/Adobe%20Animate-%23FF0000.svg?style=for-the-badge&logo=adobeanimate&logoColor=white" alt="Adobe Animate" />
+  <img src="https://img.shields.io/badge/Voxel%20Studio-%234CAF50?style=for-the-badge" alt="Voxel Studio" />
+  <img src="https://img.shields.io/badge/Blender-%23F5792A?style=for-the-badge&logo=blender&logoColor=white" alt="Blender" />
+</p>
+
+### 🛠️ System Administration & IT Support
+<p align="left">
+  <img src="https://img.shields.io/badge/Linux%20Admin-%23FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux Admin" />
+  <img src="https://img.shields.io/badge/Windows%20Support-%230078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Windows Support" />
+  <img src="https://img.shields.io/badge/macOS%20Support-%23000000?style=for-the-badge&logo=apple&logoColor=white" alt="macOS Support" />
+  <img src="https://img.shields.io/badge/Linux%20Support-%23FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux Support" />
 </p>
 
 ### 🗣️ Languages Spoken
 <p align="left">
-  <img src="https://img.shields.io/badge/Bahasa%20Indonesia-%23E33B26.svg?style=for-the-badge" alt="Indonesian" />
-  <img src="https://img.shields.io/badge/English-%230080C9.svg?style=for-the-badge" alt="English" />
-  <img src="https://img.shields.io/badge/Japanese-%23BC002D.svg?style=for-the-badge" alt="Japanese" />
+  <img src="https://img.shields.io/badge/Bahasa%20Indonesia-%23E33B26.svg?style=for-the-badge&logoColor=white" alt="Indonesian" />
+  <img src="https://img.shields.io/badge/English-%230080C9.svg?style=for-the-badge&logoColor=white" alt="English" />
+  <img src="https://img.shields.io/badge/Japanese-%23BC002D.svg?style=for-the-badge&logoColor=white" alt="Japanese" />
 </p>
+
+
 
 ---
 
-## 💰 Support & Donation
+## 🌟 Featured Projects
+
+Coming soon! Check out my GitHub for more amazing projects.
+
+---
+
+## 💰 Support & Sponsorship
 
 Jika kamu ingin mendukung perkembangan proyek yang saya buat, kamu bisa memberikan donasi melalui platform berikut:
 
-<p align="left">
+<p align="center">
   <a href="https://trakteer.id/itsmebroarif/tip?open=true" target="_blank">
     <img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="BuyMeACoffee" />
   </a>
   <a href="https://trakteer.id/itsmebroarif/tip?open=true" target="_blank">
-    <img src="https://img.shields.io/badge/Trakteer-red?style=for-the-badge&logo=trakteer&logoColor=white" alt="Trakteer" />
+    <img src="https://img.shields.io/badge/Trakteer%20(ID)-red?style=for-the-badge&logo=trakteer&logoColor=white" alt="Trakteer" />
   </a>
 </p>
+
+---
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&duration=3000&pause=1000&color=F7DF1E&center=true&vCenter=true&width=600&lines=Developed+with+%E2%9D%A4+by+@eexxvvn" alt="Footer" />
+</p>
+
