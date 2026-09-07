@@ -2,794 +2,1152 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broarif - Fullstack Developer & Designer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1269cc">
+    <meta name="description" content="Portfolio of Arif Permana Putrasuryana (itsmebroarif) - Fullstack Web Developer & UI/UX Designer.">
+    <title>Arif Permana | Portfolio & Journey</title>
+
+    <!-- Dynamic PWA Manifest -->
+    <link id="manifest-link" rel="manifest" href="">
+    <link rel="apple-touch-icon" href="https://placehold.co/192x192/1269cc/fff?text=Arif">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts: Space Grotesk -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
-            --primary: #F7DF1E;
-            --primary-dark: #d4af37;
-            --secondary: #20232a;
-            --accent-1: #61DAFB;
-            --accent-2: #FF6B6B;
-            --accent-3: #4ECDC4;
-            --dark-bg: #0a0e27;
-            --card-bg: #1a1f3a;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b9c3;
-            --border-color: #2d3561;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            /* Palette Configuration */
+            --bg-color: #ffffff;
+            --text-color: #303030;
+            --border-color: #303030;
+            
+            --accent-main-blue: #1269cc;
+            --accent-cyan: #51eefc;
+            --accent-soft-blue: #6d9ac7;
+            
+            --border-width: 4px;
+            --shadow-solid: 8px 8px 0px var(--border-color);
+            --shadow-hover: 4px 4px 0px var(--border-color);
         }
 
         body {
             font-family: 'Space Grotesk', sans-serif;
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1f3a 50%, #2d1b4e 100%);
-            color: var(--text-primary);
-            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             overflow-x: hidden;
-            background-attachment: fixed;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
+        #canvas-container {
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(97, 218, 251, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 50%, rgba(247, 223, 30, 0.05) 0%, transparent 50%);
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
             pointer-events: none;
-            z-index: 0;
+            opacity: 0.3;
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            animation: fadeInUp 1s ease-out;
+        .brutal-box {
+            border: var(--border-width) solid var(--border-color);
+            background-color: var(--bg-color);
+            box-shadow: var(--shadow-solid);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 0;
         }
 
-        .avatar-container {
-            margin-bottom: 3rem;
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin-left: auto;
-            margin-right: auto;
-            animation: float 3s ease-in-out infinite;
+        .brutal-box:hover {
+            transform: translate(4px, 4px);
+            box-shadow: var(--shadow-hover);
         }
 
-        .avatar {
-            width: 100%;
-            height: 100%;
-            border-radius: 20px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-1) 100%);
-            padding: 4px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(247, 223, 30, 0.3);
-        }
-
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            border-radius: 16px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .typewriter-text {
-            font-family: 'Fira Code', monospace;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            height: 4rem;
-            position: relative;
-            color: var(--primary);
-            letter-spacing: 2px;
-        }
-
-        .typewriter-text span {
-            display: inline-block;
-            width: 100%;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 2px;
-            height: 2.5rem;
-            background: var(--primary);
-            margin-left: 5px;
-            animation: blink 0.7s infinite;
-        }
-
-        @keyframes blink {
-            0%, 49% { opacity: 1; }
-            50%, 100% { opacity: 0; }
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            color: var(--accent-1);
-            margin-bottom: 2rem;
-            font-weight: 500;
-            animation: slideInUp 1s ease-out 0.3s both;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: slideInUp 1s ease-out 0.5s both;
-        }
-
-        .btn {
-            padding: 12px 32px;
-            border-radius: 8px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
+        .brutal-btn {
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 30px;
             cursor: pointer;
-            border: 2px solid;
-            transition: all 0.3s ease;
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: var(--shadow-solid);
+            color: var(--text-color);
+            border-radius: 0;
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: inline-block;
             text-decoration: none;
+        }
+
+        .brutal-btn:hover {
+            transform: translate(4px, 4px);
+            box-shadow: var(--shadow-hover);
+            color: var(--text-color);
+        }
+
+        /* Color Utility Classes */
+        .bg-main-blue { background-color: var(--accent-main-blue) !important; color: #ffffff !important; }
+        .bg-cyan { background-color: var(--accent-cyan) !important; color: var(--text-color) !important; }
+        .bg-soft-blue { background-color: var(--accent-soft-blue) !important; color: var(--text-color) !important; }
+        .bg-dark-accent { background-color: var(--text-color) !important; color: var(--bg-color) !important; }
+        .text-main-blue { color: var(--accent-main-blue) !important; }
+        .text-cyan { color: var(--accent-cyan) !important; }
+
+        .skew-title {
+            transform: skewX(-5deg) rotate(-2deg);
+            text-transform: uppercase;
+            font-weight: 900;
+            font-size: clamp(2rem, 5vw, 4rem);
+            line-height: 1.1;
             display: inline-block;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: var(--secondary);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(247, 223, 30, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(247, 223, 30, 0.5);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border-color: var(--accent-1);
-        }
-
-        .btn-secondary:hover {
-            background: var(--accent-1);
-            color: var(--secondary);
-            transform: translateY(-3px);
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-            z-index: 2;
-        }
-
-        /* About Section */
-        .section {
-            padding: 6rem 0;
-            animation: fadeInOnScroll;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 3rem;
-            position: relative;
-            display: inline-block;
-            color: var(--primary);
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--accent-1));
-            border-radius: 2px;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-top: 2rem;
-            align-items: center;
-        }
-
-        .about-text {
-            animation: slideInLeft 1s ease-out;
-        }
-
-        .about-text ul {
-            list-style: none;
-        }
-
-        .about-text li {
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-            padding-left: 2rem;
-            position: relative;
-            color: var(--text-secondary);
-        }
-
-        .about-text li::before {
-            content: '▹';
-            position: absolute;
-            left: 0;
-            color: var(--primary);
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .about-image {
-            position: relative;
-            animation: slideInRight 1s ease-out;
-        }
-
-        .about-image img {
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Skills Grid */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
-        }
-
-        .skill-category {
-            background: linear-gradient(135deg, rgba(26, 31, 58, 0.8) 0%, rgba(45, 53, 97, 0.5) 100%);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-category::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--accent-1));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-
-        .skill-category:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary);
-            box-shadow: 0 15px 40px rgba(247, 223, 30, 0.2);
-        }
-
-        .skill-category:hover::before {
-            transform: scaleX(1);
-        }
-
-        .category-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .category-title span {
-            font-size: 1.8rem;
-        }
-
-        .skill-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .skill-badge {
-            background: linear-gradient(135deg, rgba(97, 218, 251, 0.1) 0%, rgba(247, 223, 30, 0.05) 100%);
-            border: 1px solid;
-            border-color: var(--accent-1);
-            color: var(--accent-1);
             padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-family: 'Fira Code', monospace;
+            margin-bottom: 1rem;
+        }
+
+        .navbar {
+            border-bottom: var(--border-width) solid var(--border-color);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+            font-weight: bold;
+            padding: 2px 8px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            background: var(--accent-main-blue);
+            color: #fff;
+            box-shadow: 2px 2px 0px var(--border-color);
+        }
+
+        /* Marquee */
+        .marquee {
+            width: 100vw;
             overflow: hidden;
-        }
-
-        .skill-badge::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .skill-badge:hover {
-            background: linear-gradient(135deg, var(--accent-1) 0%, rgba(97, 218, 251, 0.5) 100%);
-            color: var(--secondary);
-            border-color: var(--accent-1);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(97, 218, 251, 0.3);
-        }
-
-        .skill-badge:hover::before {
-            left: 100%;
-        }
-
-        .skill-badge.primary-color {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .skill-badge.primary-color:hover {
-            background: linear-gradient(135deg, var(--primary) 0%, rgba(247, 223, 30, 0.5) 100%);
-            color: var(--secondary);
-        }
-
-        .skill-badge.accent-2-color {
-            border-color: var(--accent-2);
-            color: var(--accent-2);
-        }
-
-        .skill-badge.accent-2-color:hover {
-            background: linear-gradient(135deg, var(--accent-2) 0%, rgba(255, 107, 107, 0.5) 100%);
-            color: var(--text-primary);
-        }
-
-        .skill-badge.accent-3-color {
-            border-color: var(--accent-3);
-            color: var(--accent-3);
-        }
-
-        .skill-badge.accent-3-color:hover {
-            background: linear-gradient(135deg, var(--accent-3) 0%, rgba(78, 205, 196, 0.5) 100%);
-            color: var(--secondary);
-        }
-
-        /* Support Section */
-        .support-section {
-            background: linear-gradient(135deg, rgba(247, 223, 30, 0.1) 0%, rgba(78, 205, 196, 0.05) 100%);
-            border: 2px solid var(--primary);
-            border-radius: 12px;
-            padding: 3rem;
-            margin-top: 4rem;
-            text-align: center;
+            white-space: nowrap;
+            background: var(--text-color);
+            color: var(--accent-cyan);
+            padding: 10px 0;
+            border-top: var(--border-width) solid var(--border-color);
+            border-bottom: var(--border-width) solid var(--border-color);
             position: relative;
-            overflow: hidden;
+            z-index: 10;
+        }
+        .marquee-content {
+            display: inline-block;
+            font-weight: 900;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            animation: marquee 25s linear infinite;
+        }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .timeline { position: relative; max-width: 1200px; margin: 0 auto; }
+        .timeline::after {
+            content: ''; position: absolute; width: 6px; background-color: var(--border-color);
+            top: 0; bottom: 0; left: 50%; margin-left: -3px;
+        }
+        .timeline-item { padding: 10px 40px; position: relative; background-color: inherit; width: 50%; }
+        .timeline-item::after {
+            content: ''; position: absolute; width: 25px; height: 25px; right: -12.5px;
+            background-color: var(--accent-cyan); border: 4px solid var(--border-color);
+            top: 15px; z-index: 1; transition: all 0.3s ease;
+        }
+        .timeline-item:hover::after { transform: scale(1.5) rotate(45deg); background-color: var(--accent-main-blue); }
+        .left-item { left: 0; }
+        .right-item { left: 50%; }
+        .right-item::after { left: -12.5px; }
+
+        @media screen and (max-width: 768px) {
+            .timeline::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .left-item::after, .right-item::after { left: 18.5px; }
+            .right-item { left: 0%; }
         }
 
-        .support-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 50%, rgba(247, 223, 30, 0.1) 0%, transparent 50%);
-            pointer-events: none;
+        .form-control {
+            border: 3px solid var(--border-color);
+            border-radius: 0;
+            background-color: #fff;
+            color: var(--text-color);
+            box-shadow: none;
+            font-weight: 600;
         }
-
-        .support-section > * {
-            position: relative;
-            z-index: 1;
+        .form-control:focus {
+            background-color: #fff;
+            color: var(--text-color);
+            border-color: var(--text-color);
+            box-shadow: 4px 4px 0px var(--accent-main-blue);
         }
-
-        .support-text {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: var(--text-secondary);
+        
+        .swal-neo {
+            border: var(--border-width) solid var(--border-color) !important;
+            border-radius: 0 !important;
+            box-shadow: var(--shadow-solid) !important;
+            background-color: var(--bg-color) !important;
+            color: var(--text-color) !important;
         }
-
-        .support-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
+        .swal-neo-btn {
+            border: 3px solid var(--border-color) !important;
+            border-radius: 0 !important;
+            box-shadow: 4px 4px 0px var(--border-color) !important;
+            background-color: var(--accent-cyan) !important;
+            color: var(--text-color) !important;
+            font-family: 'Space Grotesk', sans-serif !important;
+            font-weight: 900 !important;
         }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            50% {
-                transform: translateX(-50%) translateY(10px);
-            }
-        }
-
-        @keyframes fadeInOnScroll {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .typewriter-text {
-                font-size: 1.8rem;
-                height: auto;
-            }
-
-            .subtitle {
-                font-size: 1.1rem;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .section {
-                padding: 3rem 0;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .support-section {
-                padding: 2rem;
-            }
-
-            .cta-buttons {
-                gap: 1rem;
-            }
-        }
-
-        /* Reduced Motion Support */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation: none !important;
-                transition: none !important;
-            }
+        
+        .section-padding { padding: 100px 0; }
+        .obj-fit-cover { object-fit: cover; }
+        
+        /* Organization Highlight Banner */
+        .org-banner {
+            background: repeating-linear-gradient(45deg, var(--accent-cyan), var(--accent-cyan) 20px, var(--accent-soft-blue) 20px, var(--accent-soft-blue) 40px);
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: var(--shadow-solid);
         }
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="avatar-container">
-                    <div class="avatar">
-                        <img src="https://avatars.githubusercontent.com/u/68406328?v=4" alt="Broarif - Developer">
-                    </div>
+
+    <div id="canvas-container"></div>
+
+    <nav class="navbar navbar-expand-lg fixed-top brutal-box" style="box-shadow: none; border-bottom: var(--border-width) solid var(--border-color);">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold text-uppercase fs-3 border border-dark border-3 px-2 bg-main-blue text-white" href="#" style="transform: rotate(-2deg);">🚀 ITSMEBROARIF</a>
+            
+            <div class="d-flex align-items-center gap-3">
+                <!-- Language Switcher -->
+                <div class="d-flex gap-1">
+                    <button class="lang-btn active" onclick="changeLang('id')">ID</button>
+                    <button class="lang-btn" onclick="changeLang('en')">EN</button>
+                    <button class="lang-btn" onclick="changeLang('jp')">JP</button>
                 </div>
+                <button class="navbar-toggler brutal-box p-1" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
 
-                <h1 class="typewriter-text">
-                    <span id="typewriter"></span><span class="cursor"></span>
-                </h1>
-
-                <p class="subtitle">Fullstack Developer | UI/UX Designer | Tech Enthusiast</p>
-
-                <div class="cta-buttons">
-                    <a href="#about" class="btn btn-primary">Explore My Work</a>
-                    <a href="https://github.com/itsmebroarif" target="_blank" class="btn btn-secondary">View GitHub</a>
-                </div>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-bold fs-5 text-uppercase text-center mt-3 mt-lg-0">
+                    <li class="nav-item mx-2"><a class="nav-link text-dark" href="#hero" data-i18n="nav_home">Beranda</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-dark" href="#about" data-i18n="nav_about">Tentang</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-dark" href="#services" data-i18n="nav_services">Layanan</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-dark" href="#experiences" data-i18n="nav_journey">Perjalanan</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-dark" href="#projects" data-i18n="nav_projects">Proyek</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-dark" href="#contact" data-i18n="nav_contact">Kontak</a></li>
+                </ul>
             </div>
         </div>
-        <div class="scroll-indicator">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-        </div>
-    </section>
+    </nav>
 
-    <!-- About Section -->
-    <section class="section" id="about">
-        <div class="container">
-            <h2 class="section-title">🔭 About Me</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <ul>
-                        <li><strong>Currently Working:</strong> Fullstack Web Developer crafting modern web experiences</li>
-                        <li><strong>Learning:</strong> Advanced JavaScript patterns, Modern web architectures & Cloud technologies</li>
-                        <li><strong>Passionate About:</strong> Fullstack Web Development, UI/UX Design & Performance Optimization</li>
-                        <li><strong>Open To:</strong> Collaborations on innovative projects & mentoring opportunities</li>
-                        <li><strong>Tech Focus:</strong> Building scalable, user-friendly applications with beautiful interfaces</li>
-                    </ul>
-                </div>
-                <div class="about-image">
-                    <img src="https://miro.medium.com/v2/resize:fit:2400/1*99hHL9XJ7EzQeC6RB5_Qiw.jpeg" alt="Web Development">
+    <section id="hero" class="section-padding min-vh-100 d-flex align-items-center position-relative overflow-hidden bg-soft-blue">
+        <div class="container text-center position-relative z-1 pt-5">
+            <div class="gsap-hero-el">
+                <div class="brutal-box d-inline-block bg-white px-4 py-2 mb-4" style="transform: rotate(3deg);">
+                    <h5 class="m-0 fw-bold fs-4 text-dark" data-i18n="hero_role">FULLSTACK WEB DEV & UI/UX DESIGNER</h5>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">💻 Tech Stack</h2>
-            <div class="skills-grid">
-                <!-- Programming Languages -->
-                <div class="skill-category">
-                    <div class="category-title"><span>🚀</span> Programming Languages</div>
-                    <div class="skill-badges">
-                        <span class="skill-badge primary-color">JavaScript</span>
-                        <span class="skill-badge primary-color">Python</span>
-                        <span class="skill-badge primary-color">PHP</span>
-                        <span class="skill-badge primary-color">Go</span>
-                        <span class="skill-badge primary-color">Java</span>
-                        <span class="skill-badge primary-color">Dart</span>
-                        <span class="skill-badge primary-color">HTML5</span>
-                        <span class="skill-badge primary-color">CSS3</span>
-                    </div>
+            
+            <div class="gsap-hero-el">
+                <h1 class="skew-title brutal-box bg-main-blue text-white mx-auto d-table">ARIF PERMANA<br>PUTRASURYANA</h1>
+            </div>
+            
+            <div class="row justify-content-center mt-4 gsap-hero-el">
+                <div class="col-md-9">
+                    <p class="fs-4 fw-bold bg-white brutal-box p-3" data-i18n="hero_quote">
+                        "Inovatif dan bekerja dengan tenggat waktu, merancang dan mengembangkan solusi digital yang berpusat pada pengguna, mulai dari konsep awal hingga hasil akhir yang sempurna."
+                    </p>
                 </div>
+            </div>
+            
+            <div class="mt-4 gsap-hero-el">
+                <span class="bg-cyan text-dark px-4 py-3 fw-bold fs-3 brutal-box d-inline-block border-4" style="transform: rotate(-3deg);">
+                    CRAFTED BY ITSMEBROARIF ⚡
+                </span>
+            </div>
 
-                <!-- Frameworks & Libraries -->
-                <div class="skill-category">
-                    <div class="category-title"><span>🌐</span> Frameworks & Libraries</div>
-                    <div class="skill-badges">
-                        <span class="skill-badge">Laravel</span>
-                        <span class="skill-badge">React</span>
-                        <span class="skill-badge">Next.js</span>
-                        <span class="skill-badge">Vue.js</span>
-                        <span class="skill-badge">Flutter</span>
-                    </div>
-                </div>
-
-                <!-- Database & Cloud -->
-                <div class="skill-category">
-                    <div class="category-title"><span>🗄️</span> Database & Cloud</div>
-                    <div class="skill-badges">
-                        <span class="skill-badge">MariaDB</span>
-                        <span class="skill-badge">MongoDB</span>
-                        <span class="skill-badge">AWS</span>
-                        <span class="skill-badge">Vercel</span>
-                        <span class="skill-badge">Netlify</span>
-                        <span class="skill-badge">Firebase</span>
-                        <span class="skill-badge">Heroku</span>
-                    </div>
-                </div>
-
-                <!-- Design & UI/UX -->
-                <div class="skill-category">
-                    <div class="category-title"><span>🎨</span> Design & UI/UX</div>
-                    <div class="skill-badges">
-                        <span class="skill-badge accent-2-color">Adobe Photoshop</span>
-                        <span class="skill-badge accent-2-color">Adobe Illustrator</span>
-                        <span class="skill-badge accent-2-color">Adobe XD</span>
-                        <span class="skill-badge accent-2-color">Canva</span>
-                    </div>
-                </div>
-
-                <!-- Animation & 3D -->
-                <div class="skill-category">
-                    <div class="category-title"><span>✨</span> Animation & 3D</div>
-                    <div class="skill-badges">
-                        <span class="skill-badge accent-3-color">Aseprite</span>
-                        <span class="skill-badge accent-3-color">Adobe Animate</span>
-                        <span class="skill-badge accent-3-color">Voxel Studio</span>
-                        <span class="skill-badge accent-3-color">Blender</span>
-                    </div>
-                </div>
-
-                <!-- System & Admin -->
-                <div class="skill-category">
-                    <div class="category-title"><span>🛠️</span> System & Admin</div>
-                    <div class="skill-badges">
-                        <span class="skill-badge accent-2-color">Linux Admin</span>
-                        <span class="skill-badge accent-2-color">IT Support Windows</span>
-                        <span class="skill-badge accent-2-color">IT Support macOS</span>
-                        <span class="skill-badge accent-2-color">IT Support Linux</span>
-                    </div>
-                </div>
-
-                <!-- Languages -->
-                <div class="skill-category">
-                    <div class="category-title"><span>🗣️</span> Languages Spoken</div>
-                    <div class="skill-badges">
-                        <span class="skill-badge primary-color">Bahasa Indonesia</span>
-                        <span class="skill-badge primary-color">English</span>
-                        <span class="skill-badge primary-color">日本語 (Japanese)</span>
-                    </div>
-                </div>
+            <div class="mt-5 gsap-hero-el">
+                <a href="#about" class="brutal-btn bg-dark-accent fs-4 px-5 py-3 text-white">
+                    <span data-i18n="hero_btn">Jelajahi Ceritaku</span> <i class="bi bi-arrow-down"></i>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Support Section -->
-    <section class="support-section">
-        <div class="container">
-            <h2 class="section-title">💰 Support & Donation</h2>
-            <p class="support-text">Jika kamu ingin mendukung perkembangan proyek yang saya buat, kamu bisa memberikan donasi melalui platform berikut:</p>
-            <div class="support-buttons">
-                <a href="https://trakteer.id/itsmebroarif/tip?open=true" target="_blank" class="btn btn-primary">☕ Buy Me a Coffee</a>
-                <a href="https://trakteer.id/itsmebroarif/tip?open=true" target="_blank" class="btn btn-secondary">❤️ Support via Trakteer</a>
+    <!-- Marquee -->
+    <div class="marquee">
+        <div class="marquee-content">
+            ARIF PERMANA • VUE.JS • LARAVEL • UI/UX DESIGN • FULLSTACK ENGINEER • GOLANG • REACT • FIGMA • ITSMEBROARIF • 
+        </div>
+    </div>
+
+    <section id="about" class="section-padding bg-white py-5">
+        <div class="container my-5">
+            <div class="text-center mb-5 gsap-pop">
+                <h2 class="skew-title brutal-box bg-main-blue text-white fs-1" data-i18n="about_title">TENTANG SAYA</h2>
+            </div>
+            
+            <div class="row align-items-center g-5">
+                <div class="col-lg-5 gsap-slide-right">
+                    <div class="position-relative">
+                        <div class="brutal-box bg-cyan position-absolute w-100 h-100" style="top: 20px; left: 20px; z-index: 0;"></div>
+                        <img src="https://miro.medium.com/v2/resize:fit:2400/1*99hHL9XJ7EzQeC6RB5_Qiw.jpeg" alt="Arif Permana Photo" class="brutal-box position-relative w-100 obj-fit-cover" style="height: 500px; z-index: 1;">
+                        <div class="position-absolute brutal-box bg-white p-3 text-center" style="bottom: -20px; right: -20px; z-index: 2; transform: rotate(-5deg);">
+                            <h4 class="fw-bold mb-0 text-uppercase fs-4 text-main-blue" data-i18n="about_status_title">STATUS</h4>
+                            <span class="badge bg-cyan brutal-box text-dark fs-5 mt-1 px-3 py-2" data-i18n="about_status_val">READY TO WORK 🔥</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-7 gsap-slide-left">
+                    <div class="brutal-box bg-soft-blue p-4 p-md-5">
+                        <h3 class="fw-bold border-bottom border-dark border-4 pb-2 mb-4 text-uppercase bg-white d-inline-block px-3 py-1 brutal-box" data-i18n="about_subtitle">Sang Arsitek Digital 💻</h3>
+                        
+                        <div class="fs-5 fw-bold mb-3 text-dark" style="line-height: 1.6;" data-i18n="about_desc1">
+                            Saya adalah seorang full stack web developer berbakat dan berpengalaman. Saya ahli dalam pengembangan web dan aplikasi, termasuk front-end dan back-end. Dengan keahlian di berbagai teknologi Vue Js, Laravel, dan ahli didalam administrasi basis data menggunakan MySQL, saya mampu menciptakan solusi digital yang inovatif dan efisien.
+                        </div>
+                        <div class="fs-5 fw-bold mb-4 text-dark" style="line-height: 1.6;" data-i18n="about_desc2">
+                            Selain itu, saya juga seorang UI/UX Designer yang berfokus pada menciptakan antarmuka pengguna yang menarik, intuitif, dan memberikan pengalaman optimal. Kombinasi ini membuat saya mampu menghasilkan solusi digital yang tidak hanya fungsional tetapi juga estetis dan user-friendly. Jika Anda memerlukan layanan teknologi dengan kreativitas desain yang matang, saya adalah orang yang tepat.
+                        </div>
+
+                        <div class="d-flex flex-column gap-2 fw-bold fs-5 mt-4 p-3 bg-white brutal-box" style="transform: rotate(1deg);">
+                            <div><i class="bi bi-geo-alt-fill me-2 text-main-blue"></i> <span data-i18n="about_city">Kota: Depok, Jawa Barat</span></div>
+                            <div><i class="bi bi-envelope-fill me-2 text-main-blue"></i> Email: aripstrike@gmail.com</div>
+                            <div><i class="bi bi-telephone-fill me-2 text-main-blue"></i> Phone: +62-858-1704-8266</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5 pt-5 gsap-stagger-skills">
+                <h3 class="fw-bold text-center text-uppercase text-white mb-4"><span class="bg-dark-accent px-3 py-1 brutal-box" data-i18n="skills_title">Technical Arsenal</span></h3>
+                
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="brutal-box bg-white p-4 h-100">
+                        <h4 class="fw-bold border-bottom border-dark border-3 pb-2 text-main-blue">🌐 Web & App</h4>
+                        <p class="mt-3 fw-bold">HTML, CSS, JS, Vue.js, React, Bootstrap, Tailwind, Livewire, PHP, Laravel, Node.js, Go (Golang), Python, Electron.js</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="brutal-box bg-cyan p-4 h-100">
+                        <h4 class="fw-bold border-bottom border-dark border-3 pb-2">🗄️ Database & Tool</h4>
+                        <p class="mt-3 fw-bold">MySQL, MariaDB, Git, GitHub, GitLab, REST API, WebSockets, NPM, Composer</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="brutal-box bg-main-blue p-4 h-100 text-white">
+                        <h4 class="fw-bold border-bottom border-white border-3 pb-2 text-cyan">🎨 UI/UX Design</h4>
+                        <p class="mt-3 fw-bold">Figma, Adobe XD, Photoshop, Illustrator, Affinity Designer, Canva</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="brutal-box bg-soft-blue p-4 h-100">
+                        <h4 class="fw-bold border-bottom border-dark border-3 pb-2">🎥 Media & OS</h4>
+                        <p class="mt-3 fw-bold">Premiere Pro, CapCut, Sony Vegas, MS Office, Windows, macOS, Linux (Ubuntu, Arch)</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
+    <section id="services" class="section-padding bg-cyan">
+        <div class="container">
+            <div class="text-center mb-5 gsap-pop">
+                <h2 class="skew-title brutal-box bg-white text-dark fs-1" data-i18n="services_title">LAYANAN</h2>
+                <p class="fw-bold fs-4 text-dark mt-3" data-i18n="services_subtitle">Solusi digital inovatif untuk kebutuhan bisnis Anda.</p>
+            </div>
+            
+            <div class="row g-4 mt-2">
+                <div class="col-lg-4 col-md-6 gsap-card">
+                    <div class="brutal-box bg-white p-4 h-100 text-dark">
+                        <i class="bi bi-laptop fs-1 text-main-blue"></i>
+                        <h4 class="fw-bold text-uppercase mt-3" data-i18n="srv_web_title">Pengembangan Web</h4>
+                        <p class="fw-bold" data-i18n="srv_web_desc">Membangun situs web modern dan responsif dengan teknologi Vue, React, & Laravel terbaru.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 gsap-card">
+                    <div class="brutal-box bg-white p-4 h-100 text-dark">
+                        <i class="bi bi-phone fs-1 text-cyan"></i>
+                        <h4 class="fw-bold text-uppercase mt-3" data-i18n="srv_mob_title">Pengembangan Mobile</h4>
+                        <p class="fw-bold" data-i18n="srv_mob_desc">Menciptakan aplikasi mobile yang ramah pengguna untuk platform Android dan iOS.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 gsap-card">
+                    <div class="brutal-box bg-white p-4 h-100 text-dark">
+                        <i class="bi bi-server fs-1 text-main-blue"></i>
+                        <h4 class="fw-bold text-uppercase mt-3" data-i18n="srv_be_title">Pengembangan Backend</h4>
+                        <p class="fw-bold" data-i18n="srv_be_desc">Menyediakan solusi backend yang kuat, aman, dan skalabel (Node.js, Golang, PHP).</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 gsap-card">
+                    <div class="brutal-box bg-white p-4 h-100 text-dark">
+                        <i class="bi bi-motherboard fs-1 text-cyan"></i>
+                        <h4 class="fw-bold text-uppercase mt-3" data-i18n="srv_hw_title">Ahli Hardware</h4>
+                        <p class="fw-bold" data-i18n="srv_hw_desc">Memelihara dan melakukan instalasi hardware dengan keahlian serta ketelitian tinggi.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 gsap-card">
+                    <div class="brutal-box bg-white p-4 h-100 text-dark">
+                        <i class="bi bi-cloud-check fs-1 text-main-blue"></i>
+                        <h4 class="fw-bold text-uppercase mt-3" data-i18n="srv_cloud_title">Cloud Development</h4>
+                        <p class="fw-bold" data-i18n="srv_cloud_desc">Menawarkan layanan integrasi cloud yang andal untuk infrastruktur bisnis Anda.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 gsap-card">
+                    <div class="brutal-box bg-white p-4 h-100 text-dark">
+                        <i class="bi bi-shield-lock fs-1 text-cyan"></i>
+                        <h4 class="fw-bold text-uppercase mt-3" data-i18n="srv_sec_title">Keamanan Sistem</h4>
+                        <p class="fw-bold" data-i18n="srv_sec_desc">Mengimplementasikan solusi jaringan yang aman dan efisien untuk infrastruktur Anda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experiences" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-5 gsap-pop">
+                <h2 class="skew-title brutal-box bg-main-blue text-white fs-1" data-i18n="journey_title">PERJALANAN & RESUME</h2>
+            </div>
+
+            <!-- Education & Certifications -->
+            <div class="row mb-5 pb-5 border-bottom border-4 border-dark">
+                <div class="col-md-6 mb-4 gsap-slide-right">
+                    <div class="brutal-box bg-soft-blue p-4 h-100">
+                        <h3 class="fw-bold text-uppercase mb-4 bg-white text-dark px-2 py-1 d-inline-block border-dark border-3 border" data-i18n="edu_title">🎓 Pendidikan</h3>
+                        <ul class="list-unstyled fw-bold">
+                            <li class="mb-3 border-bottom border-2 border-dark pb-2">
+                                <h5 class="fw-bold mb-1">Freecodecamp, US (2022-2024)</h5>
+                                <span class="text-dark" data-i18n="edu_desc1">Fokus bootcamp algoritma javascript, struktur data, dan responsive web design.</span>
+                            </li>
+                            <li class="mb-3 border-bottom border-2 border-dark pb-2">
+                                <h5 class="fw-bold mb-1">SMK Taruna Bhakti Depok (2019-2022)</h5>
+                                <span class="text-dark" data-i18n="edu_desc2">Rekayasa Perangkat Lunak. Berfokus pada pengembangan Laravel dan Vue.js PWA.</span>
+                            </li>
+                            <li class="mb-3">
+                                <h5 class="fw-bold mb-1">SMP Yapemri Depok (2016-2019)</h5>
+                                <span class="text-dark" data-i18n="edu_desc3">Basic Computer Science & HTML/CSS Otodidak.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 gsap-slide-left">
+                    <div class="brutal-box bg-main-blue p-4 h-100 text-white">
+                        <h3 class="fw-bold text-uppercase mb-4 bg-cyan text-dark px-2 py-1 d-inline-block border-dark border-3 border" data-i18n="cert_title">🏆 Sertifikasi</h3>
+                        <div class="d-flex flex-column gap-3 fw-bold">
+                            <a href="https://arifpermana.vercel.app/assets/img/certificate/arif-javascript-belajarbareng.pdf" target="_blank" class="brutal-box bg-white text-dark p-3 text-decoration-none hover-up">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fs-6">Javascript Course Contributor</span>
+                                    <i class="bi bi-arrow-up-right-square-fill fs-4 text-main-blue"></i>
+                                </div>
+                                <div class="text-secondary small mt-1">12 April 2025</div>
+                            </a>
+                            <a href="https://arifpermana.vercel.app/assets/img/certificate/arif-golang.pdf" target="_blank" class="brutal-box bg-white text-dark p-3 text-decoration-none hover-up">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fs-6">Golang Course Contributor</span>
+                                    <i class="bi bi-arrow-up-right-square-fill fs-4 text-main-blue"></i>
+                                </div>
+                                <div class="text-secondary small mt-1">15 Maret 2025</div>
+                            </a>
+                            <a href="https://arifpermana.vercel.app/assets/img/certificate/arif-flutter.pdf" target="_blank" class="brutal-box bg-white text-dark p-3 text-decoration-none hover-up">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fs-6">Flutter Course Contributor</span>
+                                    <i class="bi bi-arrow-up-right-square-fill fs-4 text-main-blue"></i>
+                                </div>
+                                <div class="text-secondary small mt-1">21 Desember 2024</div>
+                            </a>
+                            <a href="https://www.freecodecamp.org/certification/itsmebroarif801/javascript-algorithms-and-data-structures-v8" target="_blank" class="brutal-box bg-white text-dark p-3 text-decoration-none hover-up">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fs-6">JS Algorithm & Data Structure</span>
+                                    <i class="bi bi-arrow-up-right-square-fill fs-4 text-main-blue"></i>
+                                </div>
+                                <div class="text-secondary small mt-1">16 Juli 2024 (US)</div>
+                            </a>
+                            <a href="https://www.freecodecamp.org/certification/itsmebroarif801/responsive-web-design" target="_blank" class="brutal-box bg-white text-dark p-3 text-decoration-none hover-up">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fs-6">Responsive Web Design</span>
+                                    <i class="bi bi-arrow-up-right-square-fill fs-4 text-main-blue"></i>
+                                </div>
+                                <div class="text-secondary small mt-1">16 Juli 2024 (US)</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Organizations Highlight -->
+            <div class="row mb-5 justify-content-center gsap-pop">
+                <div class="col-12">
+                    <div class="org-banner p-4 text-center">
+                        <div class="brutal-box bg-white d-inline-block px-4 py-3">
+                            <h2 class="fw-bold mb-0 text-main-blue text-uppercase">
+                                <i class="bi bi-diagram-3-fill me-2"></i> <span data-i18n="org_title">ORGANISASI</span>
+                            </h2>
+                            <p class="fs-4 fw-bold mt-2 mb-0 text-dark">
+                                Belajar Bareng <span class="badge bg-main-blue border border-2 border-dark text-white">Technical Architect</span> <br class="d-md-none"> 
+                                <span class="d-none d-md-inline px-2">||</span>
+                                Karang Taruna UNIT 28 Bojong Lio <span class="badge bg-cyan border border-2 border-dark text-dark">Ketua</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Experience -->
+            <h3 class="fw-bold text-center text-uppercase mb-5 fs-2" data-i18n="exp_title">PENGALAMAN KERJA</h3>
+            <div class="timeline">
+                
+                <!-- Sintesa Persada Teknologi -->
+                <div class="timeline-item left-item gsap-timeline">
+                    <div class="brutal-box bg-main-blue p-4 text-white">
+                        <span class="badge bg-cyan brutal-box text-dark fs-6 mb-2">2026 - Present</span>
+                        <h4 class="fw-bold text-uppercase">Fullstack Web Engineer</h4>
+                        <h5 class="text-cyan fw-bold border-bottom border-white pb-2">@Sintesa Persada Teknologi (IT Vendor)</h5>
+                        <p class="fw-bold text-white mb-2" data-i18n="exp_sintesa_desc">Mengelola ekosistem sistem informasi Rumah Sakit, Puskesmas, dan Klinik.</p>
+                        <ul class="mb-0 fw-bold ps-3 mt-2" style="font-size: 0.95rem;">
+                            <li><strong>Highlight Project:</strong> App Klinik Sintasi (Medica-Nexus).</li>
+                            <li><strong>Frontend (Vue 2 + Quasar v1):</strong> Develop fitur baru, redesign halaman (Lab, Riwayat Pasien), refaktor komponen, fix bug UI.</li>
+                            <li><strong>Backend (Laravel 9 + PHP 8.1):</strong> Buat/ubah endpoint API, fix logic controller, maintain services.</li>
+                            <li><strong>Database:</strong> MySQL (mapping tabel, query analisis).</li>
+                            <li><strong>Key Delivery:</strong> Validasi Anamnesa/CPPT, Checkout UGD, Print Resep Obat A5, CRUD Tarif Lab, dan Dokumentasi Teknis.</li>
+                            <li><strong>Tools:</strong> Axios, ApexCharts, VS Code + tmux, Git branch (feat/fe_*, feat/be_*).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Ayasylfiette -->
+                <div class="timeline-item right-item gsap-timeline">
+                    <div class="brutal-box bg-white p-4 text-dark">
+                        <span class="badge bg-dark-accent brutal-box text-white fs-6 mb-2">2026</span>
+                        <h4 class="fw-bold text-uppercase">Web Developer</h4>
+                        <h5 class="text-main-blue fw-bold border-bottom border-dark pb-2">@Ayasylfiette</h5>
+                        <ul class="mb-0 fw-bold ps-3">
+                            <li data-i18n="exp_aya_1">Membuat website untuk penjualan assets vtuber.</li>
+                            <li data-i18n="exp_aya_2">Membuat Fitur Terkoneksi Dengan E-commerce.</li>
+                            <li data-i18n="exp_aya_3">Mengintegrasikan ke WhatsApp untuk konsultasi dan pemesanan.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sadaraga -->
+                <div class="timeline-item left-item gsap-timeline">
+                    <div class="brutal-box bg-soft-blue p-4 text-dark">
+                        <span class="badge bg-dark-accent brutal-box text-white fs-6 mb-2">2025</span>
+                        <h4 class="fw-bold text-uppercase">Fullstack Web Engineer</h4>
+                        <h5 class="text-main-blue fw-bold border-bottom border-dark pb-2">@Sadaraga (IT Vendor)</h5>
+                        <ul class="mb-0 fw-bold ps-3 mt-2" style="font-size: 0.95rem;">
+                            <li data-i18n="exp_sada_1">Mengembangkan website pendaftaran marathon & platform serving result hasil lari peserta.</li>
+                            <li><strong>Tech Stack Backend:</strong> Laravel 13 & CodeIgniter 3.</li>
+                            <li><strong>Tech Stack Frontend:</strong> Tailwind CSS 3 (Landing Page Development).</li>
+                            <li data-i18n="exp_sada_4">Membuat sistem berbasis C# Untuk kebutuhan BIB Checking.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Warkop Galaxy -->
+                <div class="timeline-item right-item gsap-timeline">
+                    <div class="brutal-box bg-cyan p-4 text-dark">
+                        <span class="badge bg-dark-accent brutal-box text-white fs-6 mb-2">2025</span>
+                        <h4 class="fw-bold text-uppercase">Web Builder</h4>
+                        <h5 class="text-main-blue fw-bold border-bottom border-dark pb-2">@Warkop Galaxy Jati asri</h5>
+                        <ul class="mb-0 fw-bold ps-3 mt-2">
+                            <li data-i18n="exp_warkop_1">Mengembangkan website dan periklanan berbasis web.</li>
+                            <li data-i18n="exp_warkop_2">Memberikan akses visibilitas di Google.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Konpyuta -->
+                <div class="timeline-item left-item gsap-timeline">
+                    <div class="brutal-box bg-white p-4 text-dark">
+                        <span class="badge bg-main-blue brutal-box text-white fs-6 mb-2">2025</span>
+                        <h4 class="fw-bold text-uppercase">Laravel Developer</h4>
+                        <h5 class="text-main-blue fw-bold border-bottom border-dark pb-2">@Konpyūtā no himitsu (JP)</h5>
+                        <ul class="mb-0 fw-bold ps-3 mt-2">
+                            <li data-i18n="exp_kon_1">Mengembangkan website kursus komputer dengan integrasi direct WA.</li>
+                            <li data-i18n="exp_kon_2">Ikut serta dalam pengembangan materi ilmu komputer.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Hangang & More short listings -->
+                <div class="timeline-item right-item gsap-timeline">
+                    <div class="brutal-box bg-main-blue p-4 text-white">
+                        <span class="badge bg-cyan brutal-box text-dark fs-6 mb-2">2025 - 2021</span>
+                        <h4 class="fw-bold text-uppercase">Various Roles</h4>
+                        <h5 class="text-cyan fw-bold border-bottom border-white pb-2">Multiple Companies</h5>
+                        <ul class="mb-0 fw-bold ps-3 mt-2 small">
+                            <li><strong>Vue Js Dev @Hangang Solution (KR):</strong> Situs & forum belajar game dev.</li>
+                            <li><strong>Website Builder @Amie Jaya Motor:</strong> Situs statis dealer Yamaha.</li>
+                            <li><strong>Digital Speaker @Young On Top:</strong> Edukasi periklanan digital & analisis market.</li>
+                            <li><strong>Front-End Trainer @Kafeinarts:</strong> Mengajar HTML, CSS, JS, Vue, Bootstrap.</li>
+                            <li><strong>Laravel Mentor @Rumah Coding:</strong> Mengajar Blade, MVC, OOP, CRUD.</li>
+                            <li><strong>Remote Laravel Dev @Hallotrans:</strong> Maintenance web app & tim remote.</li>
+                            <li><strong>Tech Blogger @Medium:</strong> Review hardware/software & IT education.</li>
+                            <li><strong>Backend Dev @PT. Spero:</strong> Mengelola REST API & kolaborasi frontend.</li>
+                            <li><strong>Fullstack Dev @Guepedia:</strong> Pengembangan aplikasi berbasis Laravel & Vue.js.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section-padding bg-soft-blue border-top border-4 border-dark">
+        <div class="container">
+            <div class="text-center mb-5 gsap-pop">
+                <h2 class="skew-title brutal-box bg-white text-dark">SHOWCASE & PROYEK</h2>
+            </div>
+            
+            <div class="row g-5 mt-3">
+                <div class="col-xl-4 col-md-6 gsap-card">
+                    <div class="card brutal-box bg-white h-100 p-0 text-dark">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <span class="badge bg-dark-accent fs-6 mb-3 brutal-box px-3 py-2 text-white">e-rekap.vercel.app</span>
+                            <h3 class="card-title fw-bold text-uppercase mb-3">📊 E-Rekap</h3>
+                            <div class="pt-2 border-top border-3 border-dark mt-auto fw-bold" data-i18n="proj_erekap">
+                                Aplikasi web (SPA) untuk rekapitulasi data digital yang cepat dan otomatis.
+                            </div>
+                        </div>
+                        <a href="https://e-rekap.vercel.app/" target="_blank" class="brutal-btn bg-main-blue text-center text-white border-top border-0 border-dark border-4 fs-5" style="border-top-style: solid !important;">Launch App <i class="bi bi-box-arrow-up-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-6 gsap-card">
+                    <div class="card brutal-box bg-white h-100 p-0 text-dark" style="transform: translateY(-20px);">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <span class="badge bg-dark-accent fs-6 mb-3 brutal-box px-3 py-2 text-white">17anbojonglio.vercel.app</span>
+                            <h3 class="card-title fw-bold text-uppercase mb-3">🎉 17an Bojonglio</h3>
+                            <div class="pt-2 border-top border-3 border-dark mt-auto fw-bold" data-i18n="proj_17an">
+                                Platform manajemen event dan pendaftaran lomba untuk kemerdekaan RI.
+                            </div>
+                        </div>
+                        <a href="https://17anbojonglio.vercel.app/" target="_blank" class="brutal-btn bg-cyan text-center text-dark border-top border-0 border-dark border-4 fs-5" style="border-top-style: solid !important;">Launch App <i class="bi bi-box-arrow-up-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-6 gsap-card">
+                    <div class="card brutal-box bg-white h-100 p-0 text-dark">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <span class="badge bg-dark-accent fs-6 mb-3 brutal-box px-3 py-2 text-white">rajinkerja-id.vercel.app</span>
+                            <h3 class="card-title fw-bold text-uppercase mb-3">💼 Rajin Kerja ID</h3>
+                            <div class="pt-2 border-top border-3 border-dark mt-auto fw-bold" data-i18n="proj_rajin">
+                                Portal HR profesional untuk absen, pelacakan jam kerja, dan manajemen tugas.
+                            </div>
+                        </div>
+                        <a href="https://rajinkerja-id.vercel.app/" target="_blank" class="brutal-btn bg-soft-blue text-center text-dark border-top border-0 border-dark border-4 fs-5" style="border-top-style: solid !important;">Launch App <i class="bi bi-box-arrow-up-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-5 gsap-pop">
+                <h2 class="skew-title brutal-box bg-main-blue text-white fs-1">FAQ</h2>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="accordion" id="brutalAccordion">
+                        
+                        <!-- FAQ 1 -->
+                        <div class="accordion-item brutal-box mb-3 bg-white text-dark gsap-slide-up">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button bg-soft-blue text-dark fw-bold fs-5 p-4 border-0 rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#f1" style="box-shadow: none;" data-i18n="faq_q1">
+                                    Apakah Arif menerima project freelance / kolaborasi?
+                                </button>
+                            </h2>
+                            <div id="f1" class="accordion-collapse collapse show border-top border-3 border-dark" data-bs-parent="#brutalAccordion">
+                                <div class="accordion-body p-4 fw-bold fs-5 bg-white" data-i18n="faq_a1">
+                                    Tentu saja! Mengingat status saya "Ready To Work", saya sangat terbuka untuk proyek pembuatan Website, aplikasi backend, hingga desain grafis (UI/UX).
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ 2 -->
+                        <div class="accordion-item brutal-box mb-3 bg-white text-dark gsap-slide-up">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-soft-blue text-dark fw-bold fs-5 p-4 border-0 rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#f2" style="box-shadow: none;" data-i18n="faq_q2">
+                                    Tech Stack apa yang paling utama digunakan?
+                                </button>
+                            </h2>
+                            <div id="f2" class="accordion-collapse collapse border-top border-3 border-dark" data-bs-parent="#brutalAccordion">
+                                <div class="accordion-body p-4 fw-bold fs-5 bg-white" data-i18n="faq_a2">
+                                    Saya sangat mahir menggunakan ekosistem Vue.js (termasuk Quasar) di frontend, dan ekosistem Laravel (PHP) atau Golang di backend.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 3 -->
+                        <div class="accordion-item brutal-box mb-3 bg-white text-dark gsap-slide-up">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-soft-blue text-dark fw-bold fs-5 p-4 border-0 rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#f3" style="box-shadow: none;" data-i18n="faq_q3">
+                                    Bisa membuat UI/UX design dari awal sebelum coding?
+                                </button>
+                            </h2>
+                            <div id="f3" class="accordion-collapse collapse border-top border-3 border-dark" data-bs-parent="#brutalAccordion">
+                                <div class="accordion-body p-4 fw-bold fs-5 bg-white" data-i18n="faq_a3">
+                                    Ya! Saya menggunakan Figma dan Adobe Suite untuk merancang antarmuka (UI/UX) sebelum masuk ke tahap pengembangan (coding) untuk memastikan desain sesuai ekspektasi.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 4 -->
+                        <div class="accordion-item brutal-box mb-3 bg-white text-dark gsap-slide-up">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-soft-blue text-dark fw-bold fs-5 p-4 border-0 rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#f4" style="box-shadow: none;" data-i18n="faq_q4">
+                                    Berapa lama estimasi waktu pengerjaan 1 website?
+                                </button>
+                            </h2>
+                            <div id="f4" class="accordion-collapse collapse border-top border-3 border-dark" data-bs-parent="#brutalAccordion">
+                                <div class="accordion-body p-4 fw-bold fs-5 bg-white" data-i18n="faq_a4">
+                                    Sangat bergantung pada kompleksitas fitur. Landing page biasa memakan waktu 3-7 hari. Namun sistem skala besar (seperti SIMRS/Portal HR) butuh waktu berminggu-minggu hingga berbulan-bulan.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 5 -->
+                        <div class="accordion-item brutal-box mb-3 bg-white text-dark gsap-slide-up">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-soft-blue text-dark fw-bold fs-5 p-4 border-0 rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#f5" style="box-shadow: none;" data-i18n="faq_q5">
+                                    Apakah menerima maintenance / refactoring website lama?
+                                </button>
+                            </h2>
+                            <div id="f5" class="accordion-collapse collapse border-top border-3 border-dark" data-bs-parent="#brutalAccordion">
+                                <div class="accordion-body p-4 fw-bold fs-5 bg-white" data-i18n="faq_a5">
+                                    Tentu, dengan pengalaman mengelola sistem klinik dan marathon, saya terbiasa melakukan refactoring kode lama, memperbaiki bug UI, dan optimasi query database.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 6 -->
+                        <div class="accordion-item brutal-box mb-3 bg-white text-dark gsap-slide-up">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-soft-blue text-dark fw-bold fs-5 p-4 border-0 rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#f6" style="box-shadow: none;" data-i18n="faq_q6">
+                                    Bagaimana sistem pembayaran untuk project freelance?
+                                </button>
+                            </h2>
+                            <div id="f6" class="accordion-collapse collapse border-top border-3 border-dark" data-bs-parent="#brutalAccordion">
+                                <div class="accordion-body p-4 fw-bold fs-5 bg-white" data-i18n="faq_a6">
+                                    Umumnya menggunakan sistem Termin. Down Payment (DP) 50% di awal sebelum project dimulai, dan pelunasan 50% setelah project diserahkan atau live.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 7 -->
+                        <div class="accordion-item brutal-box mb-3 bg-white text-dark gsap-slide-up">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-soft-blue text-dark fw-bold fs-5 p-4 border-0 rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#f7" style="box-shadow: none;" data-i18n="faq_q7">
+                                    Apakah bisa membantu setup Server / VPS untuk deployment?
+                                </button>
+                            </h2>
+                            <div id="f7" class="accordion-collapse collapse border-top border-3 border-dark" data-bs-parent="#brutalAccordion">
+                                <div class="accordion-body p-4 fw-bold fs-5 bg-white" data-i18n="faq_a7">
+                                    Bisa! Saya memiliki keahlian di lingkungan Linux (Ubuntu, dll) untuk setup VPS, konfigurasi web server (Nginx/Apache), dan deployment arsitektur Cloud.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 8 -->
+                        <div class="accordion-item brutal-box mb-3 bg-white text-dark gsap-slide-up">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-soft-blue text-dark fw-bold fs-5 p-4 border-0 rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#f8" style="box-shadow: none;" data-i18n="faq_q8">
+                                    Berdomisili di mana? Apakah bersedia WFO (Work From Office)?
+                                </button>
+                            </h2>
+                            <div id="f8" class="accordion-collapse collapse border-top border-3 border-dark" data-bs-parent="#brutalAccordion">
+                                <div class="accordion-body p-4 fw-bold fs-5 bg-white" data-i18n="faq_a8">
+                                    Saya berbasis di Depok, Jawa Barat. Saya memprioritaskan pekerjaan Remote / WFA, namun sangat terbuka untuk skema Hybrid (WFO beberapa hari) jika lokasinya terjangkau.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 9 -->
+                        <div class="accordion-item brutal-box mb-3 bg-white text-dark gsap-slide-up">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-soft-blue text-dark fw-bold fs-5 p-4 border-0 rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#f9" style="box-shadow: none;" data-i18n="faq_q9">
+                                    Apa kelebihan menggunakan kombinasi Vue.js dan Laravel?
+                                </button>
+                            </h2>
+                            <div id="f9" class="accordion-collapse collapse border-top border-3 border-dark" data-bs-parent="#brutalAccordion">
+                                <div class="accordion-body p-4 fw-bold fs-5 bg-white" data-i18n="faq_a9">
+                                    Kombinasi ini menjamin keamanan backend tingkat tinggi (Laravel) sekaligus pengalaman pengguna yang instan tanpa loading lama di sisi frontend (Vue.js SPA).
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 10 -->
+                        <div class="accordion-item brutal-box mb-3 bg-white text-dark gsap-slide-up">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-soft-blue text-dark fw-bold fs-5 p-4 border-0 rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#f10" style="box-shadow: none;" data-i18n="faq_q10">
+                                    Apakah klien akan mendapatkan Source Code secara penuh?
+                                </button>
+                            </h2>
+                            <div id="f10" class="accordion-collapse collapse border-top border-3 border-dark" data-bs-parent="#brutalAccordion">
+                                <div class="accordion-body p-4 fw-bold fs-5 bg-white" data-i18n="faq_a10">
+                                    Tentu, seluruh repository dan Source Code sepenuhnya menjadi milik klien setelah tahap pelunasan project selesai, lengkap dengan dokumentasi.
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section-padding bg-cyan position-relative border-top border-4 border-dark">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="brutal-box bg-white p-5 gsap-pop position-relative">
+                        <div class="brutal-box bg-main-blue position-absolute" style="width: 50px; height: 50px; top: -25px; right: -25px; transform: rotate(15deg);"></div>
+                        
+                        <h2 class="fw-bold fs-1 text-uppercase text-center mb-5 skew-title bg-main-blue text-white mx-auto d-table" data-i18n="contact_title">MARI TERHUBUNG <i class="bi bi-chat-heart-fill text-cyan"></i></h2>
+                        
+                        <form id="waContactForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <label class="fw-bold text-uppercase fs-5 mb-2" data-i18n="form_name">Nama Anda</label>
+                                    <input type="text" id="waName" class="form-control brutal-box p-3 fs-5" placeholder="John Doe" required>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label class="fw-bold text-uppercase fs-5 mb-2" data-i18n="form_company">Instansi / Perusahaan</label>
+                                    <input type="text" id="waCompany" class="form-control brutal-box p-3 fs-5" placeholder="PT. XYZ / Personal" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="fw-bold text-uppercase fs-5 mb-2" data-i18n="form_msg">Pesan Anda</label>
+                                <textarea id="waMessage" class="form-control brutal-box p-3 fs-5" rows="4" placeholder="Halo Mas Arif, saya ingin berkonsultasi mengenai pembuatan website..." required></textarea>
+                            </div>
+                            <button type="submit" class="brutal-btn w-100 bg-main-blue fs-4 p-4 mt-3 text-white border-dark border-4">
+                                <span data-i18n="form_btn">KIRIM VIA WHATSAPP</span> <i class="bi bi-send-fill ms-2 text-cyan"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark-accent text-center py-5 border-top border-4 border-dark position-relative overflow-hidden">
+        <div class="container position-relative z-1 text-white">
+            <div class="d-flex justify-content-center gap-4 mb-4">
+                <a href="https://itsmebroarif.medium.com" target="_blank" class="social-btn brutal-box bg-white text-dark brutal-btn px-3 py-2"><i class="bi bi-medium fs-4"></i></a>
+                <a href="https://www.instagram.com/eexxvvn/" target="_blank" class="social-btn brutal-box bg-cyan text-dark brutal-btn px-3 py-2"><i class="bi bi-instagram fs-4"></i></a>
+                <a href="https://linkedin.com/in/arif-permana-putrasuryana-121b761b9" target="_blank" class="social-btn brutal-box bg-main-blue text-white brutal-btn px-3 py-2"><i class="bi bi-linkedin fs-4"></i></a>
+                <a href="https://wa.me/6285817048266" target="_blank" class="social-btn brutal-box bg-soft-blue text-dark brutal-btn px-3 py-2"><i class="bi bi-whatsapp fs-4"></i></a>
+            </div>
+            
+            <p class="mb-3 fw-bold fs-3 text-uppercase skew-title bg-cyan d-inline-block text-dark px-3 py-1">© 2026 KAFEINARTS.</p>
+            <p class="mb-0 fw-bold fs-4 text-uppercase">DEVELOPED & DESIGNED BY <span class="text-cyan">ITSMEBROARIF</span></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // Typewriter Effect
-        const typewriterText = document.getElementById('typewriter');
-        const phrases = [
-            'Fullstack Web Developer',
-            'UI/UX Design Enthusiast',
-            'Building Modern Applications',
-            'Problem Solver'
-        ];
-
-        let currentPhrase = 0;
-        let currentChar = 0;
-        let isDeleting = false;
-        const typingSpeed = 100;
-        const deletingSpeed = 50;
-        const pauseTime = 2000;
-
-        function typeEffect() {
-            const phrase = phrases[currentPhrase];
-
-            if (!isDeleting && currentChar <= phrase.length) {
-                typewriterText.textContent = phrase.substring(0, currentChar);
-                currentChar++;
-                setTimeout(typeEffect, typingSpeed);
-            } else if (isDeleting && currentChar >= 0) {
-                typewriterText.textContent = phrase.substring(0, currentChar);
-                currentChar--;
-                setTimeout(typeEffect, deletingSpeed);
-            } else {
-                isDeleting = !isDeleting;
-                if (!isDeleting) {
-                    currentPhrase = (currentPhrase + 1) % phrases.length;
-                }
-                setTimeout(typeEffect, isDeleting ? 0 : pauseTime);
+        const translations = {
+            id: {
+                nav_home: "Beranda", nav_about: "Tentang", nav_services: "Layanan", nav_journey: "Perjalanan", nav_projects: "Proyek", nav_contact: "Kontak",
+                hero_role: "FULLSTACK WEB DEV & UI/UX DESIGNER",
+                hero_quote: "\"Inovatif dan bekerja dengan tenggat waktu, merancang dan mengembangkan solusi digital yang berpusat pada pengguna, mulai dari konsep awal hingga hasil akhir yang sempurna.\"",
+                hero_btn: "Jelajahi Ceritaku",
+                about_title: "TENTANG SAYA", about_status_title: "STATUS", about_status_val: "READY TO WORK 🔥",
+                about_subtitle: "Sang Arsitek Digital 💻",
+                about_desc1: "Saya adalah seorang full stack web developer berbakat dan berpengalaman. Saya ahli dalam pengembangan web dan aplikasi, termasuk front-end dan back-end. Dengan keahlian di berbagai teknologi Vue Js, Laravel, dan ahli didalam administrasi basis data menggunakan MySQL, saya mampu menciptakan solusi digital yang inovatif dan efisien.",
+                about_desc2: "Selain itu, saya juga seorang UI/UX Designer yang berfokus pada menciptakan antarmuka pengguna yang menarik, intuitif, dan memberikan pengalaman optimal. Kombinasi ini membuat saya mampu menghasilkan solusi digital yang tidak hanya fungsional tetapi juga estetis dan user-friendly. Jika Anda memerlukan layanan teknologi dengan kreativitas desain yang matang, saya adalah orang yang tepat.",
+                about_city: "Kota: Depok, Jawa Barat",
+                skills_title: "Technical Arsenal",
+                services_title: "LAYANAN", services_subtitle: "Solusi digital inovatif untuk kebutuhan bisnis Anda.",
+                srv_web_title: "Pengembangan Web", srv_web_desc: "Membangun situs web modern dan responsif dengan teknologi Vue, React, & Laravel terbaru.",
+                srv_mob_title: "Pengembangan Mobile", srv_mob_desc: "Menciptakan aplikasi mobile yang ramah pengguna untuk platform Android dan iOS.",
+                srv_be_title: "Pengembangan Backend", srv_be_desc: "Menyediakan solusi backend yang kuat, aman, dan skalabel (Node.js, Golang, PHP).",
+                srv_hw_title: "Ahli Hardware", srv_hw_desc: "Memelihara dan melakukan instalasi hardware dengan keahlian serta ketelitian tinggi.",
+                srv_cloud_title: "Cloud Development", srv_cloud_desc: "Menawarkan layanan integrasi cloud yang andal untuk infrastruktur bisnis Anda.",
+                srv_sec_title: "Keamanan Sistem", srv_sec_desc: "Mengimplementasikan solusi jaringan yang aman dan efisien untuk infrastruktur Anda.",
+                journey_title: "PERJALANAN & RESUME", edu_title: "🎓 Pendidikan", cert_title: "🏆 Sertifikasi",
+                edu_desc1: "Fokus bootcamp algoritma javascript, struktur data, dan responsive web design.",
+                edu_desc2: "Rekayasa Perangkat Lunak. Berfokus pada pengembangan Laravel dan Vue.js PWA.",
+                edu_desc3: "Basic Computer Science & HTML/CSS Otodidak.",
+                org_title: "ORGANISASI", exp_title: "PENGALAMAN KERJA",
+                exp_sintesa_desc: "Mengelola ekosistem sistem informasi Rumah Sakit, Puskesmas, dan Klinik.",
+                exp_aya_1: "Membuat website untuk penjualan assets vtuber.", exp_aya_2: "Membuat Fitur Terkoneksi Dengan E-commerce.", exp_aya_3: "Mengintegrasikan ke WhatsApp untuk konsultasi dan pemesanan.",
+                exp_sada_1: "Mengembangkan website pendaftaran marathon & platform serving result hasil lari peserta.", exp_sada_4: "Membuat sistem berbasis C# Untuk kebutuhan BIB Checking.",
+                exp_warkop_1: "Mengembangkan website dan periklanan berbasis web.", exp_warkop_2: "Memberikan akses visibilitas di Google.",
+                exp_kon_1: "Mengembangkan website kursus komputer dengan integrasi direct WA.", exp_kon_2: "Ikut serta dalam pengembangan materi ilmu komputer.",
+                proj_erekap: "Aplikasi web (SPA) untuk rekapitulasi data digital yang cepat dan otomatis.",
+                proj_17an: "Platform manajemen event dan pendaftaran lomba untuk kemerdekaan RI.",
+                proj_rajin: "Portal HR profesional untuk absen, pelacakan jam kerja, dan manajemen tugas.",
+                faq_q1: "Apakah Arif menerima project freelance / kolaborasi?", faq_a1: "Tentu saja! Mengingat status saya 'Ready To Work', saya sangat terbuka untuk proyek pembuatan Website, aplikasi backend, hingga desain grafis (UI/UX).",
+                faq_q2: "Tech Stack apa yang paling utama digunakan?", faq_a2: "Saya sangat mahir menggunakan ekosistem Vue.js (termasuk Quasar) di frontend, dan ekosistem Laravel (PHP) atau Golang di backend.",
+                faq_q3: "Bisa membuat UI/UX design dari awal sebelum coding?", faq_a3: "Ya! Saya menggunakan Figma dan Adobe Suite untuk merancang antarmuka (UI/UX) sebelum masuk ke tahap pengembangan (coding).",
+                faq_q4: "Berapa lama estimasi waktu pengerjaan 1 website?", faq_a4: "Bergantung pada kompleksitas. Landing page biasa 3-7 hari. Sistem skala besar butuh berminggu-minggu hingga berbulan-bulan.",
+                faq_q5: "Apakah menerima maintenance / refactoring website lama?", faq_a5: "Tentu, dengan pengalaman saya terbiasa melakukan refactoring kode lama, memperbaiki bug UI, dan optimasi database.",
+                faq_q6: "Bagaimana sistem pembayaran untuk project freelance?", faq_a6: "Sistem Termin. Down Payment (DP) 50% di awal sebelum project dimulai, dan pelunasan 50% setelah project diserahkan.",
+                faq_q7: "Apakah bisa membantu setup Server / VPS untuk deployment?", faq_a7: "Bisa! Saya ahli di lingkungan Linux untuk setup VPS, web server, dan deployment arsitektur Cloud.",
+                faq_q8: "Berdomisili di mana? Apakah bersedia WFO?", faq_a8: "Saya berbasis di Depok. Memprioritaskan Remote/WFA, namun terbuka untuk Hybrid jika lokasi terjangkau.",
+                faq_q9: "Apa kelebihan menggunakan kombinasi Vue.js dan Laravel?", faq_a9: "Menjamin keamanan backend (Laravel) sekaligus pengalaman frontend yang super cepat tanpa loading lama (Vue SPA).",
+                faq_q10: "Apakah klien akan mendapatkan Source Code secara penuh?", faq_a10: "Tentu, seluruh repository dan Source Code sepenuhnya milik klien setelah project lunas.",
+                contact_title: "MARI TERHUBUNG <i class='bi bi-chat-heart-fill text-cyan'></i>",
+                form_name: "Nama Anda", form_company: "Instansi / Perusahaan", form_msg: "Pesan Anda", form_btn: "KIRIM VIA WHATSAPP"
+            },
+            en: {
+                nav_home: "Home", nav_about: "About", nav_services: "Services", nav_journey: "Journey", nav_projects: "Projects", nav_contact: "Contact",
+                hero_role: "FULLSTACK WEB DEV & UI/UX DESIGNER",
+                hero_quote: "\"Innovative and working with deadlines, designing and developing user-centric digital solutions from initial concept to a perfect final result.\"",
+                hero_btn: "Discover My Story",
+                about_title: "ABOUT ME", about_status_title: "STATUS", about_status_val: "READY TO WORK 🔥",
+                about_subtitle: "The Digital Architect 💻",
+                about_desc1: "I am a talented and experienced full stack web developer. I excel in web and application development, covering both front-end and back-end. With expertise in various technologies like Vue.js, Laravel, and solid database administration using MySQL, I create innovative and efficient digital solutions.",
+                about_desc2: "Additionally, I am a UI/UX Designer focused on creating attractive, intuitive, and optimal user interfaces. This combination allows me to deliver digital solutions that are not only functional but aesthetically pleasing and user-friendly. If you need technology services with mature design creativity, I am the right person.",
+                about_city: "City: Depok, West Java",
+                skills_title: "Technical Arsenal",
+                services_title: "SERVICES", services_subtitle: "Innovative digital solutions for your business needs.",
+                srv_web_title: "Web Development", srv_web_desc: "Building modern and responsive websites with the latest Vue, React, & Laravel tech.",
+                srv_mob_title: "Mobile Development", srv_mob_desc: "Creating user-friendly mobile applications for Android and iOS platforms.",
+                srv_be_title: "Backend Development", srv_be_desc: "Providing robust, secure, and scalable backend solutions (Node.js, Golang, PHP).",
+                srv_hw_title: "Hardware Expert", srv_hw_desc: "Maintaining and installing hardware with high expertise and precision.",
+                srv_cloud_title: "Cloud Development", srv_cloud_desc: "Offering reliable cloud integration services for your business infrastructure.",
+                srv_sec_title: "System Security", srv_sec_desc: "Implementing secure and efficient network solutions for your infrastructure.",
+                journey_title: "JOURNEY & RESUME", edu_title: "🎓 Education", cert_title: "🏆 Certifications",
+                edu_desc1: "Focused on Javascript algorithms, data structures, and responsive web design.",
+                edu_desc2: "Software Engineering. Focused on Laravel and Vue.js PWA development.",
+                edu_desc3: "Basic Computer Science & self-taught HTML/CSS.",
+                org_title: "ORGANIZATIONS", exp_title: "WORK EXPERIENCES",
+                exp_sintesa_desc: "Managing information system ecosystems for Hospitals and Clinics.",
+                exp_aya_1: "Created a website for selling vtuber assets.", exp_aya_2: "Built features connected to E-commerce.", exp_aya_3: "Integrated WhatsApp for consultation and ordering.",
+                exp_sada_1: "Developed a marathon registration website & runner results serving platform.", exp_sada_4: "Created a C#-based system for BIB Checking needs.",
+                exp_warkop_1: "Developed website and web-based advertising.", exp_warkop_2: "Provided Google search visibility access.",
+                exp_kon_1: "Developed a computer course website with direct WA integration.", exp_kon_2: "Participated in developing computer science materials.",
+                proj_erekap: "A web application (SPA) for fast and automated digital data recapitulation.",
+                proj_17an: "Event management and competition registration platform for Independence Day.",
+                proj_rajin: "Professional HR portal for attendance, work hour tracking, and task management.",
+                faq_q1: "Does Arif accept freelance / collaboration projects?", faq_a1: "Absolutely! Given my 'Ready To Work' status, I am very open to Website creation, backend apps, and graphic design (UI/UX) projects.",
+                faq_q2: "What is your main Tech Stack?", faq_a2: "I am highly proficient with the Vue.js ecosystem (including Quasar) on the frontend, and Laravel (PHP) or Golang on the backend.",
+                faq_q3: "Can you create UI/UX designs from scratch before coding?", faq_a3: "Yes! I use Figma and Adobe Suite to design interfaces before moving to the development phase.",
+                faq_q4: "What is the estimated time to build 1 website?", faq_a4: "It depends on complexity. Landing pages take 3-7 days. Large-scale systems take weeks to months.",
+                faq_q5: "Do you accept maintenance / refactoring of old websites?", faq_a5: "Certainly, I am accustomed to refactoring old code, fixing UI bugs, and optimizing databases.",
+                faq_q6: "How does the payment system work for freelance projects?", faq_a6: "Term system. 50% Down Payment upfront before the project starts, and the remaining 50% upon handover.",
+                faq_q7: "Can you help set up Servers / VPS for deployment?", faq_a7: "Yes! I am skilled in Linux environments for VPS setup, web servers, and Cloud architecture deployment.",
+                faq_q8: "Where are you based? Are you willing to WFO?", faq_a8: "Based in Depok. Prioritize Remote/WFA, but open to Hybrid if the location is accessible.",
+                faq_q9: "What are the benefits of using Vue.js and Laravel together?", faq_a9: "Guarantees top-tier backend security (Laravel) along with instant, seamless frontend UX without slow loading (Vue SPA).",
+                faq_q10: "Will the client get the full Source Code?", faq_a10: "Yes, the entire repository and Source Code are fully owned by the client after full payment.",
+                contact_title: "LET'S CONNECT <i class='bi bi-chat-heart-fill text-cyan'></i>",
+                form_name: "Your Name", form_company: "Company / Personal", form_msg: "Your Message", form_btn: "SEND VIA WHATSAPP"
+            },
+            jp: {
+                nav_home: "ホーム", nav_about: "私について", nav_services: "サービス", nav_journey: "経歴", nav_projects: "プロジェクト", nav_contact: "連絡先",
+                hero_role: "フルスタックエンジニア & UI/UXデザイナー",
+                hero_quote: "「納期を守り、ユーザー中心のデジタルソリューションを初期の構想から完璧な最終結果まで設計・開発します。」",
+                hero_btn: "ストーリーを見る",
+                about_title: "私について", about_status_title: "ステータス", about_status_val: "就業可能 🔥",
+                about_subtitle: "デジタルアーキテクト 💻",
+                about_desc1: "私は才能豊かで経験豊富なフルスタックウェブ開発者です。フロントエンドとバックエンドの両方を網羅するウェブおよびアプリ開発を得意としています。Vue.js、Laravelなどの技術やMySQLデータベース管理の専門知識を活かし、革新的で効率的なソリューションを作成します。",
+                about_desc2: "さらに、魅力的で直感的なUI/UXの設計に焦点を当てたデザイナーでもあります。この組み合わせにより、機能的であるだけでなく、美しくユーザーフレンドリーなデジタルソリューションを提供できます。成熟したデザインの創造性を備えた技術サービスが必要な場合、私は最適な人材です。",
+                about_city: "都市: 西ジャワ州、デポック",
+                skills_title: "技術スタック",
+                services_title: "サービス", services_subtitle: "ビジネスニーズに向けた革新的なデジタルソリューション。",
+                srv_web_title: "ウェブ開発", srv_web_desc: "最新のVue、React、Laravel技術を使用したモダンでレスポンシブなウェブサイトの構築。",
+                srv_mob_title: "モバイル開発", srv_mob_desc: "AndroidおよびiOS向けの使いやすいモバイルアプリの作成。",
+                srv_be_title: "バックエンド開発", srv_be_desc: "堅牢で安全、かつスケーラブルなバックエンドソリューションの提供。",
+                srv_hw_title: "ハードウェアエキスパート", srv_hw_desc: "高い専門知識と精度でのハードウェアの保守とインストール。",
+                srv_cloud_title: "クラウド開発", srv_cloud_desc: "ビジネスインフラ向けの信頼できるクラウド統合サービスの提供。",
+                srv_sec_title: "システムセキュリティ", srv_sec_desc: "インフラ向けの安全で効率的なネットワークソリューションの実装。",
+                journey_title: "経歴と履歴書", edu_title: "🎓 教育", cert_title: "🏆 資格",
+                edu_desc1: "Javascriptアルゴリズム、データ構造、レスポンシブウェブデザインに焦点を当てたブートキャンプ。",
+                edu_desc2: "ソフトウェアエンジニアリング。LaravelおよびVue.js PWA開発に特化。",
+                edu_desc3: "独学による基礎的なコンピュータサイエンスとHTML/CSS。",
+                org_title: "所属組織", exp_title: "職務経歴",
+                exp_sintesa_desc: "病院やクリニック向けの情報システムエコシステムの管理。",
+                exp_aya_1: "Vtuberアセット販売用のウェブサイト作成。", exp_aya_2: "Eコマースに接続された機能の構築。", exp_aya_3: "相談や注文のためのWhatsApp統合。",
+                exp_sada_1: "マラソン登録ウェブサイトおよびランナー結果提供プラットフォームの開発。", exp_sada_4: "BIBチェック用のC#ベースのシステム作成。",
+                exp_warkop_1: "ウェブサイトおよびウェブベースの広告開発。", exp_warkop_2: "Google検索での可視性アクセスを提供。",
+                exp_kon_1: "直接WA統合を伴うコンピュータコースウェブサイトの開発。", exp_kon_2: "コンピュータサイエンス教材の開発に参加。",
+                proj_erekap: "自動化されたデジタルデータ集計のための超高速ウェブアプリ(SPA)。",
+                proj_17an: "独立記念日のためのイベント管理および競技参加登録プラットフォーム。",
+                proj_rajin: "勤怠、労働時間追跡、タスク管理のためのプロの人事ポータル。",
+                faq_q1: "フリーランスやコラボレーションの案件は受けていますか？", faq_a1: "はい！「就業可能」な状態ですので、ウェブサイト作成やUI/UXデザインの案件を大歓迎しています。",
+                faq_q2: "メインの技術スタックは何ですか？", faq_a2: "フロントエンドではVue.js（Quasar含む）、バックエンドではLaravel（PHP）やGolangに非常に精通しています。",
+                faq_q3: "コーディング前にゼロからUI/UXデザインを作成できますか？", faq_a3: "はい！開発段階に入る前に、FigmaとAdobe Suiteを使用してインターフェースを設計します。",
+                faq_q4: "1つのウェブサイトを構築するのにどれくらい時間がかかりますか？", faq_a4: "複雑さによります。ランディングページは3〜7日。大規模システムは数週間から数ヶ月かかります。",
+                faq_q5: "古いウェブサイトの保守やリファクタリングは受けていますか？", faq_a5: "もちろん、古いコードのリファクタリング、UIのバグ修正、データベースの最適化には慣れています。",
+                faq_q6: "フリーランスのプロジェクトの支払いシステムはどうなっていますか？", faq_a6: "分割払いです。プロジェクト開始前に50％の頭金、納品時に残り50％となります。",
+                faq_q7: "展開のためのサーバー/VPSのセットアップは手伝ってもらえますか？", faq_a7: "はい！VPSのセットアップやクラウドインフラの構築など、Linux環境に熟練しています。",
+                faq_q8: "拠点はどこですか？オフィス出社（WFO）は可能ですか？", faq_a8: "デポックを拠点としています。リモート作業を優先しますが、アクセス可能であればハイブリッドも歓迎します。",
+                faq_q9: "Vue.jsとLaravelを一緒に使うメリットは何ですか？", faq_a9: "Laravelによる高いバックエンドセキュリティと、Vue SPAによるロード時間のない高速なフロントエンド体験を保証します。",
+                faq_q10: "クライアントはソースコードを完全に受け取ることができますか？", faq_a10: "はい。全額支払い後、リポジトリとソースコードは完全にクライアントの所有となります。",
+                contact_title: "連絡しましょう <i class='bi bi-chat-heart-fill text-cyan'></i>",
+                form_name: "お名前", form_company: "会社名 / 個人", form_msg: "メッセージ", form_btn: "WHATSAPPで送信"
             }
-        }
-
-        typeEffect();
-
-        // Intersection Observer for Scroll Animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = 'fadeInOnScroll 0.8s ease-out forwards';
-                    observer.unobserve(entry.target);
+        function changeLang(lang) {
+            // Update button styles
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.innerText.toLowerCase() === lang) btn.classList.add('active');
+            });
+            
+            // Translate elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
                 }
             });
-        }, observerOptions);
 
-        document.querySelectorAll('.skill-category').forEach(el => {
-            observer.observe(el);
-        });
+            // Refresh ScrollTrigger to adjust to new text heights
+            setTimeout(() => ScrollTrigger.refresh(), 200);
+        }
 
-        // Smooth Scroll for Anchor Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href !== '#' && document.querySelector(href)) {
-                    e.preventDefault();
-                    document.querySelector(href).scrollIntoView({
-                        behavior: 'smooth'
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Generate Manifest dynamically
+            const manifestData = {
+                "name": "Arif Permana Portfolio",
+                "short_name": "Arif",
+                "start_url": ".",
+                "display": "standalone",
+                "background_color": "#ffffff",
+                "theme_color": "#1269cc",
+                "icons": [{"src": "https://placehold.co/512x512/1269cc/fff?text=Arif", "sizes": "512x512", "type": "image/png"}]
+            };
+            const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+            document.getElementById('manifest-link').href = URL.createObjectURL(manifestBlob);
+
+            const canvasContainer = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 25;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            canvasContainer.appendChild(renderer.domElement);
+
+            const matMainBlue = new THREE.LineBasicMaterial({ color: 0x1269cc, linewidth: 2 });
+            const matCyan = new THREE.LineBasicMaterial({ color: 0x51eefc, linewidth: 2 });
+            const matDark = new THREE.LineBasicMaterial({ color: 0x303030, linewidth: 1, transparent: true, opacity: 0.1 });
+            
+            const icoGeometry = new THREE.IcosahedronGeometry(8, 0);
+            const icoWire = new THREE.LineSegments(new THREE.WireframeGeometry(icoGeometry), matMainBlue);
+            icoWire.position.set(15, 10, -5);
+            scene.add(icoWire);
+
+            const torusGeometry = new THREE.TorusKnotGeometry(7, 2, 64, 8);
+            const torusWire = new THREE.LineSegments(new THREE.WireframeGeometry(torusGeometry), matCyan);
+            torusWire.position.set(-18, -12, -10);
+            scene.add(torusWire);
+
+            const sphereWire = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.SphereGeometry(20, 8, 8)), matDark);
+            scene.add(sphereWire);
+
+            let mouseX = 0; let mouseY = 0;
+            let targetX = 0; let targetY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX - window.innerWidth / 2) * 0.005;
+                mouseY = (event.clientY - window.innerHeight / 2) * 0.005;
+            });
+
+            const clock = new THREE.Clock();
+            function animateWebGL() {
+                requestAnimationFrame(animateWebGL);
+                const elapsedTime = clock.getElapsedTime();
+
+                targetX = mouseX * 2; targetY = mouseY * 2;
+                camera.position.x += (targetX - camera.position.x) * 0.05;
+                camera.position.y += (-targetY - camera.position.y) * 0.05;
+                camera.lookAt(scene.position);
+
+                icoWire.rotation.x += 0.002; icoWire.rotation.y += 0.003;
+                icoWire.position.y = 10 + Math.sin(elapsedTime * 0.5) * 3;
+
+                torusWire.rotation.x -= 0.003; torusWire.rotation.y -= 0.002;
+                torusWire.position.y = -12 + Math.cos(elapsedTime * 0.4) * 3;
+                
+                sphereWire.rotation.y += 0.001;
+
+                renderer.render(scene, camera);
+            }
+            animateWebGL();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            const tl = gsap.timeline();
+            tl.from(".navbar", { y: -100, opacity: 0, duration: 1, ease: "bounce.out" })
+              .from(".gsap-hero-el", { y: 150, opacity: 0, duration: 1.2, stagger: 0.15, ease: "elastic.out(1, 0.5)", rotation: 5, scale: 0.8 }, "-=0.5");
+
+            gsap.utils.toArray('.gsap-pop').forEach(el => {
+                gsap.from(el, { scrollTrigger: { trigger: el, start: "top 85%" }, scale: 0.5, opacity: 0, rotation: -5, duration: 1, ease: "back.out(2)" });
+            });
+
+            gsap.from(".gsap-slide-right", { scrollTrigger: { trigger: "#about", start: "top 70%" }, x: -200, opacity: 0, duration: 1.2, ease: "power4.out" });
+            gsap.from(".gsap-slide-left", { scrollTrigger: { trigger: "#about", start: "top 70%" }, x: 200, opacity: 0, duration: 1.2, ease: "power4.out" });
+            
+            gsap.from(".gsap-stagger-skills .col-md-6", { scrollTrigger: { trigger: ".gsap-stagger-skills", start: "top 80%" }, y: 100, opacity: 0, stagger: 0.2, duration: 1, ease: "back.out(1.5)" });
+            
+            gsap.from(".gsap-card", { scrollTrigger: { trigger: "#services", start: "top 75%" }, y: 100, opacity: 0, scale: 0.9, stagger: 0.15, duration: 0.8, ease: "back.out(1.5)" });
+            gsap.from(".gsap-timeline", { scrollTrigger: { trigger: ".timeline", start: "top 80%" }, x: (i) => i % 2 === 0 ? -100 : 100, opacity: 0, duration: 1, stagger: 0.2, ease: "back.out(1.2)" });
+            
+            gsap.from(".gsap-slide-up", { scrollTrigger: { trigger: "#faq", start: "top 80%" }, y: 50, opacity: 0, stagger: 0.2, duration: 0.8, ease: "power3.out" });
+
+            document.getElementById('waContactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('waName').value.trim();
+                const company = document.getElementById('waCompany').value.trim();
+                const message = document.getElementById('waMessage').value.trim();
+                
+                const waNumber = "6285817048266";
+                const waText = `Halo Mas Arif! 👋%0A%0APerkenalkan, saya *${name}* dari *${company}*.%0A%0ASaya melihat portfolio Anda dan tertarik untuk berdiskusi lebih lanjut.%0A%0A"${message}"%0A%0ATerima kasih banyak atas waktunya! 🙏✨`;
+                const waURL = `https://wa.me/${waNumber}?text=${waText}`;
+
+                const btn = this.querySelector('button');
+                gsap.fromTo(btn, { scale: 0.9 }, { scale: 1, ease: "elastic.out(1, 0.3)", duration: 0.5 });
+
+                setTimeout(() => {
+                    Swal.fire({
+                        title: 'PESAN DISIAPKAN! 🚀',
+                        text: 'Pesan Anda telah dirakit otomatis. Mari lanjutkan obrolan kita di WhatsApp!',
+                        icon: 'success',
+                        customClass: { popup: 'swal-neo', confirmButton: 'swal-neo-btn' },
+                        buttonsStyling: false,
+                        confirmButtonText: 'LANJUT KE WA 👉',
+                        showCancelButton: true,
+                        cancelButtonText: 'BATAL',
+                        cancelButtonClass: 'btn btn-dark brutal-box ms-2 text-white fw-bold'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.open(waURL, '_blank');
+                            this.reset();
+                        }
                     });
-                }
+                }, 300);
             });
-        });
-
-        // Add stagger animation to skill badges
-        const skillBadges = document.querySelectorAll('.skill-badge');
-        skillBadges.forEach((badge, index) => {
-            badge.style.animation = `fadeInUp 0.6s ease-out ${index * 0.05}s both`;
         });
     </script>
 </body>
