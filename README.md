@@ -20,6 +20,41 @@
 
 ---
 
+## 🪪 Identitas
+
+<table align="center" width="100%">
+  <tr>
+    <td width="30%"><strong>Nama Lengkap</strong></td>
+    <td width="70%">Arif Permana Putrasuryana</td>
+  </tr>
+  <tr>
+    <td><strong>Peran</strong></td>
+    <td>Fullstack Web Developer</td>
+  </tr>
+  <tr>
+    <td><strong>Fokus Saat Ini</strong></td>
+    <td>Clinic Management System & Internal ERP</td>
+  </tr>
+  <tr>
+    <td><strong>Lokasi</strong></td>
+    <td>Indonesia 🇮🇩</td>
+  </tr>
+  <tr>
+    <td><strong>Bahasa</strong></td>
+    <td>Bahasa Indonesia, English, 日本語 (dasar)</td>
+  </tr>
+  <tr>
+    <td><strong>Portfolio</strong></td>
+    <td><a href="https://arifpermana.vercel.app/" target="_blank">arifpermana.vercel.app</a></td>
+  </tr>
+  <tr>
+    <td><strong>Support</strong></td>
+    <td><a href="https://trakteer.id/itsmebroarif/tip?open=true" target="_blank">trakteer.id/itsmebroarif</a></td>
+  </tr>
+</table>
+
+---
+
 ## 💫 About Me
 
 <table align="center" width="100%">
@@ -38,6 +73,66 @@
     </td>
   </tr>
 </table>
+
+---
+
+## 📊 Skill Distribution
+
+```mermaid
+%%{init: {'theme': 'base'}}%%
+pie showData
+    title Fokus Area Pengembangan
+    "Frontend" : 30
+    "Backend" : 30
+    "Mobile" : 15
+    "Desktop/Tools" : 10
+    "Design & 3D" : 15
+```
+
+```mermaid
+%%{init: {'theme': 'base'}}%%
+graph LR
+    A["🎨 Frontend<br/>Vue • React • Next.js"] --> E["🧩 Fullstack App"]
+    B["⚙️ Backend<br/>Laravel • Go Fiber"] --> E
+    C["📱 Mobile<br/>Flutter"] --> E
+    D["🖥️ Desktop & Infra<br/>Linux Admin"] --> E
+    E --> F["🚀 Deploy<br/>Vercel • Netlify • AWS • Heroku"]
+```
+
+---
+
+## 🧠 Skill Matrix
+
+### 🎨 Frontend
+| Skill | Tools / Framework | Level |
+|---|---|---|
+| UI Development | Vue 2/3, React, Next.js | ⭐⭐⭐⭐⭐ |
+| Styling | Tailwind, Quasar, Vuetify, Bootstrap | ⭐⭐⭐⭐⭐ |
+| State Management | Vuex, Pinia, Redux | ⭐⭐⭐⭐ |
+| Markup | HTML5, CSS3, SVG Animation | ⭐⭐⭐⭐⭐ |
+
+### ⚙️ Backend
+| Skill | Tools / Framework | Level |
+|---|---|---|
+| API Development | Laravel, Go Fiber | ⭐⭐⭐⭐⭐ |
+| Database | MariaDB, MongoDB | ⭐⭐⭐⭐ |
+| Auth & Security | JWT, Sanctum, Session-based | ⭐⭐⭐⭐ |
+| Server Language | PHP, Go, Python, Java | ⭐⭐⭐⭐ |
+
+### 📱 Mobile
+| Skill | Tools / Framework | Level |
+|---|---|---|
+| Cross-platform App | Flutter (Dart) | ⭐⭐⭐⭐ |
+| PWA Development | Vue/Quasar PWA | ⭐⭐⭐⭐⭐ |
+| Responsive Design | Mobile-first UI | ⭐⭐⭐⭐⭐ |
+
+### 🖥️ Desktop & Tools
+| Skill | Tools / Framework | Level |
+|---|---|---|
+| System Administration | Linux Admin/Support, Windows, macOS | ⭐⭐⭐⭐ |
+| Design & Prototyping | Photoshop, Illustrator, Adobe XD, Canva | ⭐⭐⭐⭐ |
+| Animation & 3D | Aseprite, Adobe Animate, Blender, Voxel Studio | ⭐⭐⭐⭐ |
+| Cloud & Deployment | AWS, Vercel, Netlify, Firebase, Heroku | ⭐⭐⭐⭐ |
 
 ---
 
@@ -105,6 +200,22 @@
   <img src="https://img.shields.io/badge/English-%230080C9.svg?style=for-the-badge&logoColor=white" alt="English" />
   <img src="https://img.shields.io/badge/Japanese-%23BC002D.svg?style=for-the-badge&logoColor=white" alt="Japanese" />
 </p>
+
+---
+
+## 🗺️ How I Build a Project
+
+```mermaid
+flowchart TD
+    A[💡 Requirement Gathering] --> B[📐 Design & Wireframe]
+    B --> C[⚙️ Backend API - Laravel/Go Fiber]
+    B --> D[🎨 Frontend UI - Vue/React]
+    C --> E[🔗 Integration & Testing]
+    D --> E
+    E --> F[🚀 Deployment]
+    F --> G[🩹 Maintenance & Bug Fixing]
+    G -.feedback.-> A
+```
 
 ---
 
