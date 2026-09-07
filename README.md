@@ -7,7 +7,16 @@
 </p>
 
 <h1 align="center">Hey there! 👋 I'm Arif</h1>
+<p align="center"><em>Fullstack Web Developer • Clinic & ERP Systems • UI/UX Enthusiast</em></p>
 
+<p align="center">
+  <a href="https://arifpermana.vercel.app/" target="_blank">
+    <img src="https://img.shields.io/badge/Portfolio-F7DF1E?style=for-the-badge&logo=vercel&logoColor=black" alt="Portfolio" />
+  </a>
+  <a href="https://trakteer.id/itsmebroarif/tip?open=true" target="_blank">
+    <img src="https://img.shields.io/badge/Support%20Me-FF5E5B?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Support Me" />
+  </a>
+</p>
 
 ---
 
@@ -97,13 +106,57 @@
   <img src="https://img.shields.io/badge/Japanese-%23BC002D.svg?style=for-the-badge&logoColor=white" alt="Japanese" />
 </p>
 
-
-
 ---
 
 ## 🌟 Featured Projects
 
-Coming soon! Check out my GitHub for more amazing projects.
+Beberapa aplikasi yang sudah saya buat dan bisa langsung dicoba secara online 👇
+
+<table align="center" width="100%">
+  <tr>
+    <th align="left">Project</th>
+    <th align="left">Deskripsi</th>
+    <th align="center">Demo</th>
+  </tr>
+  <tr>
+    <td>🗂️ <strong>RajinKerja</strong></td>
+    <td>Aplikasi produktivitas & manajemen pekerjaan harian.</td>
+    <td align="center">
+      <a href="https://rajinkerja.vercel.app/" target="_blank">
+        <img src="https://img.shields.io/badge/Live%20Demo-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>📊 <strong>E-Rekap</strong></td>
+    <td>Aplikasi rekapitulasi data secara digital.</td>
+    <td align="center">
+      <a href="https://e-rekap.vercel.app/" target="_blank">
+        <img src="https://img.shields.io/badge/Live%20Demo-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>💵 <strong>Cashy</strong></td>
+    <td>Aplikasi pencatatan & pengelolaan keuangan pribadi.</td>
+    <td align="center">
+      <a href="https://cashy-pied.vercel.app/" target="_blank">
+        <img src="https://img.shields.io/badge/Live%20Demo-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>🎉 <strong>17an Bojonglio</strong></td>
+    <td>PWA manajemen lomba 17 Agustus — registrasi peserta, sistem antrean, penilaian, hingga leaderboard.</td>
+    <td align="center">
+      <a href="https://17anbojonglio.vercel.app/" target="_blank">
+        <img src="https://img.shields.io/badge/Live%20Demo-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
+      </a>
+    </td>
+  </tr>
+</table>
+
+> 💡 *Deskripsi di atas masih draft singkat — silakan sesuaikan dengan detail fitur masing-masing aplikasi.*
 
 ---
 
@@ -124,4 +177,3 @@ Jika kamu ingin mendukung perkembangan proyek yang saya buat, kamu bisa memberik
 <p align="center">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&duration=3000&pause=1000&color=F7DF1E&center=true&vCenter=true&width=600&lines=Developed+with+%E2%9D%A4+by+@eexxvvn" alt="Footer" />
 </p>
-
