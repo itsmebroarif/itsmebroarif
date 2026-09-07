@@ -61,11 +61,14 @@
   <tr>
     <td width="60%" valign="top">
       <ul style="list-style: none; padding: 0;">
-        <li>🔭 <strong>Currently Working:</strong> Fullstack Web Developer crafting modern web experiences</li>
-        <li>🌱 <strong>Learning:</strong> Advanced JavaScript patterns & Modern web architectures</li>
-        <li>🤝 <strong>Passionate About:</strong> Fullstack Web Development & UI/UX Design</li>
-        <li>💬 <strong>Ask Me About:</strong> Web & App Development, Design, or anything tech-related</li>
-        <li>⚡ <strong>Fun Fact:</strong> I love solving complex problems with elegant solutions</li>
+        <li>🔭 <strong>Sedang Mengerjakan:</strong> Fullstack Web Developer yang membangun pengalaman web modern</li>
+        <li>🌱 <strong>Sedang Belajar:</strong> Pola JavaScript tingkat lanjut & arsitektur web modern</li>
+        <li>🤝 <strong>Passion:</strong> Fullstack Web Development & UI/UX Design</li>
+        <li>💬 <strong>Tanya Saya Soal:</strong> Pengembangan Web & Aplikasi, Design, atau apapun seputar teknologi</li>
+        <li>⚡ <strong>:</strong> Saya suka menyelesaikan masalah rumit dengan solusi yang elegan</li>
+        <li>🏘️ <strong>:</strong> Ketua Karang Taruna Bojong Lio</li>
+        <li>🧑‍💻 <strong>:</strong> Tech Leader di Kafeinarts</li>
+        <li>💼 <strong>:</strong> Saat ini menjalani pekerjaan sebagai Fullstack Developer di Bekasi, Jawa Barat</li>
       </ul>
     </td>
     <td width="40%" align="center" valign="middle">
