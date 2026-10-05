@@ -20,7 +20,7 @@
 <img src="../assets/screenshots/main-menu.png" alt="Main menu — Persona 3 Reload inspired navigation" width="100%">
 
 > *"I am thou, thou art I…"* — the same invitation, rebuilt as a **menu-driven portfolio**:
-> eight Arcana-styled sections, cinematic transitions, and a soundtrack that follows you.
+> nine Arcana-styled sections, cinematic transitions, and a soundtrack that follows you.
 
 ---
 
@@ -49,12 +49,13 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 |:-:|---|---|
 | 1 | **PROJECT** | Scrollable stack of 11 work experiences — Sintesa Persada, Sadaraga, Hangang Solution, Young On Top, Rumah Coding and more |
 | 2 | **STORE** | `PRODUCT` menu — a filterable catalogue of 16 digital products I can build (ERP, SIMRS, LMS, CMS, EMS, POS, Inventory, HRIS, CRM, WMS, Company Profile, Landing Page, Undangan Digital, E-Commerce, APK Kehadiran, QR Menu), each on an illustrated card |
-| 3 | **EDUCATION** | FreeCodeCamp, SMK Taruna Bhakti Depok, SMP Yapemri Depok |
-| 4 | **ORGANIZATION** | Social links — Karang Taruna (2025), Kafeinarts Tech Organization (2022) |
-| 5 | **SKILLS** | Persona-style skill screen — four tabs (frontend, backend, design, languages), each group presented as a Persona (Orpheus, Thanatos, Orpheus Telos, Messiah) with element-typed skill chips and meters |
-| 6 | **GEAR** | Daily hardware — monitor, laptop, mouse, keyboard, earphone |
-| 7 | **ABOUT** | Full biography, philosophy and contact channels |
-| 8 | **CONTACT** | Email, Discord, Instagram and phone |
+| 3 | **MINI GAMES** | `ARCADE` menu — four playable three.js 3D mini games (**Shadow Dodge**, **Evoker Target**, **Block Breaker**, **Ring Rush**) rendered live in the page, each with its own HUD, best score and dossier |
+| 4 | **EDUCATION** | FreeCodeCamp, SMK Taruna Bhakti Depok, SMP Yapemri Depok |
+| 5 | **ORGANIZATION** | Social links — Karang Taruna (2025), Kafeinarts Tech Organization (2022) |
+| 6 | **SKILLS** | Persona-style skill screen — four tabs (frontend, backend, design, languages), each group presented as a Persona (Orpheus, Thanatos, Orpheus Telos, Messiah) with element-typed skill chips and meters |
+| 7 | **GEAR** | Daily hardware — monitor, laptop, mouse, keyboard, earphone |
+| 8 | **ABOUT** | Full biography, philosophy and contact channels |
+| 9 | **CONTACT** | Email, Discord, Instagram and phone |
 
 **Live site:** https://itsmebroarif.github.io/itsmebroarif/
 
@@ -62,14 +63,15 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 
 ## ✨ Features
 
-- 🎴 **Eight-entry slanted main menu** with per-item banner, rotation, depth and focus highlighting
+- 🎴 **Nine-entry slanted main menu** with per-item banner, rotation, depth and focus highlighting
 - 🛍️ **Store / PRODUCT catalogue** — category menu (`ALL`, `ENTERPRISE`, `WEB`, `MOBILE`, `COMMERCE`) over a responsive grid of illustrated product cards with live counter and hover/keyboard selection
+- 🕹️ **three.js arcade** — a `MINI GAMES` section running four 3D games in a real WebGL renderer: endless corridor dodging (**Shadow Dodge**), a shooting-gallery aim test (**Evoker Target**), neon **Block Breaker** with levels, and an endless ring-flight (**Ring Rush**). Tab menu, live HUD (score / time / lives), attract mode behind the dossier, procedural WebAudio SFX, `localStorage` best scores — all local, no CDN
 - 🎬 **Background video per section** (`intro`, `loop`, `skills`, `about`, `contact`) with preloading on hover
 - 🎵 **Full audio design** — looping backsound (`music/ost.mp3`) with fade-in, plus menu, navigation and close SFX
 - 🃏 **Card-stack sub-pages** — skewed, overflowing cards with smooth auto-scroll and selection tracking
 - ⚔️ **Persona-style skill screen** — every skill group is presented as a Persona (Orpheus, Thanatos, Orpheus Telos, Messiah) with element-colored type chips, wrap-safe skill names and animated meters
-- ⌨️ **Keyboard-first navigation** — arrow keys, `Enter` to confirm, `Esc` to go back
-- 🔗 **Deep links** — every section is routable (`?page=project`, `?page=store`, `?page=education`, `?page=organization`, `?page=skill`, `?page=gear`, `?page=about`, `?page=contact`)
+- ⌨️ **Keyboard-first navigation** — arrow keys, `Enter` to confirm, `Esc` to go back (inside the arcade the same keys steer, fire and stop a run)
+- 🔗 **Deep links** — every section is routable (`?page=project`, `?page=store`, `?page=minigame&game=ring-rush`, `?page=education`, `?page=organization`, `?page=skill`, `?page=gear`, `?page=about`, `?page=contact`)
 - 📱 **Loading screen with progress bar** and a clear desktop-only notice for small screens
 - ⚡ **Zero build pipeline** — plain static assets, cache-busted CSS/JS, fast first paint
 - 🧠 **Cross-browser audio** — autoplay-blocked environments (Firefox included) recover on first user gesture
@@ -85,6 +87,15 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 | `Esc` | Back to main menu |
 | `Scroll` | Browse cards inside a section |
 
+**Inside `MINI GAMES`:**
+
+| Key | Action |
+|---|---|
+| `↑` `↓` `←` `→` / `W` `A` `S` `D` | Pick a game (idle) · steer / aim (playing) |
+| `Enter` / `Space` | Start · launch the ball · fire the Evoker |
+| `Esc` | Stop the current run → second `Esc` leaves the section |
+| Mouse | Aim the Evoker reticle, click to shoot |
+
 ---
 
 ## 🛠 Tech Stack
@@ -94,6 +105,7 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 | Markup | HTML5 (semantic sections, Open Graph metadata) |
 | Styling | CSS3 — custom properties, keyframe animations, `clip-path`/skew compositions |
 | Logic | Vanilla ES6+ JavaScript — module-free, event-driven state machine |
+| Arcade | **three.js r169** (vendored ES module) — WebGL renderer, raycasting, `EdgesGeometry` wireframes, additive glow sprites, WebAudio SFX |
 | Media | MP4 background loops, MP3/WAV SFX, Web Audio API + `<audio>` elements |
 | Type | Google Fonts (Poppins) + bundled **Rodin Pro** / Skip OTF fonts |
 | Hosting | GitHub Pages |
@@ -104,11 +116,13 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 
 ```text
 itsmebroarif/
-├── index.html                 # Single entry: splash, menu, all eight sections
+├── index.html                 # Single entry: splash, menu, all nine sections
 ├── css/
-│   └── style.css              # Full theme, menu, card stack, scrollbars
+│   └── style.css              # Full theme, menu, card stack, scrollbars, arcade
 ├── js/
-│   └── main.js                # Data, routing, audio engine, UI state machine
+│   ├── main.js                # Data, routing, audio engine, UI state machine
+│   ├── minigames.js           # MINI GAMES section: engine + 4 three.js games
+│   └── three.module.min.js    # Vendored three.js r169 (ES module, no CDN)
 ├── assets/
 │   ├── profile.jpg            # Profile portrait
 │   ├── favicon.png
@@ -152,6 +166,7 @@ Everything is plain data — no templates to rebuild:
 | Menu entries & labels | `js/main.js` → `options[]` |
 | Work experiences | `js/main.js` → `slinkData` |
 | Store products (16) | `js/main.js` → `storeProductsData` (`name`, `cat`, `desc`, `icon` SVG), `storeTabsList` |
+| Mini games (4) | `js/minigames.js` → `GAMES[]` (`code`, `name`, `desc`, `controls`, `hudTime`, `lives`) and `GAME_FACTORIES` |
 | Education | `js/main.js` → `educationData` |
 | Organization | `js/main.js` → `organizationData` |
 | Gear | `js/main.js` → `gearData` |
@@ -159,7 +174,7 @@ Everything is plain data — no templates to rebuild:
 | About, contact channels, profile | `index.html` |
 | Backsound & SFX | `music/`, `sfx/` + `js/main.js` audio engine |
 
-> Cache-bust after editing: bump `css/style.css?v=` and `js/main.js?v=` in `index.html`.
+> Cache-bust after editing: bump `css/style.css?v=`, `js/main.js?v=` and `js/minigames.js?v=` in `index.html`.
 
 ---
 

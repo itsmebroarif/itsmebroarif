@@ -23,7 +23,7 @@
   <link rel="preload" href="fonts/Rodin Pro EB.otf" as="font" type="font/otf" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=42">
+  <link rel="stylesheet" href="css/style.css?v=43">
 </head>
 <body>
   <!-- Mobile / Small Screen Notification -->
@@ -248,6 +248,117 @@
             <span class="control-text">Next</span>
           </button>
           <button id="store-back-btn" class="control-item slink-hud-btn" aria-label="Close Store Screen">
+            <div class="control-key">ESC</div>
+            <span class="control-text">Back</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Persona 3 Reload - MINI GAMES PAGE (Three.js 3D Arcade)
+       4 mini games rendered with three.js: Shadow Dodge, Evoker Target,
+       Block Breaker, Ring Rush. Scene + logic live in js/minigames.js
+       ========================================================================== -->
+  <section id="minigame-page" class="p3r-slink-screen p3r-minigame-screen" role="region" aria-label="Mini Games Arcade Screen" aria-hidden="true">
+    <!-- Arcade Screen Animated Video Background -->
+    <div class="slink-video-container" aria-hidden="true">
+      <video id="minigame-bg-video" class="slink-bg-video" loop muted playsinline preload="none">
+        <source src="assets/bg-loop.mp4" type="video/mp4">
+      </video>
+      <div class="slink-video-overlay" aria-hidden="true"></div>
+    </div>
+
+    <!-- Main Viewport Layer -->
+    <div class="slink-viewport p3r-minigame-viewport">
+      <!-- Left Column: Profile + MINI GAMES Header + Menu + Arcade Stage -->
+      <div class="slink-left-column p3r-minigame-left-column">
+        <!-- Profile Sub-header matching Atlus P3R Layout -->
+        <div class="slink-profile-header" aria-hidden="true">
+          <div class="slink-profile-name">ARIF PERMANA</div>
+        </div>
+
+        <!-- Persona 3 Reload Shattered Geometric Header Banner -->
+        <div class="p3r-geometric-header" id="minigame-header-div">
+          <div class="p3r-shard-back-band" aria-hidden="true"></div>
+          <div class="p3r-header-slash-main" aria-hidden="true"></div>
+          <span class="p3r-banner-kicker" aria-hidden="true">ARCADE</span>
+          <h1 class="p3r-banner-title" id="minigame-header-text">MINI GAMES</h1>
+        </div>
+
+        <!-- Game Menu Bar: game tabs + status + best score -->
+        <div class="p3r-store-menu p3r-minigame-menu" role="tablist" aria-label="Mini Game Menu">
+          <span class="p3r-store-menu-tag" aria-hidden="true"><span>MENU</span></span>
+          <div class="p3r-minigame-tabs" id="minigame-tabs-nav">
+            <!-- Dynamically populated by js/minigames.js -->
+          </div>
+          <div class="p3r-store-menu-meta">
+            <span class="p3r-store-category" id="minigame-status">READY</span>
+            <span class="p3r-store-count">BEST <strong id="minigame-best">000000</strong></span>
+          </div>
+        </div>
+
+        <!-- Arcade Stage: game dossier + WebGL viewport -->
+        <div class="p3r-minigame-stage">
+          <aside class="p3r-minigame-info">
+            <div class="p3r-minigame-info-top">
+              <span class="p3r-minigame-icon" id="minigame-icon" aria-hidden="true"></span>
+              <span class="p3r-minigame-code" id="minigame-code">01</span>
+            </div>
+            <h2 class="p3r-minigame-title" id="minigame-title">SHADOW DODGE</h2>
+            <p class="p3r-minigame-desc" id="minigame-desc">Memuat deskripsi game&hellip;</p>
+            <div class="p3r-minigame-controls" id="minigame-controls" aria-hidden="true"></div>
+            <button id="minigame-play-btn" class="p3r-minigame-play" type="button" aria-label="Start selected mini game">
+              <span class="p3r-minigame-play-label" id="minigame-play-label">PLAY</span>
+              <span class="p3r-minigame-play-key">ENTER</span>
+            </button>
+          </aside>
+
+          <div class="p3r-minigame-canvas-wrap">
+            <canvas id="minigame-canvas" aria-label="Mini Game 3D Viewport"></canvas>
+
+            <!-- In-game HUD -->
+            <div class="p3r-minigame-hud" id="minigame-hud" aria-hidden="true">
+              <span class="p3r-minigame-hud-item">SCORE <strong id="minigame-score">000000</strong></span>
+              <span class="p3r-minigame-hud-item" id="minigame-hud-time"><span id="minigame-time-label">TIME</span> <strong id="minigame-time">00</strong></span>
+              <span class="p3r-minigame-hud-item" id="minigame-hud-lives"><span id="minigame-lives-label">LIVES</span> <strong id="minigame-lives">3</strong></span>
+            </div>
+
+            <!-- State overlay: ready / paused / game over -->
+            <div class="p3r-minigame-overlay" id="minigame-overlay" role="status" aria-live="polite">
+              <div class="p3r-minigame-overlay-title" id="minigame-overlay-title">3D ENGINE</div>
+              <div class="p3r-minigame-overlay-sub" id="minigame-overlay-sub">Memuat three.js&hellip;</div>
+            </div>
+
+            <!-- Crosshair for aim based games -->
+            <div class="p3r-minigame-crosshair" id="minigame-crosshair" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Right HUD: Controls matching Menu Utama & Skills style -->
+      <div class="slink-bottom-hud">
+        <div class="buttons-row">
+          <button id="minigame-tab-prev-btn" class="control-item slink-hud-btn" aria-label="Previous Mini Game">
+            <div class="control-key">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </div>
+            <span class="control-text">Prev</span>
+          </button>
+          <button id="minigame-tab-next-btn" class="control-item slink-hud-btn" aria-label="Next Mini Game">
+            <div class="control-key">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+            <span class="control-text">Next</span>
+          </button>
+          <button id="minigame-back-btn" class="control-item slink-hud-btn" aria-label="Close Mini Games Screen">
             <div class="control-key">ESC</div>
             <span class="control-text">Back</span>
           </button>
@@ -767,6 +878,8 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=43" defer></script>
+  <script src="js/main.js?v=44" defer></script>
+  <!-- Mini Games: three.js scene & logic (ES module, loaded after main.js) -->
+  <script type="module" src="js/minigames.js?v=1"></script>
 </body>
 </html>

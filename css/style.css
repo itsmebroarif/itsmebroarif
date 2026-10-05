@@ -533,6 +533,10 @@ body.project-screen-active .side-number {
   animation: p3rMenuEntrance 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.56s forwards;
 }
 
+.menu-column.menu-entered .option-item:nth-of-type(9) {
+  animation: p3rMenuEntrance 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.62s forwards;
+}
+
 @keyframes p3rMenuEntrance {
   0% {
     opacity: 0;
@@ -2141,6 +2145,517 @@ body.store-screen-active .character-viewport {
 @media (max-height: 760px) {
   .p3r-store-grid {
     max-height: calc(100vh - 300px);
+  }
+}
+
+/* ==========================================================================
+   PERSONA 3 RELOAD - MINI GAMES PAGE (Three.js 3D Arcade)
+   Left dossier panel (game picker + brief) · right WebGL viewport
+   ========================================================================== */
+/* .p3r-minigame-screen inherits base layout from .p3r-slink-screen */
+
+body.minigame-screen-active .menu-options-container,
+body.minigame-screen-active .clock-hud,
+body.minigame-screen-active .character-viewport {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Same bright wallpaper as the skills / store screens: dark profile name */
+#minigame-page .slink-profile-name {
+  color: #2a313d;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.35);
+}
+
+.p3r-minigame-left-column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: min(96vw, 1520px);
+  min-height: 0;
+  pointer-events: auto;
+}
+
+/* GAME Menu Bar (MENU tag · game tabs · status · best score) ------------- */
+.p3r-minigame-menu {
+  width: min(88vw, 1360px);
+  margin-bottom: clamp(12px, 1.7vh, 22px);
+}
+
+.p3r-minigame-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  pointer-events: auto;
+}
+
+.p3r-minigame-tab .p3r-tab-label {
+  font-size: 0.88rem;
+  letter-spacing: 0.05em;
+}
+
+.p3r-minigame-pending {
+  display: inline-block;
+  transform: skewX(-14deg);
+  background: rgba(2, 11, 24, 0.88);
+  border: 1.5px dashed rgba(22, 207, 251, 0.55);
+  padding: 7px 16px;
+  color: #7de6fd;
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: 0.78rem;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+/* Arcade Stage ----------------------------------------------------------- */
+.p3r-minigame-stage {
+  margin-left: 5.0vw;
+  width: min(88vw, 1360px);
+  height: clamp(268px, 44vh, 470px);
+  margin-bottom: clamp(54px, 8vh, 96px);
+  display: flex;
+  gap: clamp(12px, 1.2vw, 22px);
+  align-items: stretch;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+/* Game dossier panel ----------------------------------------------------- */
+.p3r-minigame-info {
+  position: relative;
+  width: clamp(236px, 19vw, 312px);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 18px 18px;
+  background: linear-gradient(158deg, rgba(7, 26, 56, 0.95), rgba(2, 10, 26, 0.97));
+  border-left: 5px solid #16cffb;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%);
+  filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.55));
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #16cffb rgba(2, 11, 24, 0.6);
+  user-select: none;
+}
+
+.p3r-minigame-info::-webkit-scrollbar {
+  width: 5px;
+}
+
+.p3r-minigame-info::-webkit-scrollbar-track {
+  background: rgba(2, 11, 24, 0.6);
+}
+
+.p3r-minigame-info::-webkit-scrollbar-thumb {
+  background: #16cffb;
+}
+
+/* red Atlus corner accent */
+.p3r-minigame-info::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 54px;
+  height: 5px;
+  background: #e60024;
+}
+
+.p3r-minigame-info::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, transparent 50%, #e60024 50%);
+}
+
+.p3r-minigame-info-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.p3r-minigame-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  border: 2px solid #16cffb;
+  background: rgba(22, 207, 251, 0.12);
+  color: #7de6fd;
+  transform: skewX(-10deg);
+}
+
+.p3r-minigame-icon svg {
+  width: 34px;
+  height: 34px;
+  transform: skewX(10deg);
+}
+
+.p3r-minigame-icon .acc-s {
+  stroke: #ffd23f;
+}
+
+.p3r-minigame-icon .acc-f {
+  fill: #ffd23f;
+  stroke: #ffd23f;
+}
+
+.p3r-minigame-code {
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: clamp(1.3rem, 1.8vw, 1.8rem);
+  font-style: italic;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: rgba(22, 207, 251, 0.38);
+}
+
+.p3r-minigame-title {
+  margin: 2px 0 0;
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: clamp(1.1rem, 1.5vw, 1.5rem);
+  font-style: italic;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.p3r-minigame-desc {
+  margin: 0;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: clamp(0.72rem, 0.85vw, 0.84rem);
+  line-height: 1.5;
+  color: rgba(224, 246, 255, 0.78);
+}
+
+.p3r-minigame-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.p3r-minigame-key {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.p3r-minigame-key .k {
+  min-width: 62px;
+  text-align: center;
+  transform: skewX(-12deg);
+  background: rgba(22, 207, 251, 0.14);
+  border: 1px solid rgba(22, 207, 251, 0.55);
+  color: #16cffb;
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  padding: 4px 6px;
+  white-space: nowrap;
+}
+
+.p3r-minigame-key .v {
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 0.7rem;
+  color: rgba(224, 246, 255, 0.68);
+}
+
+.p3r-minigame-play {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  margin-top: 14px;
+  flex-shrink: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  transform: skewX(-12deg);
+  background: linear-gradient(90deg, #004fb3 0%, #16cffb 100%);
+  border: 1.5px solid #ffffff;
+  color: #02101f;
+  padding: 11px 14px;
+  cursor: pointer;
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.p3r-minigame-play > span {
+  transform: skewX(12deg);
+}
+
+.p3r-minigame-play-label {
+  font-size: 1rem;
+}
+
+.p3r-minigame-play-key {
+  font-size: 0.6rem;
+  background: #02101f;
+  color: #7de6fd;
+  padding: 2px 7px;
+  letter-spacing: 0.1em;
+}
+
+.p3r-minigame-play:hover,
+.p3r-minigame-play:focus-visible {
+  transform: skewX(-12deg) translateY(-2px);
+  box-shadow: 0 8px 20px rgba(22, 207, 251, 0.5), 3px 3px 0 rgba(0, 0, 0, 0.6);
+}
+
+.p3r-minigame-play:active {
+  transform: skewX(-12deg) translateY(0);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* WebGL viewport --------------------------------------------------------- */
+.p3r-minigame-canvas-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  background: radial-gradient(130% 130% at 50% 0%, rgba(7, 34, 74, 0.95), rgba(1, 7, 20, 0.99));
+  border: 2px solid rgba(22, 207, 251, 0.55);
+  clip-path: polygon(0 0, calc(100% - 36px) 0, 100% 36px, 100% 100%, 0 100%);
+  overflow: hidden;
+}
+
+#minigame-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+/* In-canvas HUD ---------------------------------------------------------- */
+.p3r-minigame-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 13px 15px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.p3r-minigame-hud-item {
+  transform: skewX(-14deg);
+  background: rgba(2, 11, 24, 0.8);
+  border: 1px solid rgba(22, 207, 251, 0.55);
+  padding: 5px 12px;
+  color: #cfeeff;
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: 0.7rem;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.p3r-minigame-hud-item > span,
+.p3r-minigame-hud-item > strong {
+  transform: skewX(14deg);
+  display: inline-block;
+}
+
+.p3r-minigame-hud-item strong {
+  color: #16cffb;
+  font-size: 0.8rem;
+  margin-left: 4px;
+}
+
+/* State overlay: ready / playing results / engine errors ------------------ */
+.p3r-minigame-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 22px;
+  text-align: center;
+  cursor: pointer;
+  pointer-events: auto;
+  background: radial-gradient(circle at 50% 45%, rgba(4, 22, 52, 0.68), rgba(1, 5, 16, 0.92));
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.p3r-minigame-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.p3r-minigame-overlay-title {
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: clamp(1.3rem, 3vw, 2.4rem);
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  line-height: 1.05;
+  color: #ffffff;
+  transform: skewX(-8deg);
+  text-shadow: 0 0 22px rgba(22, 207, 251, 0.9), 0 4px 16px rgba(0, 0, 0, 0.9);
+}
+
+.p3r-minigame-overlay-sub {
+  font-family: var(--font-poppins), sans-serif;
+  font-size: clamp(0.72rem, 1vw, 0.92rem);
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  color: #7de6fd;
+  max-width: 46ch;
+}
+
+/* Aim reticle for Evoker Target ------------------------------------------ */
+.p3r-minigame-crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  border: 2px solid rgba(22, 207, 251, 0.95);
+  border-radius: 50%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 3;
+  transition: opacity 0.15s ease;
+  box-shadow: 0 0 12px rgba(22, 207, 251, 0.7), inset 0 0 10px rgba(22, 207, 251, 0.35);
+}
+
+.p3r-minigame-crosshair.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.p3r-minigame-crosshair::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -12px;
+  width: 2px;
+  height: calc(100% + 24px);
+  margin-left: -1px;
+  background: linear-gradient(180deg, #16cffb 0 34%, transparent 34% 66%, #16cffb 66% 100%);
+}
+
+.p3r-minigame-crosshair::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -12px;
+  height: 2px;
+  width: calc(100% + 24px);
+  margin-top: -1px;
+  background: linear-gradient(90deg, #16cffb 0 34%, transparent 34% 66%, #16cffb 66% 100%);
+}
+
+/* Density on shorter / narrower desktops --------------------------------- */
+@media (max-height: 740px) {
+  #minigame-page .slink-profile-header {
+    margin-top: 1.4vh;
+    margin-bottom: 1.6vh;
+  }
+
+  #minigame-page .p3r-geometric-header {
+    height: clamp(84px, 11vh, 112px);
+    margin-bottom: clamp(14px, 2vh, 24px);
+  }
+
+  .p3r-minigame-stage {
+    height: clamp(260px, 48vh, 440px);
+    margin-bottom: clamp(46px, 6vh, 72px);
+  }
+
+  .p3r-minigame-info {
+    width: clamp(216px, 18vw, 270px);
+    padding: 10px 12px 12px;
+    gap: 6px;
+  }
+
+  .p3r-minigame-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .p3r-minigame-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .p3r-minigame-title {
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    margin-top: 0;
+  }
+
+  .p3r-minigame-desc {
+    font-size: 0.67rem;
+    line-height: 1.4;
+  }
+
+  .p3r-minigame-controls {
+    gap: 3px;
+  }
+
+  .p3r-minigame-key {
+    gap: 7px;
+  }
+
+  .p3r-minigame-key .k {
+    min-width: 54px;
+    font-size: 0.58rem;
+    padding: 2px 5px;
+  }
+
+  .p3r-minigame-key .v {
+    font-size: 0.63rem;
+  }
+
+  .p3r-minigame-play {
+    margin-top: 6px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 1180px) {
+  .p3r-minigame-info {
+    width: clamp(206px, 21vw, 250px);
+  }
+
+  .p3r-minigame-desc {
+    font-size: 0.7rem;
+  }
+
+  .p3r-minigame-key .v {
+    font-size: 0.66rem;
   }
 }
 

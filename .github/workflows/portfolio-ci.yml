@@ -24,7 +24,14 @@ jobs:
           node-version: 20
 
       - name: JavaScript syntax check
-        run: node --check js/main.js
+        run: |
+          set -e
+          node --check js/main.js
+          # minigames.js is an ES module (import/export) - check it as .mjs
+          cp js/minigames.js /tmp/minigames.mjs
+          node --check /tmp/minigames.mjs
+          cp js/three.module.min.js /tmp/three.module.min.mjs
+          node --check /tmp/three.module.min.mjs
 
       - name: Required assets check
         run: |
@@ -36,6 +43,8 @@ jobs:
             docs/PORTFOLIO.md \
             css/style.css \
             js/main.js \
+            js/minigames.js \
+            js/three.module.min.js \
             assets/profile.jpg \
             assets/favicon.png \
             assets/screenshots/main-menu.png \

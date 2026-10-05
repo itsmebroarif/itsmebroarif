@@ -45,10 +45,10 @@ const options = [
   {
     name: "STORE",
     description: "Katalog Produk Digital Siap Pesan",
-    rotation: -16.5,
+    rotation: -16.9,
     zIndex: 2,
-    offsetX: -49,
-    offsetY: 27,
+    offsetX: -47.5,
+    offsetY: 26.25,
     fontSize: "4.7rem",
     bannerScaleX: 1.0,
     bannerScaleY: 3.2,
@@ -74,12 +74,43 @@ const options = [
     ]
   },
   {
+    name: "MINI GAMES",
+    description: "Arcade 3D Berbasis Three.js",
+    rotation: -12.8,
+    zIndex: 3,
+    offsetX: -55,
+    offsetY: 28.5,
+    fontSize: "4.2rem",
+    bannerScaleX: 1.0,
+    bannerScaleY: 3.0,
+    tag: "ARCADE 3D & MINI GAMES",
+    summary: "Empat mini game 3D: Shadow Dodge, Evoker Target, Block Breaker, dan Ring Rush",
+    cards: [
+      {
+        title: "Shadow Dodge",
+        desc: "Kendalikan kapal di koridor neon, hindari bayangan yang datang dan kumpulkan orbe biru."
+      },
+      {
+        title: "Evoker Target",
+        desc: "Target melayang muncul selama 30 detik — bidik dengan raycaster dan jaga combo Anda."
+      },
+      {
+        title: "Block Breaker",
+        desc: "Paddle neon memantulkan bola untuk menghancurkan balok — 3 nyawa, level makin cepat."
+      },
+      {
+        title: "Ring Rush",
+        desc: "Terbang menembus cincin yang datang, jaga tiga perisai sebelum waktu habis."
+      }
+    ]
+  },
+  {
     name: "EDUCATION",
     description: "Riwayat Pendidikan Formal",
-    rotation: -12,
-    zIndex: 3,
-    offsetX: -57,
-    offsetY: 29,
+    rotation: -8.6,
+    zIndex: 4,
+    offsetX: -62.5,
+    offsetY: 30.75,
     fontSize: "4.3rem",
     bannerScaleX: 1.0,
     bannerScaleY: 3.0,
@@ -103,10 +134,10 @@ const options = [
   {
     name: "ORGANIZATION",
     description: "Organisasi & Social Link",
-    rotation: -7.5,
-    zIndex: 4,
-    offsetX: -66,
-    offsetY: 32,
+    rotation: -4.5,
+    zIndex: 5,
+    offsetX: -70,
+    offsetY: 33,
     fontSize: "3.95rem",
     bannerScaleX: 0.86,
     bannerScaleY: 2.9,
@@ -126,10 +157,10 @@ const options = [
   {
     name: "SKILLS",
     description: "Keahlian Teknis & Stack",
-    rotation: -3,
-    zIndex: 5,
-    offsetX: -74,
-    offsetY: 34,
+    rotation: -0.4,
+    zIndex: 6,
+    offsetX: -77.5,
+    offsetY: 35.25,
     fontSize: "4.35rem",
     bannerScaleX: 0.94,
     bannerScaleY: 3.05,
@@ -157,10 +188,10 @@ const options = [
   {
     name: "GEAR",
     description: "Perangkat Kerja Harian",
-    rotation: 2,
-    zIndex: 6,
-    offsetX: -83,
-    offsetY: 37,
+    rotation: 3.8,
+    zIndex: 7,
+    offsetX: -85,
+    offsetY: 37.5,
     fontSize: "4.5rem",
     bannerScaleX: 0.82,
     bannerScaleY: 3.1,
@@ -192,10 +223,10 @@ const options = [
   {
     name: "ABOUT",
     description: "Profil & Filosofi Kerja",
-    rotation: 7,
-    zIndex: 7,
-    offsetX: -92,
-    offsetY: 40,
+    rotation: 7.9,
+    zIndex: 8,
+    offsetX: -92.5,
+    offsetY: 39.75,
     fontSize: "4.6rem",
     bannerScaleX: 1.0,
     bannerScaleY: 3.25,
@@ -224,7 +255,7 @@ const options = [
     name: "CONTACT",
     description: "Mulai Komunikasi",
     rotation: 12,
-    zIndex: 8,
+    zIndex: 9,
     offsetX: -100,
     offsetY: 42,
     fontSize: "4.4rem",
@@ -618,6 +649,9 @@ let currentSkillTab = "frontend";
 let isStorePageOpen = false;
 let currentStoreTab = "all";
 let selectedStoreIndex = 0;
+let isMiniGamePageOpen = false;
+let selectedMiniGameIndex = 0;
+let pendingMiniGameId = null;
 let isAboutPageOpen = false;
 let isContactPageOpen = false;
 let selectedContactIndex = 0;
@@ -691,6 +725,16 @@ const storeCategoryLabel = document.getElementById("store-category-label");
 const storeBackBtn = document.getElementById("store-back-btn");
 const storeTabPrevBtn = document.getElementById("store-tab-prev-btn");
 const storeTabNextBtn = document.getElementById("store-tab-next-btn");
+
+// DOM Elements: Mini Games Screen (Three.js Arcade)
+const minigamePage = document.getElementById("minigame-page");
+const minigameBgVideo = document.getElementById("minigame-bg-video");
+const minigameHeaderDiv = document.getElementById("minigame-header-div");
+const minigameTabsNav = document.getElementById("minigame-tabs-nav");
+const minigamePlayBtn = document.getElementById("minigame-play-btn");
+const minigameBackBtn = document.getElementById("minigame-back-btn");
+const minigameTabPrevBtn = document.getElementById("minigame-tab-prev-btn");
+const minigameTabNextBtn = document.getElementById("minigame-tab-next-btn");
 
 // DOM Elements: About Screen
 const aboutPage = document.getElementById("about-page");
@@ -1147,12 +1191,13 @@ function setIndex(index) {
   // Speculatively preload the selected subpage's video just in time
   if (index === 0 && slinkBgVideo && slinkBgVideo.preload !== "auto") slinkBgVideo.preload = "auto";
   else if (index === 1 && storeBgVideo && storeBgVideo.preload !== "auto") storeBgVideo.preload = "auto";
-  else if (index === 2 && educationBgVideo && educationBgVideo.preload !== "auto") educationBgVideo.preload = "auto";
-  else if (index === 3 && organizationBgVideo && organizationBgVideo.preload !== "auto") organizationBgVideo.preload = "auto";
-  else if (index === 4 && skillBgVideo && skillBgVideo.preload !== "auto") skillBgVideo.preload = "auto";
-  else if (index === 5 && gearBgVideo && gearBgVideo.preload !== "auto") gearBgVideo.preload = "auto";
-  else if (index === 6 && aboutBgVideo && aboutBgVideo.preload !== "auto") aboutBgVideo.preload = "auto";
-  else if (index === 7 && contactBgVideo && contactBgVideo.preload !== "auto") contactBgVideo.preload = "auto";
+  else if (index === 2 && minigameBgVideo && minigameBgVideo.preload !== "auto") minigameBgVideo.preload = "auto";
+  else if (index === 3 && educationBgVideo && educationBgVideo.preload !== "auto") educationBgVideo.preload = "auto";
+  else if (index === 4 && organizationBgVideo && organizationBgVideo.preload !== "auto") organizationBgVideo.preload = "auto";
+  else if (index === 5 && skillBgVideo && skillBgVideo.preload !== "auto") skillBgVideo.preload = "auto";
+  else if (index === 6 && gearBgVideo && gearBgVideo.preload !== "auto") gearBgVideo.preload = "auto";
+  else if (index === 7 && aboutBgVideo && aboutBgVideo.preload !== "auto") aboutBgVideo.preload = "auto";
+  else if (index === 8 && contactBgVideo && contactBgVideo.preload !== "auto") contactBgVideo.preload = "auto";
 
   for (let idx = 0; idx < cachedOptionItems.length; idx++) {
     const item = cachedOptionItems[idx];
@@ -1257,18 +1302,20 @@ function getExitOrigin(buttonElOrId, fallbackX, fallbackY) {
 }
 
 // Named Aliases for Backward Compatibility & Direct Script Control (Updated for menu layout)
-// Menu order: 0 PROJECT · 1 STORE · 2 EDUCATION · 3 ORGANIZATION · 4 SKILLS · 5 GEAR · 6 ABOUT · 7 CONTACT
+// Menu order: 0 PROJECT · 1 STORE · 2 MINI GAMES · 3 EDUCATION · 4 ORGANIZATION · 5 SKILLS · 6 GEAR · 7 ABOUT · 8 CONTACT
 const getProjectOptionCenter     = (evt) => getOptionCenter(0, evt, 0.62, 0.32);
-const getStoreOptionCenter       = (evt) => getOptionCenter(1, evt, 0.61, 0.38);
-const getEducationOptionCenter   = (evt) => getOptionCenter(2, evt, 0.61, 0.44);
-const getOrganizationOptionCenter = (evt) => getOptionCenter(3, evt, 0.60, 0.50);
-const getSkillOptionCenter       = (evt) => getOptionCenter(4, evt, 0.60, 0.55);
-const getGearOptionCenter        = (evt) => getOptionCenter(5, evt, 0.59, 0.61);
-const getAboutOptionCenter       = (evt) => getOptionCenter(6, evt, 0.58, 0.67);
-const getContactOptionCenter     = (evt) => getOptionCenter(7, evt, 0.57, 0.73);
+const getStoreOptionCenter       = (evt) => getOptionCenter(1, evt, 0.61, 0.37);
+const getMiniGameOptionCenter    = (evt) => getOptionCenter(2, evt, 0.61, 0.42);
+const getEducationOptionCenter   = (evt) => getOptionCenter(3, evt, 0.61, 0.47);
+const getOrganizationOptionCenter = (evt) => getOptionCenter(4, evt, 0.60, 0.52);
+const getSkillOptionCenter       = (evt) => getOptionCenter(5, evt, 0.60, 0.57);
+const getGearOptionCenter        = (evt) => getOptionCenter(6, evt, 0.59, 0.62);
+const getAboutOptionCenter       = (evt) => getOptionCenter(7, evt, 0.58, 0.68);
+const getContactOptionCenter     = (evt) => getOptionCenter(8, evt, 0.57, 0.73);
 
 const getProjectExitOrigin     = () => getExitOrigin(slinkBackBtn, window.innerWidth - 120, window.innerHeight - 55);
 const getStoreExitOrigin       = () => getExitOrigin(storeBackBtn, window.innerWidth - 120, window.innerHeight - 55);
+const getMiniGameExitOrigin    = () => getExitOrigin(minigameBackBtn, window.innerWidth - 120, window.innerHeight - 55);
 const getEducationExitOrigin   = () => getExitOrigin(educationBackBtn, window.innerWidth - 120, window.innerHeight - 55);
 const getOrganizationExitOrigin = () => getExitOrigin(organizationBackBtn, window.innerWidth - 120, window.innerHeight - 55);
 const getSkillExitOrigin       = () => getExitOrigin(skillBackBtn, window.innerWidth - 120, window.innerHeight - 55);
@@ -2192,6 +2239,130 @@ function closeStorePage() {
 }
 
 // --------------------------------------------------------------------------
+// 7.6. Subpage: MINI GAMES (Three.js 3D Arcade)
+// The WebGL scene itself lives in js/minigames.js (ES module, lazily loaded).
+// main.js only owns the page shell, the tab strip and the routing.
+// --------------------------------------------------------------------------
+function callMiniGameAPI(method, ...args) {
+  const api = window.MiniGames;
+  if (api && typeof api[method] === "function") {
+    try {
+      return api[method](...args);
+    } catch (err) {
+      console.warn("[MiniGames] " + method + " failed:", err);
+    }
+  }
+  return undefined;
+}
+
+function triggerMiniGameTitleAnimation() {
+  if (minigameHeaderDiv) {
+    minigameHeaderDiv.classList.remove("animating");
+    void minigameHeaderDiv.offsetWidth;
+    minigameHeaderDiv.classList.add("animating");
+  }
+}
+
+function renderMiniGameTabs() {
+  if (!minigameTabsNav) return;
+
+  const list = callMiniGameAPI("getGames");
+  minigameTabsNav.innerHTML = "";
+
+  if (!list || list.length === 0) {
+    minigameTabsNav.innerHTML = '<span class="p3r-minigame-pending">MEMUAT 3D ENGINE&hellip;</span>';
+    return;
+  }
+
+  list.forEach((game, idx) => {
+    const btn = document.createElement("button");
+    const isActive = idx === selectedMiniGameIndex;
+    btn.className = `p3r-skill-tab p3r-minigame-tab ${isActive ? "active" : ""}`;
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-selected", isActive ? "true" : "false");
+    btn.innerHTML = `
+      <span class="p3r-tab-tag">${game.code}</span>
+      <span class="p3r-tab-label">${game.name}</span>
+    `;
+
+    btn.addEventListener("click", () => {
+      if (selectedMiniGameIndex !== idx) selectMiniGame(idx);
+    });
+
+    minigameTabsNav.appendChild(btn);
+  });
+}
+
+function selectMiniGame(index, silent = false) {
+  const list = callMiniGameAPI("getGames") || [];
+  const total = list.length || 1;
+  selectedMiniGameIndex = ((index % total) + total) % total;
+
+  if (!silent) playSFX();
+  renderMiniGameTabs();
+  callMiniGameAPI("select", selectedMiniGameIndex);
+}
+
+function prevMiniGame() { selectMiniGame(selectedMiniGameIndex - 1); }
+function nextMiniGame() { selectMiniGame(selectedMiniGameIndex + 1); }
+
+// Called by js/minigames.js once the ES module finished loading, so the shell
+// can hand over its current selection and mount an already-open page.
+function syncMiniGameSelection() {
+  if (pendingMiniGameId) {
+    const list = callMiniGameAPI("getGames") || [];
+    const idx = list.findIndex((g) => g.id === pendingMiniGameId);
+    if (idx >= 0) {
+      selectedMiniGameIndex = idx;
+      pendingMiniGameId = null;
+    }
+  }
+
+  renderMiniGameTabs();
+  callMiniGameAPI("select", selectedMiniGameIndex);
+  if (isMiniGamePageOpen) callMiniGameAPI("mount");
+}
+
+function startMiniGame() {
+  const result = callMiniGameAPI("toggle");
+  if (result === false) return;
+  playSFX();
+}
+
+function openMiniGamePage(clickEvent) {
+  if (isMiniGamePageOpen || isWavyTransitionRunning) return;
+  isMiniGamePageOpen = true;
+  playSFX();
+
+  executeWavyReveal({
+    pageEl: minigamePage,
+    origin: getMiniGameOptionCenter(clickEvent),
+    bodyClass: "minigame-screen-active",
+    videoEl: minigameBgVideo,
+    onStart: () => {
+      renderMiniGameTabs();
+      triggerMiniGameTitleAnimation();
+      callMiniGameAPI("mount");
+      callMiniGameAPI("select", selectedMiniGameIndex);
+    }
+  });
+}
+
+function closeMiniGamePage() {
+  if (!isMiniGamePageOpen || isWavyTransitionRunning) return;
+  isMiniGamePageOpen = false;
+
+  callMiniGameAPI("unmount");
+
+  executeWavyClose({
+    pageEl: minigamePage,
+    exitOrigin: getMiniGameExitOrigin(),
+    bodyClass: "minigame-screen-active",
+    videoEl: minigameBgVideo
+  });
+}
+
+// --------------------------------------------------------------------------
 // 8. Subpage: ABOUT (Profile & Philosophy Interface)
 // --------------------------------------------------------------------------
 function triggerAboutTitleAnimation() {
@@ -2361,23 +2532,25 @@ function closeModal() {
   };
 }
 
-// Option Confirmation Dispatcher (Strictly 8 Options: PROJECT, STORE, EDUCATION, ORGANIZATION, SKILLS, GEAR, ABOUT, CONTACT)
+// Option Confirmation Dispatcher (Strictly 9 Options: PROJECT, STORE, MINI GAMES, EDUCATION, ORGANIZATION, SKILLS, GEAR, ABOUT, CONTACT)
 function handleOptionConfirm(index, clickEvent) {
   if (index === 0) {
     openProjectPage(clickEvent);
   } else if (index === 1) {
     openStorePage(clickEvent);
   } else if (index === 2) {
-    openEducationPage(clickEvent);
+    openMiniGamePage(clickEvent);
   } else if (index === 3) {
-    openOrganizationPage(clickEvent);
+    openEducationPage(clickEvent);
   } else if (index === 4) {
-    openSkillPage(clickEvent);
+    openOrganizationPage(clickEvent);
   } else if (index === 5) {
-    openGearPage(clickEvent);
+    openSkillPage(clickEvent);
   } else if (index === 6) {
-    openAboutPage(clickEvent);
+    openGearPage(clickEvent);
   } else if (index === 7) {
+    openAboutPage(clickEvent);
+  } else if (index === 8) {
     openContactPage(clickEvent);
   }
 }
@@ -2570,6 +2743,10 @@ if (skillTabNextBtn) skillTabNextBtn.addEventListener("click", nextSkillTab);
 if (storeBackBtn) storeBackBtn.addEventListener("click", closeStorePage);
 if (storeTabPrevBtn) storeTabPrevBtn.addEventListener("click", prevStoreTab);
 if (storeTabNextBtn) storeTabNextBtn.addEventListener("click", nextStoreTab);
+if (minigameBackBtn) minigameBackBtn.addEventListener("click", closeMiniGamePage);
+if (minigameTabPrevBtn) minigameTabPrevBtn.addEventListener("click", prevMiniGame);
+if (minigameTabNextBtn) minigameTabNextBtn.addEventListener("click", nextMiniGame);
+if (minigamePlayBtn) minigamePlayBtn.addEventListener("click", startMiniGame);
 if (aboutBackBtn) aboutBackBtn.addEventListener("click", closeAboutPage);
 if (contactBackBtn) contactBackBtn.addEventListener("click", closeContactPage);
 
@@ -2633,6 +2810,23 @@ document.addEventListener("keydown", (e) => {
       e.preventDefault();
       selectStoreCard(selectedStoreIndex);
       playSFX();
+    }
+    return;
+  }
+
+  // Active Screen: Mini Games (Three.js Arcade)
+  if (isMiniGamePageOpen) {
+    let handled = false;
+    try {
+      handled = callMiniGameAPI("handleKey", e) === true;
+    } catch (err) {
+      handled = false;
+    }
+
+    if (!handled && (e.key === "Escape" || e.key.toLowerCase() === "b" || e.key.toLowerCase() === "backspace")) {
+      e.preventDefault();
+      callMiniGameAPI("stop");
+      closeMiniGamePage();
     }
     return;
   }
@@ -2783,6 +2977,11 @@ window.openSkillPage = openSkillPage;
 window.closeSkillPage = closeSkillPage;
 window.openStorePage = openStorePage;
 window.closeStorePage = closeStorePage;
+window.openMiniGamePage = openMiniGamePage;
+window.closeMiniGamePage = closeMiniGamePage;
+window.renderMiniGameTabs = renderMiniGameTabs;
+window.syncMiniGameSelection = syncMiniGameSelection;
+window.selectMiniGame = selectMiniGame;
 window.openAboutPage = openAboutPage;
 window.closeAboutPage = closeAboutPage;
 window.openContactPage = openContactPage;
@@ -2816,6 +3015,14 @@ if (window.innerWidth < 1024) {
   }
   openStorePage();
   triggerStoreTitleAnimation();
+} else if (urlParams.get("page") === "minigame" || urlParams.get("page") === "games") {
+  if (loadingScreen) loadingScreen.style.display = "none";
+  isStarted = true;
+  isLoaded = true;
+  const gameParam = urlParams.get("game") || urlParams.get("id");
+  if (gameParam) pendingMiniGameId = gameParam;
+  openMiniGamePage();
+  triggerMiniGameTitleAnimation();
 } else if (urlParams.get("page") === "education") {
   if (loadingScreen) loadingScreen.style.display = "none";
   isStarted = true;

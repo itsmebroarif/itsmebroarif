@@ -262,13 +262,14 @@ push / pull request
 
 A **menu-driven, single-page portfolio** engineered with plain HTML, CSS and JavaScript — no framework, no build step.
 
-- 🎴 Eight-section slanted main menu — **Project · Store · Education · Organization · Skills · Gear · About · Contact**
+- 🎴 Nine-section slanted main menu — **Project · Store · Mini Games · Education · Organization · Skills · Gear · About · Contact**
 - 🎬 Dedicated background video per section with preloading
 - 🎵 Original audio design: looping backsound with fade-in, plus menu and navigation SFX
 - 🃏 Skewed card-stack sub-pages with auto-scroll and selection tracking
 - 🛍️ Store section with a `PRODUCT` menu — 16 illustrated, category-filterable products (ERP, SIMRS, LMS, POS, HRIS, e-commerce, QR menu …) ready to order
+- 🕹️ **Mini Games arcade** — four playable **three.js** 3D games inside the page (*Shadow Dodge*, *Evoker Target*, *Block Breaker*, *Ring Rush*) with a live HUD, attract mode, procedural SFX and saved best scores
 - ⚔️ Persona-style skill screen — skill groups presented as Personas (Orpheus, Thanatos, Orpheus Telos, Messiah) with element-typed chips and fully readable skill names
-- ⌨️ Keyboard-first navigation and routable deep links (`?page=…`)
+- ⌨️ Keyboard-first navigation and routable deep links (`?page=…`, e.g. `?page=minigame&game=ring-rush`)
 - 🌐 Cross-browser audio recovery (Chrome, Firefox) with a desktop-first notice for small screens
 
 **Live:** [itsmebroarif.github.io/itsmebroarif](https://itsmebroarif.github.io/itsmebroarif/) · **Docs:** [docs/PORTFOLIO.md](docs/PORTFOLIO.md) · **Source:** this repository
