@@ -1,293 +1,197 @@
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=4000&pause=1000&color=F7DF1E&center=true&vCenter=true&width=600&height=100&lines=Fullstack+Web+Developer;Building+Modern+Applications;UI%2FUX+Design+Enthusiast;Passionate+About+Technology" alt="Typing SVG" />
-</p>
+<div align="center">
 
-<p align="center">
-  <img src="https://avatars.githubusercontent.com/u/68406328?v=4" width="200" height="200" alt="Broarif" style="border-radius: 20px; border: 4px solid #F7DF1E; box-shadow: 0 10px 30px rgba(247, 223, 30, 0.3);" />
-</p>
+# ✦ ARIF PERMANA ✦
+### *Fullstack Web Developer · UI/UX Designer · Graphic Designer*
 
-<h1 align="center">Hey there! 👋 I'm Arif</h1>
-<p align="center"><em>Fullstack Web Developer • Clinic & ERP Systems • UI/UX Enthusiast</em></p>
+**An interactive portfolio wrapped in a Persona&nbsp;3&nbsp;Reload interface.**
 
-<p align="center">
-  <a href="https://arifpermana.vercel.app/" target="_blank">
-    <img src="https://img.shields.io/badge/Portfolio-F7DF1E?style=for-the-badge&logo=vercel&logoColor=black" alt="Portfolio" />
-  </a>
-  <a href="https://trakteer.id/itsmebroarif/tip?open=true" target="_blank">
-    <img src="https://img.shields.io/badge/Support%20Me-FF5E5B?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Support Me" />
-  </a>
-</p>
+![Live](https://img.shields.io/badge/live-GitHub%20Pages-brightgreen?style=for-the-badge)
+![Theme](https://img.shields.io/badge/theme-Persona%203%20Reload-00A3E0?style=for-the-badge)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=fff&style=for-the-badge)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=fff&style=for-the-badge)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000&style=for-the-badge)
+
+[**▶ Visit Portfolio**](https://itsmebroarif.github.io/itsmebroarif/) · [Report an Issue](https://github.com/itsmebroarif/itsmebroarif/issues)
+
+</div>
 
 ---
 
-## 🪪 Identitas
+<img src="assets/screenshots/main-menu.png" alt="Main menu — Persona 3 Reload inspired navigation" width="100%">
 
-<table align="center" width="100%">
-  <tr>
-    <td width="30%"><strong>Nama Lengkap</strong></td>
-    <td width="70%">Arif Permana Putrasuryana</td>
-  </tr>
-  <tr>
-    <td><strong>Peran</strong></td>
-    <td>Fullstack Web Developer</td>
-  </tr>
-  <tr>
-    <td><strong>Fokus Saat Ini</strong></td>
-    <td>Clinic Management System & Internal ERP</td>
-  </tr>
-  <tr>
-    <td><strong>Lokasi</strong></td>
-    <td>Indonesia 🇮🇩</td>
-  </tr>
-  <tr>
-    <td><strong>Bahasa</strong></td>
-    <td>Bahasa Indonesia, English, 日本語 (dasar)</td>
-  </tr>
-  <tr>
-    <td><strong>Portfolio</strong></td>
-    <td><a href="https://arifpermana.vercel.app/" target="_blank">arifpermana.vercel.app</a></td>
-  </tr>
-  <tr>
-    <td><strong>Support</strong></td>
-    <td><a href="https://trakteer.id/itsmebroarif/tip?open=true" target="_blank">trakteer.id/itsmebroarif</a></td>
-  </tr>
-</table>
+> *"I am thou, thou art I…"* — the same invitation, rebuilt as a **menu-driven portfolio**:
+> six Arcana-styled sections, cinematic transitions, and a soundtrack that follows you.
 
 ---
 
-## 💫 About Me
+## 📑 Table of Contents
 
-<table align="center" width="100%">
-  <tr>
-    <td width="60%" valign="top">
-      <ul style="list-style: none; padding: 0;">
-        <li>🔭 <strong>Sedang Mengerjakan:</strong> Fullstack Web Developer yang membangun pengalaman web modern</li>
-        <li>🌱 <strong>Sedang Belajar:</strong> Pola JavaScript tingkat lanjut & arsitektur web modern</li>
-        <li>🤝 <strong>Passion:</strong> Fullstack Web Development & UI/UX Design</li>
-        <li>💬 <strong>Tanya Saya Soal:</strong> Pengembangan Web & Aplikasi, Design, atau apapun seputar teknologi</li>
-        <li>⚡ <strong>:</strong> Saya suka menyelesaikan masalah rumit dengan solusi yang elegan</li>
-        <li>🏘️ <strong>:</strong> Ketua Karang Taruna Bojong Lio</li>
-        <li>🧑‍💻 <strong>:</strong> Tech Leader di Kafeinarts</li>
-        <li>💼 <strong>:</strong> Saat ini menjalani pekerjaan sebagai Fullstack Developer di Bekasi, Jawa Barat</li>
-      </ul>
-    </td>
-    <td width="40%" align="center" valign="middle">
-      <img src="https://miro.medium.com/v2/resize:fit:2400/1*99hHL9XJ7EzQeC6RB5_Qiw.jpeg" width="100%" alt="Web Development" style="border-radius: 12px;" />
-    </td>
-  </tr>
-</table>
+- [Overview](#-overview)
+- [Features](#-features)
+- [Controls](#%EF%B8%8F-controls)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
+- [Editing the Content](#-editing-the-content)
+- [Deployment](#-deployment)
+- [Credits & Disclaimer](#-credits--disclaimer)
+- [Contact](#-contact)
 
 ---
 
-## 📊 Skill Distribution
+## 🎯 Overview
 
-```mermaid
-%%{init: {'theme': 'base'}}%%
-pie showData
-    title Fokus Area Pengembangan
-    "Frontend" : 30
-    "Backend" : 30
-    "Mobile" : 15
-    "Desktop/Tools" : 10
-    "Design & 3D" : 15
-```
+A **single-page, menu-driven portfolio** built from scratch with plain HTML, CSS and JavaScript — no framework, no build step.
 
-```mermaid
-%%{init: {'theme': 'base'}}%%
-graph LR
-    A["🎨 Frontend<br/>Vue • React • Next.js"] --> E["🧩 Fullstack App"]
-    B["⚙️ Backend<br/>Laravel • Go Fiber"] --> E
-    C["📱 Mobile<br/>Flutter"] --> E
-    D["🖥️ Desktop & Infra<br/>Linux Admin"] --> E
-    E --> F["🚀 Deploy<br/>Vercel • Netlify • AWS • Heroku"]
-```
+Instead of a conventional scroll-down page, visitors start at a **Persona 3 Reload style splash screen**, then navigate a slanted main menu where each entry opens its own full-screen section with dedicated background video, motion design and sound:
+
+| # | Section | Contents |
+|:-:|---|---|
+| 1 | **PROJECT** | Scrollable stack of 11 work experiences — Sintesa Persada, Sadaraga, Hangang Solution, Young On Top, Rumah Coding and more |
+| 2 | **EDUCATION** | FreeCodeCamp, SMK Taruna Bhakti Depok, SMP Yapemri Depok |
+| 3 | **SKILLS** | Four skill tabs — frontend, backend, design, languages |
+| 4 | **GEAR** | Daily hardware — monitor, laptop, mouse, keyboard, earphone |
+| 5 | **ABOUT** | Full biography, philosophy and contact channels |
+| 6 | **CONTACT** | Email, Discord, Instagram and phone |
+
+**Live site:** https://itsmebroarif.github.io/itsmebroarif/
 
 ---
 
-## 🧠 Skill Matrix
+## ✨ Features
 
-### 🎨 Frontend
-| Skill | Tools / Framework | Level |
-|---|---|---|
-| UI Development | Vue 2/3, React, Next.js | ⭐⭐⭐⭐⭐ |
-| Styling | Tailwind, Quasar, Vuetify, Bootstrap | ⭐⭐⭐⭐⭐ |
-| State Management | Vuex, Pinia, Redux | ⭐⭐⭐⭐ |
-| Markup | HTML5, CSS3, SVG Animation | ⭐⭐⭐⭐⭐ |
-
-### ⚙️ Backend
-| Skill | Tools / Framework | Level |
-|---|---|---|
-| API Development | Laravel, Go Fiber | ⭐⭐⭐⭐⭐ |
-| Database | MariaDB, MongoDB | ⭐⭐⭐⭐ |
-| Auth & Security | JWT, Sanctum, Session-based | ⭐⭐⭐⭐ |
-| Server Language | PHP, Go, Python, Java | ⭐⭐⭐⭐ |
-
-### 📱 Mobile
-| Skill | Tools / Framework | Level |
-|---|---|---|
-| Cross-platform App | Flutter (Dart) | ⭐⭐⭐⭐ |
-| PWA Development | Vue/Quasar PWA | ⭐⭐⭐⭐⭐ |
-| Responsive Design | Mobile-first UI | ⭐⭐⭐⭐⭐ |
-
-### 🖥️ Desktop & Tools
-| Skill | Tools / Framework | Level |
-|---|---|---|
-| System Administration | Linux Admin/Support, Windows, macOS | ⭐⭐⭐⭐ |
-| Design & Prototyping | Photoshop, Illustrator, Adobe XD, Canva | ⭐⭐⭐⭐ |
-| Animation & 3D | Aseprite, Adobe Animate, Blender, Voxel Studio | ⭐⭐⭐⭐ |
-| Cloud & Deployment | AWS, Vercel, Netlify, Firebase, Heroku | ⭐⭐⭐⭐ |
+- 🎴 **Six-entry slanted main menu** with per-item banner, rotation, depth and focus highlighting
+- 🎬 **Background video per section** (`intro`, `loop`, `skills`, `about`, `contact`) with preloading on hover
+- 🎵 **Full audio design** — looping backsound (`music/ost.mp3`) with fade-in, plus menu, navigation and close SFX
+- 🃏 **Card-stack sub-pages** — skewed, overflowing cards with smooth auto-scroll and selection tracking
+- ⌨️ **Keyboard-first navigation** — arrow keys, `Enter` to confirm, `Esc` to go back
+- 🔗 **Deep links** — every section is routable (`?page=project`, `?page=education`, `?page=skill`, `?page=gear`, `?page=about`, `?page=contact`)
+- 📱 **Loading screen with progress bar** and a clear desktop-only notice for small screens
+- ⚡ **Zero build pipeline** — plain static assets, cache-busted CSS/JS, fast first paint
+- 🧠 **Cross-browser audio** — autoplay-blocked environments (Firefox included) recover on first user gesture
 
 ---
 
-## 🛠️ Tech Stack
+## 🎮 Controls
 
-### 🚀 Core Programming Languages
-<p align="left">
-  <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" alt="JavaScript" />
-  <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python" />
-  <img src="https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white" alt="PHP" />
-  <img src="https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white" alt="Go" />
-  <img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white" alt="Java" />
-  <img src="https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" />
-  <img src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
-  <img src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
-</p>
-
-### 🌐 Frameworks & Libraries
-<p align="left">
-  <img src="https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel" />
-  <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React" />
-  <img src="https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" />
-  <img src="https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D" alt="Vue.js" />
-  <img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white" alt="Flutter" />
-</p>
-
-### 🗄️ Database & Cloud Platforms
-<p align="left">
-  <img src="https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white" alt="MariaDB" />
-  <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
-  <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS" />
-  <img src="https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
-  <img src="https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=%2300C7B7" alt="Netlify" />
-  <img src="https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase" alt="Firebase" />
-  <img src="https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white" alt="Heroku" />
-</p>
-
-### 🎨 Design & UI/UX Tools
-<p align="left">
-  <img src="https://img.shields.io/badge/adobephotoshop-%2331A8FF.svg?style=for-the-badge&logo=adobephotoshop&logoColor=white" alt="Adobe Photoshop" />
-  <img src="https://img.shields.io/badge/adobeillustrator-%23FF9A00.svg?style=for-the-badge&logo=adobeillustrator&logoColor=white" alt="Adobe Illustrator" />
-  <img src="https://img.shields.io/badge/Adobe%20XD-470137?style=for-the-badge&logo=Adobe%20XD&logoColor=%23FF61F6" alt="Adobe XD" />
-  <img src="https://img.shields.io/badge/Canva-%2300C4CC.svg?style=for-the-badge&logo=Canva&logoColor=white" alt="Canva" />
-</p>
-
-### ✨ Animation & 3D Creation
-<p align="left">
-  <img src="https://img.shields.io/badge/Aseprite-FF00FF?style=for-the-badge&logo=aseprite&logoColor=white" alt="Aseprite" />
-  <img src="https://img.shields.io/badge/Adobe%20Animate-%23FF0000.svg?style=for-the-badge&logo=adobeanimate&logoColor=white" alt="Adobe Animate" />
-  <img src="https://img.shields.io/badge/Voxel%20Studio-%234CAF50?style=for-the-badge" alt="Voxel Studio" />
-  <img src="https://img.shields.io/badge/Blender-%23F5792A?style=for-the-badge&logo=blender&logoColor=white" alt="Blender" />
-</p>
-
-### 🛠️ System Administration & IT Support
-<p align="left">
-  <img src="https://img.shields.io/badge/Linux%20Admin-%23FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux Admin" />
-  <img src="https://img.shields.io/badge/Windows%20Support-%230078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Windows Support" />
-  <img src="https://img.shields.io/badge/macOS%20Support-%23000000?style=for-the-badge&logo=apple&logoColor=white" alt="macOS Support" />
-  <img src="https://img.shields.io/badge/Linux%20Support-%23FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux Support" />
-</p>
-
-### 🗣️ Languages Spoken
-<p align="left">
-  <img src="https://img.shields.io/badge/Bahasa%20Indonesia-%23E33B26.svg?style=for-the-badge&logoColor=white" alt="Indonesian" />
-  <img src="https://img.shields.io/badge/English-%230080C9.svg?style=for-the-badge&logoColor=white" alt="English" />
-  <img src="https://img.shields.io/badge/Japanese-%23BC002D.svg?style=for-the-badge&logoColor=white" alt="Japanese" />
-</p>
+| Key | Action |
+|---|---|
+| `↑` `↓` | Move between menu entries |
+| `Enter` | Confirm / open section |
+| `Esc` | Back to main menu |
+| `Scroll` | Browse cards inside a section |
 
 ---
 
-## 🗺️ How I Build a Project
+## 🛠 Tech Stack
 
-```mermaid
-flowchart TD
-    A[💡 Requirement Gathering] --> B[📐 Design & Wireframe]
-    B --> C[⚙️ Backend API - Laravel/Go Fiber]
-    B --> D[🎨 Frontend UI - Vue/React]
-    C --> E[🔗 Integration & Testing]
-    D --> E
-    E --> F[🚀 Deployment]
-    F --> G[🩹 Maintenance & Bug Fixing]
-    G -.feedback.-> A
+| Layer | Technology |
+|---|---|
+| Markup | HTML5 (semantic sections, Open Graph metadata) |
+| Styling | CSS3 — custom properties, keyframe animations, `clip-path`/skew compositions |
+| Logic | Vanilla ES6+ JavaScript — module-free, event-driven state machine |
+| Media | MP4 background loops, MP3/WAV SFX, Web Audio API + `<audio>` elements |
+| Type | Google Fonts (Poppins) + bundled **Rodin Pro** / Skip OTF fonts |
+| Hosting | GitHub Pages |
+
+---
+
+## 📁 Project Structure
+
+```text
+itsmebroarif/
+├── index.html                 # Single entry: splash, menu, all six sections
+├── css/
+│   └── style.css              # Full theme, menu, card stack, scrollbars
+├── js/
+│   └── main.js                # Data, routing, audio engine, UI state machine
+├── assets/
+│   ├── profile.jpg            # Profile portrait
+│   ├── favicon.png
+│   ├── screenshots/           # README imagery
+│   └── *.mp4                  # Section background videos
+├── fonts/                     # Rodin Pro & Skip (self-hosted OTF)
+├── music/
+│   └── ost.mp3                # Looping backsound
+├── sfx/                       # menu-utama, navigation, close-menu
+└── README.md
 ```
 
 ---
 
-## 🌟 Featured Projects
+## 🚀 Getting Started
 
-Beberapa aplikasi yang sudah saya buat dan bisa langsung dicoba secara online 👇
+Clone and serve locally — any static server works:
 
-<table align="center" width="100%">
-  <tr>
-    <th align="left">Project</th>
-    <th align="left">Deskripsi</th>
-    <th align="center">Demo</th>
-  </tr>
-  <tr>
-    <td>🗂️ <strong>RajinKerja</strong></td>
-    <td>Aplikasi produktivitas & manajemen pekerjaan harian.</td>
-    <td align="center">
-      <a href="https://rajinkerja.vercel.app/" target="_blank">
-        <img src="https://img.shields.io/badge/Live%20Demo-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td>📊 <strong>E-Rekap</strong></td>
-    <td>Aplikasi rekapitulasi data secara digital.</td>
-    <td align="center">
-      <a href="https://e-rekap.vercel.app/" target="_blank">
-        <img src="https://img.shields.io/badge/Live%20Demo-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td>💵 <strong>Cashy</strong></td>
-    <td>Aplikasi pencatatan & pengelolaan keuangan pribadi.</td>
-    <td align="center">
-      <a href="https://cashy-pied.vercel.app/" target="_blank">
-        <img src="https://img.shields.io/badge/Live%20Demo-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td>🎉 <strong>17an Bojonglio</strong></td>
-    <td>PWA manajemen lomba 17 Agustus — registrasi peserta, sistem antrean, penilaian, hingga leaderboard.</td>
-    <td align="center">
-      <a href="https://17anbojonglio.vercel.app/" target="_blank">
-        <img src="https://img.shields.io/badge/Live%20Demo-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
-      </a>
-    </td>
-  </tr>
-</table>
+```bash
+git clone https://github.com/itsmebroarif/itsmebroarif.git
+cd itsmebroarif
+```
 
-> 💡 *Deskripsi di atas masih draft singkat — silakan sesuaikan dengan detail fitur masing-masing aplikasi.*
+```bash
+# Option A — Python
+python -m http.server 8000
+# Option B — Node
+npx serve .
+```
+
+Open `http://localhost:8000` on a **desktop browser** (the experience targets pointer + keyboard).
 
 ---
 
-## 💰 Support & Sponsorship
+## ✏️ Editing the Content
 
-Jika kamu ingin mendukung perkembangan proyek yang saya buat, kamu bisa memberikan donasi melalui platform berikut:
+Everything is plain data — no templates to rebuild:
 
-<p align="center">
-  <a href="https://trakteer.id/itsmebroarif/tip?open=true" target="_blank">
-    <img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="BuyMeACoffee" />
-  </a>
-  <a href="https://trakteer.id/itsmebroarif/tip?open=true" target="_blank">
-    <img src="https://img.shields.io/badge/Trakteer%20(ID)-red?style=for-the-badge&logo=trakteer&logoColor=white" alt="Trakteer" />
-  </a>
-</p>
+| Content | Location |
+|---|---|
+| Menu entries & labels | `js/main.js` → `options[]` |
+| Work experiences | `js/main.js` → `slinkData` |
+| Education | `js/main.js` → `educationData` |
+| Gear | `js/main.js` → `gearData` |
+| Skills | `js/main.js` → `skillTabsList`, `skillGroupsData` |
+| About, contact channels, profile | `index.html` |
+| Backsound & SFX | `music/`, `sfx/` + `js/main.js` audio engine |
+
+> Cache-bust after editing: bump `css/style.css?v=` and `js/main.js?v=` in `index.html`.
 
 ---
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&duration=3000&pause=1000&color=F7DF1E&center=true&vCenter=true&width=600&lines=Developed+with+%E2%9D%A4+by+@eexxvvn" alt="Footer" />
-</p>
+
+## 🌐 Deployment
+
+Published via **GitHub Pages** from this repository:
+
+1. Repo → **Settings → Pages**
+2. **Source:** Deploy from a branch → `main` / `/ (root)`
+3. Site: `https://itsmebroarif.github.io/itsmebroarif/`
+
+All asset paths are relative, so the site works on any sub-path or custom domain.
+
+---
+
+## 🎓 Credits & Disclaimer
+
+- **UI direction inspired by [Persona 3 Reload](https://persona.atlus.com/)** (ATLUS / SEGA) — the menu, card stack, transitions and audio design are an original, non-commercial homage.
+- This is a **fan tribute / personal portfolio**. It is **not affiliated with, endorsed by, or sponsored by ATLUS or SEGA**, and contains no extracted game assets.
+- All biographical content, projects, photography and media belong to their respective owners.
+
+---
+
+## 📬 Contact
+
+| Channel | Value |
+|---|---|
+| GitHub | [`@itsmebroarif`](https://github.com/itsmebroarif) |
+| Email | [aripstrike@gmail.com](mailto:aripstrike@gmail.com) |
+| Instagram | [@eexxvvn](https://www.instagram.com/eexxvvn/) |
+| Discord | `itsmebroarif` |
+
+---
+
+<div align="center">
+
+**© 2026 Arif Permana Putrasuryana — All rights reserved.**
+
+*Open the Door.*
+
+</div>
