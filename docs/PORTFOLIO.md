@@ -20,7 +20,7 @@
 <img src="../assets/screenshots/main-menu.png" alt="Main menu — Persona 3 Reload inspired navigation" width="100%">
 
 > *"I am thou, thou art I…"* — the same invitation, rebuilt as a **menu-driven portfolio**:
-> six Arcana-styled sections, cinematic transitions, and a soundtrack that follows you.
+> seven Arcana-styled sections, cinematic transitions, and a soundtrack that follows you.
 
 ---
 
@@ -49,10 +49,11 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 |:-:|---|---|
 | 1 | **PROJECT** | Scrollable stack of 11 work experiences — Sintesa Persada, Sadaraga, Hangang Solution, Young On Top, Rumah Coding and more |
 | 2 | **EDUCATION** | FreeCodeCamp, SMK Taruna Bhakti Depok, SMP Yapemri Depok |
-| 3 | **SKILLS** | Four skill tabs — frontend, backend, design, languages |
-| 4 | **GEAR** | Daily hardware — monitor, laptop, mouse, keyboard, earphone |
-| 5 | **ABOUT** | Full biography, philosophy and contact channels |
-| 6 | **CONTACT** | Email, Discord, Instagram and phone |
+| 3 | **ORGANIZATION** | Social links — Karang Taruna (2025), Kafeinarts Tech Organization (2022) |
+| 4 | **SKILLS** | Four skill tabs — frontend, backend, design, languages |
+| 5 | **GEAR** | Daily hardware — monitor, laptop, mouse, keyboard, earphone |
+| 6 | **ABOUT** | Full biography, philosophy and contact channels |
+| 7 | **CONTACT** | Email, Discord, Instagram and phone |
 
 **Live site:** https://itsmebroarif.github.io/itsmebroarif/
 
@@ -60,12 +61,12 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 
 ## ✨ Features
 
-- 🎴 **Six-entry slanted main menu** with per-item banner, rotation, depth and focus highlighting
+- 🎴 **Seven-entry slanted main menu** with per-item banner, rotation, depth and focus highlighting
 - 🎬 **Background video per section** (`intro`, `loop`, `skills`, `about`, `contact`) with preloading on hover
 - 🎵 **Full audio design** — looping backsound (`music/ost.mp3`) with fade-in, plus menu, navigation and close SFX
 - 🃏 **Card-stack sub-pages** — skewed, overflowing cards with smooth auto-scroll and selection tracking
 - ⌨️ **Keyboard-first navigation** — arrow keys, `Enter` to confirm, `Esc` to go back
-- 🔗 **Deep links** — every section is routable (`?page=project`, `?page=education`, `?page=skill`, `?page=gear`, `?page=about`, `?page=contact`)
+- 🔗 **Deep links** — every section is routable (`?page=project`, `?page=education`, `?page=organization`, `?page=skill`, `?page=gear`, `?page=about`, `?page=contact`)
 - 📱 **Loading screen with progress bar** and a clear desktop-only notice for small screens
 - ⚡ **Zero build pipeline** — plain static assets, cache-busted CSS/JS, fast first paint
 - 🧠 **Cross-browser audio** — autoplay-blocked environments (Firefox included) recover on first user gesture
@@ -100,7 +101,7 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 
 ```text
 itsmebroarif/
-├── index.html                 # Single entry: splash, menu, all six sections
+├── index.html                 # Single entry: splash, menu, all seven sections
 ├── css/
 │   └── style.css              # Full theme, menu, card stack, scrollbars
 ├── js/
@@ -148,6 +149,7 @@ Everything is plain data — no templates to rebuild:
 | Menu entries & labels | `js/main.js` → `options[]` |
 | Work experiences | `js/main.js` → `slinkData` |
 | Education | `js/main.js` → `educationData` |
+| Organization | `js/main.js` → `organizationData` |
 | Gear | `js/main.js` → `gearData` |
 | Skills | `js/main.js` → `skillTabsList`, `skillGroupsData` |
 | About, contact channels, profile | `index.html` |

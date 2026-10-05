@@ -45,11 +45,11 @@ const options = [
   {
     name: "EDUCATION",
     description: "Riwayat Pendidikan Formal",
-    rotation: -15,
+    rotation: -16,
     zIndex: 2,
-    offsetX: -55,
-    offsetY: 28,
-    fontSize: "4.45rem",
+    offsetX: -54,
+    offsetY: 27,
+    fontSize: "4.3rem",
     bannerScaleX: 1.0,
     bannerScaleY: 3.0,
     tag: "PENDIDIKAN",
@@ -70,14 +70,37 @@ const options = [
     ]
   },
   {
+    name: "ORGANIZATION",
+    description: "Organisasi & Social Link",
+    rotation: -11,
+    zIndex: 3,
+    offsetX: -66,
+    offsetY: 30,
+    fontSize: "3.95rem",
+    bannerScaleX: 0.86,
+    bannerScaleY: 2.9,
+    tag: "ORGANISASI & SOCIAL LINK",
+    summary: "Keanggotaan organisasi dan komunitas sosial dari 2022 sampai sekarang",
+    cards: [
+      {
+        title: "Karang Taruna (2025 - Sekarang)",
+        desc: "Organisasi sosial kemasyarakatan; aktif sejak 2025 pada kegiatan kepemudaan, sosial, dan kerelawanan warga."
+      },
+      {
+        title: "Kafeinarts Tech Organization (2022 - Sekarang)",
+        desc: "Komunitas teknologi tempat saya bergabung sejak 2022, termasuk peran sebagai trainer HTML, CSS, JavaScript, Vue.js, dan Bootstrap."
+      }
+    ]
+  },
+  {
     name: "SKILLS",
     description: "Keahlian Teknis & Stack",
-    rotation: -10,
-    zIndex: 3,
-    offsetX: -68,
-    offsetY: 32,
-    fontSize: "4.55rem",
-    bannerScaleX: 0.96,
+    rotation: -6,
+    zIndex: 4,
+    offsetX: -76,
+    offsetY: 33,
+    fontSize: "4.35rem",
+    bannerScaleX: 0.94,
     bannerScaleY: 3.05,
     tag: "KEAHLIAN & PRODUKTIVITAS",
     summary: "Frontend, backend, database, desain grafis, dan tools yang dikuasai selama 4 tahun pengalaman",
@@ -103,11 +126,11 @@ const options = [
   {
     name: "GEAR",
     description: "Perangkat Kerja Harian",
-    rotation: -4,
-    zIndex: 4,
-    offsetX: -78,
+    rotation: -1,
+    zIndex: 5,
+    offsetX: -85,
     offsetY: 36,
-    fontSize: "4.7rem",
+    fontSize: "4.5rem",
     bannerScaleX: 0.82,
     bannerScaleY: 3.1,
     tag: "PERANGKAT & HARDWARE",
@@ -138,12 +161,12 @@ const options = [
   {
     name: "ABOUT",
     description: "Profil & Filosofi Kerja",
-    rotation: 2,
-    zIndex: 5,
-    offsetX: -86,
-    offsetY: 40,
-    fontSize: "4.85rem",
-    bannerScaleX: 1.02,
+    rotation: 5,
+    zIndex: 6,
+    offsetX: -93,
+    offsetY: 39,
+    fontSize: "4.6rem",
+    bannerScaleX: 1.0,
     bannerScaleY: 3.25,
     tag: "PROFIL & PERJALANAN",
     summary: "Fullstack web developer dan UI/UX designer dari Depok, Jawa Barat",
@@ -169,11 +192,11 @@ const options = [
   {
     name: "CONTACT",
     description: "Mulai Komunikasi",
-    rotation: 9,
-    zIndex: 6,
-    offsetX: -92,
-    offsetY: 44,
-    fontSize: "4.65rem",
+    rotation: 12,
+    zIndex: 7,
+    offsetX: -100,
+    offsetY: 42,
+    fontSize: "4.4rem",
     bannerScaleX: 1.04,
     bannerScaleY: 3.2,
     tag: "KANAL KOMUNIKASI",
@@ -289,6 +312,23 @@ const educationData = [
   }
 ];
 
+// ORGANIZATION (Social Link) — data-driven: cukup tambahkan objek baru ke array ini
+// untuk menampilkan organisasi tambahan pada halaman ORGANIZATION.
+const organizationData = [
+  {
+    numeral: "I",
+    title: "KARANG TARUNA",
+    subtitle: "Organisasi Sosial & Kepemudaan · Depok, ID · 2025 - Sekarang",
+    url: "#"
+  },
+  {
+    numeral: "II",
+    title: "KAFEINARTS TECH ORGANIZATION",
+    subtitle: "Tech Community & Training · 2022 - Sekarang",
+    url: "#"
+  }
+];
+
 const gearData = [
   {
     numeral: "I",
@@ -393,6 +433,8 @@ let isProjectPageOpen = false;
 let selectedSlinkIndex = 0;
 let isEducationPageOpen = false;
 let selectedEducationIndex = 0;
+let isOrganizationPageOpen = false;
+let selectedOrganizationIndex = 0;
 let isGearPageOpen = false;
 let selectedGearIndex = 0;
 let isSkillPageOpen = false;
@@ -432,6 +474,14 @@ const educationHeaderDiv = document.getElementById("education-header-div");
 const educationCardsContainer = document.getElementById("education-cards-container");
 const educationConfirmBtn = document.getElementById("education-confirm-btn");
 const educationBackBtn = document.getElementById("education-back-btn");
+
+// DOM Elements: Organization Screen (S.Link / Social Link)
+const organizationPage = document.getElementById("organization-page");
+const organizationBgVideo = document.getElementById("organization-bg-video");
+const organizationHeaderDiv = document.getElementById("organization-header-div");
+const organizationCardsContainer = document.getElementById("organization-cards-container");
+const organizationConfirmBtn = document.getElementById("organization-confirm-btn");
+const organizationBackBtn = document.getElementById("organization-back-btn");
 
 // DOM Elements: Gear Screen (S.Link)
 const gearPage = document.getElementById("gear-page");
@@ -906,10 +956,11 @@ function setIndex(index) {
   // Speculatively preload the selected subpage's video just in time
   if (index === 0 && slinkBgVideo && slinkBgVideo.preload !== "auto") slinkBgVideo.preload = "auto";
   else if (index === 1 && educationBgVideo && educationBgVideo.preload !== "auto") educationBgVideo.preload = "auto";
-  else if (index === 2 && skillBgVideo && skillBgVideo.preload !== "auto") skillBgVideo.preload = "auto";
-  else if (index === 3 && gearBgVideo && gearBgVideo.preload !== "auto") gearBgVideo.preload = "auto";
-  else if (index === 4 && aboutBgVideo && aboutBgVideo.preload !== "auto") aboutBgVideo.preload = "auto";
-  else if (index === 5 && contactBgVideo && contactBgVideo.preload !== "auto") contactBgVideo.preload = "auto";
+  else if (index === 2 && organizationBgVideo && organizationBgVideo.preload !== "auto") organizationBgVideo.preload = "auto";
+  else if (index === 3 && skillBgVideo && skillBgVideo.preload !== "auto") skillBgVideo.preload = "auto";
+  else if (index === 4 && gearBgVideo && gearBgVideo.preload !== "auto") gearBgVideo.preload = "auto";
+  else if (index === 5 && aboutBgVideo && aboutBgVideo.preload !== "auto") aboutBgVideo.preload = "auto";
+  else if (index === 6 && contactBgVideo && contactBgVideo.preload !== "auto") contactBgVideo.preload = "auto";
 
   for (let idx = 0; idx < cachedOptionItems.length; idx++) {
     const item = cachedOptionItems[idx];
@@ -1014,19 +1065,22 @@ function getExitOrigin(buttonElOrId, fallbackX, fallbackY) {
 }
 
 // Named Aliases for Backward Compatibility & Direct Script Control (Updated for menu layout)
-const getProjectOptionCenter   = (evt) => getOptionCenter(0, evt, 0.62, 0.34);
-const getEducationOptionCenter = (evt) => getOptionCenter(1, evt, 0.61, 0.41);
-const getSkillOptionCenter     = (evt) => getOptionCenter(2, evt, 0.60, 0.48);
-const getGearOptionCenter      = (evt) => getOptionCenter(3, evt, 0.59, 0.55);
-const getAboutOptionCenter     = (evt) => getOptionCenter(4, evt, 0.58, 0.62);
-const getContactOptionCenter   = (evt) => getOptionCenter(5, evt, 0.57, 0.69);
+// Menu order: 0 PROJECT · 1 EDUCATION · 2 ORGANIZATION · 3 SKILLS · 4 GEAR · 5 ABOUT · 6 CONTACT
+const getProjectOptionCenter     = (evt) => getOptionCenter(0, evt, 0.62, 0.34);
+const getEducationOptionCenter   = (evt) => getOptionCenter(1, evt, 0.61, 0.40);
+const getOrganizationOptionCenter = (evt) => getOptionCenter(2, evt, 0.60, 0.46);
+const getSkillOptionCenter       = (evt) => getOptionCenter(3, evt, 0.60, 0.52);
+const getGearOptionCenter        = (evt) => getOptionCenter(4, evt, 0.59, 0.58);
+const getAboutOptionCenter       = (evt) => getOptionCenter(5, evt, 0.58, 0.65);
+const getContactOptionCenter     = (evt) => getOptionCenter(6, evt, 0.57, 0.71);
 
-const getProjectExitOrigin   = () => getExitOrigin(slinkBackBtn, window.innerWidth - 120, window.innerHeight - 55);
-const getEducationExitOrigin = () => getExitOrigin(educationBackBtn, window.innerWidth - 120, window.innerHeight - 55);
-const getSkillExitOrigin     = () => getExitOrigin(skillBackBtn, window.innerWidth - 120, window.innerHeight - 55);
-const getGearExitOrigin      = () => getExitOrigin(gearBackBtn, window.innerWidth - 120, window.innerHeight - 55);
-const getAboutExitOrigin     = () => getExitOrigin(aboutBackBtn, window.innerWidth - 120, window.innerHeight - 55);
-const getContactExitOrigin   = () => getExitOrigin(contactBackBtn, 80, window.innerHeight - 60);
+const getProjectExitOrigin     = () => getExitOrigin(slinkBackBtn, window.innerWidth - 120, window.innerHeight - 55);
+const getEducationExitOrigin   = () => getExitOrigin(educationBackBtn, window.innerWidth - 120, window.innerHeight - 55);
+const getOrganizationExitOrigin = () => getExitOrigin(organizationBackBtn, window.innerWidth - 120, window.innerHeight - 55);
+const getSkillExitOrigin       = () => getExitOrigin(skillBackBtn, window.innerWidth - 120, window.innerHeight - 55);
+const getGearExitOrigin        = () => getExitOrigin(gearBackBtn, window.innerWidth - 120, window.innerHeight - 55);
+const getAboutExitOrigin       = () => getExitOrigin(aboutBackBtn, window.innerWidth - 120, window.innerHeight - 55);
+const getContactExitOrigin     = () => getExitOrigin(contactBackBtn, 80, window.innerHeight - 60);
 
 // Unified WAAPI Ripple Reveal & Close Transitions
 function executeWavyReveal({
@@ -1034,6 +1088,7 @@ function executeWavyReveal({
   origin,
   bodyClass,
   videoEl,
+  videoStartAt = 0,
   onStart,
   onComplete,
   duration = 520,
@@ -1060,7 +1115,7 @@ function executeWavyReveal({
   }
 
   if (videoEl) {
-    videoEl.currentTime = 0;
+    videoEl.currentTime = videoStartAt;
     videoEl.muted = true;
     videoEl.play().catch(() => {});
   }
@@ -1402,6 +1457,128 @@ function closeEducationPage() {
     exitOrigin: getEducationExitOrigin(),
     bodyClass: "education-screen-active",
     videoEl: educationBgVideo
+  });
+}
+
+// --------------------------------------------------------------------------
+// 6.5.1 Subpage: ORGANIZATION (Organisasi & Social Link - Card Stack)
+// --------------------------------------------------------------------------
+function triggerOrganizationTitleAnimation() {
+  const organizationDiv = document.getElementById("organization-header-div");
+  if (organizationDiv) {
+    organizationDiv.classList.remove("animating");
+    void organizationDiv.offsetWidth;
+    organizationDiv.classList.add("animating");
+  }
+}
+
+function renderOrganizationCards() {
+  if (!organizationCardsContainer) return;
+  organizationCardsContainer.innerHTML = "";
+
+  organizationData.forEach((item, idx) => {
+    const card = document.createElement("button");
+    const isActive = idx === selectedOrganizationIndex;
+    card.className = `slink-card ${isActive ? "active" : ""}`;
+    card.id = `organization-card-${idx}`;
+    card.setAttribute("role", "tab");
+    card.setAttribute("aria-selected", isActive ? "true" : "false");
+    card.style.setProperty("--card-idx", idx);
+
+    card.innerHTML = `
+      <div class="card-unified-row">
+        <div class="card-numeral-box">
+          <span class="card-numeral-text">${item.numeral}</span>
+        </div>
+
+        <div class="card-main-body">
+          <div class="card-title-text">${item.title}</div>
+          <div class="card-subtitle-text">${item.subtitle}</div>
+          <div class="card-red-accent" aria-hidden="true"></div>
+        </div>
+      </div>
+    `;
+
+    card.addEventListener("mouseenter", () => {
+      if (isOrganizationPageOpen && !isWavyTransitionRunning && selectedOrganizationIndex !== idx) {
+        selectOrganizationCard(idx);
+      }
+    });
+
+    card.addEventListener("click", () => {
+      if (isOrganizationPageOpen && !isWavyTransitionRunning) {
+        if (selectedOrganizationIndex !== idx) {
+          selectOrganizationCard(idx);
+        } else {
+          confirmOrganizationSelection();
+        }
+      }
+    });
+
+    organizationCardsContainer.appendChild(card);
+  });
+}
+
+function selectOrganizationCard(index) {
+  selectedOrganizationIndex = index;
+  const cards = organizationCardsContainer ? organizationCardsContainer.querySelectorAll(".slink-card") : [];
+  cards.forEach((c, idx) => {
+    if (idx === selectedOrganizationIndex) {
+      c.classList.add("active");
+      c.setAttribute("aria-selected", "true");
+      if (typeof c.scrollIntoView === "function") {
+        c.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+    } else {
+      c.classList.remove("active");
+      c.setAttribute("aria-selected", "false");
+    }
+  });
+  playSFX();
+}
+
+function confirmOrganizationSelection() {
+  const item = organizationData[selectedOrganizationIndex];
+  if (item && item.url && item.url !== "#") {
+    playSFX();
+    setTimeout(() => {
+      window.location.href = item.url;
+    }, 200);
+  } else {
+    playSFX();
+  }
+}
+
+function openOrganizationPage(clickEvent) {
+  if (isOrganizationPageOpen || isWavyTransitionRunning) return;
+  isOrganizationPageOpen = true;
+  selectedOrganizationIndex = 0;
+  playSFX();
+
+  executeWavyReveal({
+    pageEl: organizationPage,
+    origin: getOrganizationOptionCenter(clickEvent),
+    bodyClass: "organization-screen-active",
+    videoEl: organizationBgVideo,
+    // bg-intro.mp4 opens on a white frame; start past it for a clean reveal
+    videoStartAt: 2,
+    onStart: () => {
+      renderOrganizationCards();
+      selectOrganizationCard(0);
+      triggerOrganizationTitleAnimation();
+    }
+  });
+}
+
+function closeOrganizationPage() {
+  if (!isOrganizationPageOpen || isWavyTransitionRunning) return;
+  isOrganizationPageOpen = false;
+
+  executeWavyClose({
+    pageEl: organizationPage,
+    exitOrigin: getOrganizationExitOrigin(),
+    bodyClass: "organization-screen-active",
+    videoEl: organizationBgVideo
   });
 }
 
@@ -1825,19 +2002,21 @@ function closeModal() {
   };
 }
 
-// Option Confirmation Dispatcher (Strictly 6 Options: PROJECT, EDUCATION, SKILLS, GEAR, ABOUT, CONTACT)
+// Option Confirmation Dispatcher (Strictly 7 Options: PROJECT, EDUCATION, ORGANIZATION, SKILLS, GEAR, ABOUT, CONTACT)
 function handleOptionConfirm(index, clickEvent) {
   if (index === 0) {
     openProjectPage(clickEvent);
   } else if (index === 1) {
     openEducationPage(clickEvent);
   } else if (index === 2) {
-    openSkillPage(clickEvent);
+    openOrganizationPage(clickEvent);
   } else if (index === 3) {
-    openGearPage(clickEvent);
+    openSkillPage(clickEvent);
   } else if (index === 4) {
-    openAboutPage(clickEvent);
+    openGearPage(clickEvent);
   } else if (index === 5) {
+    openAboutPage(clickEvent);
+  } else if (index === 6) {
     openContactPage(clickEvent);
   }
 }
@@ -2020,6 +2199,8 @@ if (slinkConfirmBtn) slinkConfirmBtn.addEventListener("click", confirmSlinkSelec
 if (slinkBackBtn) slinkBackBtn.addEventListener("click", closeProjectPage);
 if (educationConfirmBtn) educationConfirmBtn.addEventListener("click", confirmEducationSelection);
 if (educationBackBtn) educationBackBtn.addEventListener("click", closeEducationPage);
+if (organizationConfirmBtn) organizationConfirmBtn.addEventListener("click", confirmOrganizationSelection);
+if (organizationBackBtn) organizationBackBtn.addEventListener("click", closeOrganizationPage);
 if (gearConfirmBtn) gearConfirmBtn.addEventListener("click", confirmGearSelection);
 if (gearBackBtn) gearBackBtn.addEventListener("click", closeGearPage);
 if (skillBackBtn) skillBackBtn.addEventListener("click", closeSkillPage);
@@ -2077,6 +2258,24 @@ document.addEventListener("keydown", (e) => {
     } else if (e.key === "Enter" || e.key === " " || e.key.toLowerCase() === "a") {
       e.preventDefault();
       confirmEducationSelection();
+    }
+    return;
+  }
+
+  // Active Screen: Organization
+  if (isOrganizationPageOpen) {
+    if (e.key === "Escape" || e.key.toLowerCase() === "b" || e.key.toLowerCase() === "backspace") {
+      e.preventDefault();
+      closeOrganizationPage();
+    } else if (e.key === "ArrowDown" || e.key.toLowerCase() === "s") {
+      e.preventDefault();
+      selectOrganizationCard((selectedOrganizationIndex + 1) % organizationData.length);
+    } else if (e.key === "ArrowUp" || e.key.toLowerCase() === "w") {
+      e.preventDefault();
+      selectOrganizationCard((selectedOrganizationIndex - 1 + organizationData.length) % organizationData.length);
+    } else if (e.key === "Enter" || e.key === " " || e.key.toLowerCase() === "a") {
+      e.preventDefault();
+      confirmOrganizationSelection();
     }
     return;
   }
@@ -2183,6 +2382,8 @@ window.openProjectPage = openProjectPage;
 window.closeProjectPage = closeProjectPage;
 window.openEducationPage = openEducationPage;
 window.closeEducationPage = closeEducationPage;
+window.openOrganizationPage = openOrganizationPage;
+window.closeOrganizationPage = closeOrganizationPage;
 window.openGearPage = openGearPage;
 window.closeGearPage = closeGearPage;
 window.openSkillPage = openSkillPage;
@@ -2216,6 +2417,12 @@ if (window.innerWidth < 1024) {
   isLoaded = true;
   openEducationPage();
   triggerEducationTitleAnimation();
+} else if (urlParams.get("page") === "organization" || urlParams.get("page") === "org") {
+  if (loadingScreen) loadingScreen.style.display = "none";
+  isStarted = true;
+  isLoaded = true;
+  openOrganizationPage();
+  triggerOrganizationTitleAnimation();
 } else if (urlParams.get("page") === "gear") {
   if (loadingScreen) loadingScreen.style.display = "none";
   isStarted = true;

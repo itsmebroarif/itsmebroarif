@@ -462,7 +462,7 @@ body.project-screen-active .side-number {
 /* Stacking overlap between SVG items (closer together) */
 .option-item {
   position: relative;
-  margin-top: -7.7rem; /* Closer vertical spacing */
+  margin-top: -8.1rem; /* Tighter overlap so 7 menu entries keep the original footprint */
   pointer-events: none;
   opacity: 0;
   transform: translateX(110px) skewX(-8deg);
@@ -523,6 +523,10 @@ body.project-screen-active .side-number {
 
 .menu-column.menu-entered .option-item:nth-of-type(6) {
   animation: p3rMenuEntrance 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.44s forwards;
+}
+
+.menu-column.menu-entered .option-item:nth-of-type(7) {
+  animation: p3rMenuEntrance 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.50s forwards;
 }
 
 @keyframes p3rMenuEntrance {

@@ -23,7 +23,7 @@
   <link rel="preload" href="fonts/Rodin Pro EB.otf" as="font" type="font/otf" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=39">
+  <link rel="stylesheet" href="css/style.css?v=40">
 </head>
 <body>
   <!-- Mobile / Small Screen Notification -->
@@ -224,6 +224,61 @@
             <span class="control-text">Confirm</span>
           </button>
           <button id="education-back-btn" class="control-item slink-hud-btn" aria-label="Back to Main Menu">
+            <div class="control-key">ESC</div>
+            <span class="control-text">Back</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Persona 3 Reload - ORGANIZATION / SOCIAL LINK PAGE
+       Karang Taruna & Kafeinarts Tech Organization (data-driven, extensible)
+       ========================================================================== -->
+  <section id="organization-page" class="p3r-slink-screen p3r-organization-screen" role="region" aria-label="Organization Screen" aria-hidden="true">
+    <!-- Organization Screen Animated Video Background (Distinct per section) -->
+    <div class="slink-video-container" aria-hidden="true">
+      <video id="organization-bg-video" class="slink-bg-video" loop muted playsinline preload="none">
+        <source src="assets/bg-intro.mp4" type="video/mp4">
+      </video>
+      <div class="slink-video-overlay" aria-hidden="true"></div>
+    </div>
+
+    <!-- Main Viewport Layer -->
+    <div class="slink-viewport">
+      <!-- Left Column: ORGANIZATION Header + Cards Stack -->
+      <div class="slink-left-column">
+        <!-- Profile Sub-header matching Atlus P3R Layout -->
+        <div class="slink-profile-header" aria-hidden="true">
+          <div class="slink-profile-name">ARIF PERMANA</div>
+        </div>
+
+        <!-- Persona 3 Reload Shattered Geometric Header Banner -->
+        <div class="p3r-geometric-header" id="organization-header-div">
+          <div class="p3r-shard-back-band" aria-hidden="true"></div>
+          <div class="p3r-shard-cyan-peak" aria-hidden="true"></div>
+          <div class="p3r-shard-right-cyan" aria-hidden="true"></div>
+          <div class="p3r-header-slash-main" aria-hidden="true"></div>
+          <div class="p3r-shard-float p3r-shard-float-1" aria-hidden="true"></div>
+          <div class="p3r-shard-float p3r-shard-float-2" aria-hidden="true"></div>
+          <h1 class="p3r-banner-title" id="organization-header-text">ORGANIZATION</h1>
+        </div>
+
+        <!-- Vertical Angled Cards Stack -->
+        <div id="organization-cards-container" class="slink-cards-container" role="tablist" aria-label="Organization List">
+          <!-- Dynamically populated by main.js with exact P3R card design -->
+        </div>
+      </div>
+
+      <!-- Bottom Right HUD: Controls matching Menu Utama style -->
+      <div class="slink-bottom-hud">
+        <div class="buttons-row">
+          <button id="organization-confirm-btn" class="control-item slink-hud-btn" aria-label="Confirm Selection">
+            <div class="control-key">ENTER</div>
+            <span class="control-text">Confirm</span>
+          </button>
+          <button id="organization-back-btn" class="control-item slink-hud-btn" aria-label="Back to Main Menu">
             <div class="control-key">ESC</div>
             <span class="control-text">Back</span>
           </button>
@@ -631,6 +686,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=40" defer></script>
+  <script src="js/main.js?v=41" defer></script>
 </body>
 </html>

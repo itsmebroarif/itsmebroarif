@@ -262,7 +262,7 @@ push / pull request
 
 A **menu-driven, single-page portfolio** engineered with plain HTML, CSS and JavaScript — no framework, no build step.
 
-- 🎴 Six-section slanted main menu — **Project · Education · Skills · Gear · About · Contact**
+- 🎴 Seven-section slanted main menu — **Project · Education · Organization · Skills · Gear · About · Contact**
 - 🎬 Dedicated background video per section with preloading
 - 🎵 Original audio design: looping backsound with fade-in, plus menu and navigation SFX
 - 🃏 Skewed card-stack sub-pages with auto-scroll and selection tracking
