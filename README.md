@@ -54,7 +54,7 @@ Currently engaged as a **Fullstack Web Engineer** at **Sintesa Persada Teknologi
 | **Full Name** | Arif Permana Putrasuryana |
 | **Professional Title** | Fullstack Web Developer & UI/UX Designer |
 | **Location** | Depok, West Java, Indonesia · GMT+7 |
-| **Experience** | 4+ years — engineering, training & freelance (since 2021) |
+| **Experience** | 5+ years — engineering, training & freelance (since 2021) |
 | **Core Stack** | Vue.js · React · Laravel · Node.js · Go · MySQL |
 | **Design Stack** | Figma · Adobe XD · Photoshop · Illustrator · Premiere Pro |
 | **Languages** | Bahasa Indonesia (native) · English (professional) |
