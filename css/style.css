@@ -529,6 +529,10 @@ body.project-screen-active .side-number {
   animation: p3rMenuEntrance 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.50s forwards;
 }
 
+.menu-column.menu-entered .option-item:nth-of-type(8) {
+  animation: p3rMenuEntrance 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.56s forwards;
+}
+
 @keyframes p3rMenuEntrance {
   0% {
     opacity: 0;
@@ -1787,6 +1791,356 @@ body.about-screen-active .character-viewport {
   }
   .p3r-group-persona {
     margin-left: auto;
+  }
+}
+
+/* ==========================================================================
+   PERSONA 3 RELOAD - STORE PAGE (Product Catalogue)
+   PRODUCT menu bar + illustrated product grid (16 sellable digital products)
+   ========================================================================== */
+/* .p3r-store-screen inherits base layout from .p3r-slink-screen */
+
+body.store-screen-active .menu-options-container,
+body.store-screen-active .clock-hud,
+body.store-screen-active .character-viewport {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Same bright wallpaper as the skills screen: keep the profile name dark */
+#store-page .slink-profile-name {
+  color: #2a313d;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.35);
+}
+
+.p3r-store-left-column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 92vw;
+  pointer-events: auto;
+}
+
+/* PRODUCT Menu Bar (MENU tag · category tabs · label · counter) */
+.p3r-store-menu {
+  margin-left: 5.0vw;
+  width: min(88vw, 1180px);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+  z-index: 10;
+  position: relative;
+  pointer-events: auto;
+}
+
+.p3r-store-menu-tag {
+  display: inline-block;
+  transform: skewX(-14deg);
+  background: rgba(2, 11, 24, 0.92);
+  border: 1.5px solid #16cffb;
+  padding: 6px 13px;
+  color: #16cffb;
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: 0.74rem;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.24em;
+  line-height: 1.1;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.p3r-store-menu-tag > span {
+  display: inline-block;
+  transform: skewX(14deg);
+}
+
+.p3r-store-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  pointer-events: auto;
+}
+
+.p3r-store-menu-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  pointer-events: none;
+}
+
+.p3r-store-category,
+.p3r-store-count {
+  display: inline-block;
+  transform: skewX(-14deg);
+  background: rgba(2, 11, 24, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 6px 12px;
+  color: #e8f8ff;
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: 0.72rem;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  line-height: 1.1;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.p3r-store-category {
+  color: #7de6fd;
+}
+
+.p3r-store-count strong {
+  color: #16cffb;
+  font-weight: 900;
+}
+
+/* Product Grid */
+.p3r-store-grid {
+  margin-left: 5.0vw;
+  width: min(88vw, 1180px);
+  max-height: calc(100vh - 330px);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
+  gap: clamp(14px, 1.3vw, 20px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  padding-right: 22px;
+  padding-bottom: 40px;
+  scrollbar-width: thin;
+  scrollbar-color: #16cffb rgba(2, 11, 24, 0.6);
+  pointer-events: auto;
+}
+
+.p3r-store-grid::-webkit-scrollbar {
+  width: 6px;
+}
+.p3r-store-grid::-webkit-scrollbar-track {
+  background: rgba(2, 11, 24, 0.6);
+}
+.p3r-store-grid::-webkit-scrollbar-thumb {
+  background: #16cffb;
+  border-radius: 3px;
+  box-shadow: 0 0 6px rgba(22, 207, 251, 0.8);
+}
+
+/* Illustrated Product Card */
+.p3r-product-card {
+  --pc-accent: #16cffb;
+  --pc-accent-soft: rgba(22, 207, 251, 0.12);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-height: 244px;
+  padding: 15px 17px 16px;
+  background: linear-gradient(160deg, rgba(5, 21, 45, 0.95) 0%, rgba(2, 9, 20, 0.97) 100%);
+  border: 1px solid rgba(22, 207, 251, 0.3);
+  border-left: 5px solid var(--pc-accent);
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  user-select: none;
+  animation: p3rProductIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.p3r-product-card[data-cat="enterprise"] {
+  --pc-accent: #16cffb;
+  --pc-accent-soft: rgba(22, 207, 251, 0.13);
+}
+.p3r-product-card[data-cat="web"] {
+  --pc-accent: #7ce38b;
+  --pc-accent-soft: rgba(124, 227, 139, 0.13);
+}
+.p3r-product-card[data-cat="mobile"] {
+  --pc-accent: #ffd23f;
+  --pc-accent-soft: rgba(255, 210, 63, 0.13);
+}
+.p3r-product-card[data-cat="commerce"] {
+  --pc-accent: #ff6a4d;
+  --pc-accent-soft: rgba(255, 106, 77, 0.14);
+}
+
+@keyframes p3rProductIn {
+  0% {
+    opacity: 0;
+    transform: translateY(26px) scale(0.97);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.005);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.p3r-product-card:hover,
+.p3r-product-card.active,
+.p3r-product-card:focus-visible {
+  transform: translateY(-7px);
+  background: linear-gradient(160deg, rgba(9, 38, 78, 0.97) 0%, rgba(3, 14, 30, 0.98) 100%);
+  border-color: var(--pc-accent);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.55), 0 0 18px var(--pc-accent-soft);
+}
+
+/* Red wedge accent on the selected product (matches Social Link cards) */
+.p3r-product-card::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 22px;
+  background: #e60024;
+  clip-path: polygon(55% 0, 100% 0, 100% 100%, 0 100%);
+  opacity: 0;
+  transform: translateX(12px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.p3r-product-card.active::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Card Head: index + category chip */
+.p3r-product-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.p3r-product-num {
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: 0.78rem;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: var(--pc-accent);
+}
+
+.p3r-product-cat {
+  display: inline-block;
+  transform: skewX(-12deg);
+  background: var(--pc-accent-soft);
+  border: 1px solid var(--pc-accent);
+  color: var(--pc-accent);
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: 0.6rem;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  line-height: 1.1;
+  padding: 3px 8px;
+}
+
+/* Illustration tile */
+.p3r-product-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 76px;
+  color: var(--pc-accent);
+  background: var(--pc-accent-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+  transition: background 0.22s ease;
+}
+
+.p3r-product-card:hover .p3r-product-art,
+.p3r-product-card.active .p3r-product-art {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.p3r-product-art svg {
+  width: 46px;
+  height: 46px;
+}
+
+.p3r-product-art .acc-f {
+  fill: currentColor;
+  stroke: none;
+  opacity: 0.85;
+}
+
+.p3r-product-art .acc-s {
+  stroke: currentColor;
+}
+
+/* Product name & description (wrap-safe, never truncated) */
+.p3r-product-name {
+  margin: 2px 0 0;
+  font-family: var(--font-skip), sans-serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(1.02rem, 1.1vw, 1.16rem);
+  line-height: 1.18;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.p3r-product-desc {
+  margin: 0;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #c3d9ee;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Call to action footer */
+.p3r-product-cta {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.18);
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: 0.64rem;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  color: var(--pc-accent);
+}
+
+.p3r-product-arrow {
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.p3r-product-card:hover .p3r-product-arrow,
+.p3r-product-card.active .p3r-product-arrow {
+  transform: translateX(5px);
+}
+
+/* Grid density on narrower desktops */
+@media (max-height: 760px) {
+  .p3r-store-grid {
+    max-height: calc(100vh - 300px);
   }
 }
 

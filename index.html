@@ -23,7 +23,7 @@
   <link rel="preload" href="fonts/Rodin Pro EB.otf" as="font" type="font/otf" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=41">
+  <link rel="stylesheet" href="css/style.css?v=42">
 </head>
 <body>
   <!-- Mobile / Small Screen Notification -->
@@ -169,6 +169,85 @@
             <span class="control-text">Confirm</span>
           </button>
           <button id="slink-back-btn" class="control-item slink-hud-btn" aria-label="Back to Main Menu">
+            <div class="control-key">ESC</div>
+            <span class="control-text">Back</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Persona 3 Reload - STORE PAGE (Product Catalogue)
+       "PRODUCT" menu with 16 sellable digital products, illustrated grid
+       ========================================================================== -->
+  <section id="store-page" class="p3r-slink-screen p3r-store-screen" role="region" aria-label="Store Product Screen" aria-hidden="true">
+    <!-- Store Screen Animated Video Background -->
+    <div class="slink-video-container" aria-hidden="true">
+      <video id="store-bg-video" class="slink-bg-video" loop muted playsinline preload="none">
+        <source src="assets/makoto-wallpaper.mp4" type="video/mp4">
+      </video>
+      <div class="slink-video-overlay" aria-hidden="true"></div>
+    </div>
+
+    <!-- Main Viewport Layer -->
+    <div class="slink-viewport p3r-store-viewport">
+      <!-- Left Column: Profile + STORE Header + PRODUCT Menu + Product Grid -->
+      <div class="slink-left-column p3r-store-left-column">
+        <!-- Profile Sub-header matching Atlus P3R Layout -->
+        <div class="slink-profile-header" aria-hidden="true">
+          <div class="slink-profile-name">ARIF PERMANA</div>
+        </div>
+
+        <!-- Persona 3 Reload Shattered Geometric Header Banner -->
+        <div class="p3r-geometric-header" id="store-header-div">
+          <div class="p3r-shard-back-band" aria-hidden="true"></div>
+          <div class="p3r-header-slash-main" aria-hidden="true"></div>
+          <!-- Small Cyan Kicker (kept for context: this is the PRODUCT menu) -->
+          <span class="p3r-banner-kicker" aria-hidden="true">PRODUCT</span>
+          <h1 class="p3r-banner-title" id="store-header-text">STORE</h1>
+        </div>
+
+        <!-- PRODUCT Menu Bar: category filter + active category label + counter -->
+        <div class="p3r-store-menu" role="tablist" aria-label="Store Product Menu">
+          <span class="p3r-store-menu-tag" aria-hidden="true"><span>MENU</span></span>
+          <div class="p3r-store-tabs" id="store-tabs-nav">
+            <!-- Dynamically populated by main.js: ALL, ENTERPRISE, WEB, MOBILE, COMMERCE -->
+          </div>
+          <div class="p3r-store-menu-meta">
+            <span class="p3r-store-category" id="store-category-label">ALL PRODUCTS</span>
+            <span class="p3r-store-count"><strong id="store-count">16</strong> PRODUCT</span>
+          </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="p3r-store-grid" class="p3r-store-grid" role="list" aria-label="Product List">
+          <!-- Dynamically populated by main.js with illustrated product cards -->
+        </div>
+      </div>
+
+      <!-- Bottom Right HUD: Controls matching Menu Utama & Skills style -->
+      <div class="slink-bottom-hud">
+        <div class="buttons-row">
+          <button id="store-tab-prev-btn" class="control-item slink-hud-btn" aria-label="Previous Product Category">
+            <div class="control-key">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </div>
+            <span class="control-text">Prev</span>
+          </button>
+          <button id="store-tab-next-btn" class="control-item slink-hud-btn" aria-label="Next Product Category">
+            <div class="control-key">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+            <span class="control-text">Next</span>
+          </button>
+          <button id="store-back-btn" class="control-item slink-hud-btn" aria-label="Close Store Screen">
             <div class="control-key">ESC</div>
             <span class="control-text">Back</span>
           </button>
@@ -688,6 +767,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=42" defer></script>
+  <script src="js/main.js?v=43" defer></script>
 </body>
 </html>

@@ -14,10 +14,10 @@ const options = [
   {
     name: "PROJECT",
     description: "Pengalaman Kerja & Proyek Unggulan",
-    rotation: -20,
+    rotation: -21,
     zIndex: 1,
     offsetX: -40,
-    offsetY: 25,
+    offsetY: 24,
     fontSize: "5.15rem",
     bannerScaleX: 1.07,
     bannerScaleY: 3.35,
@@ -43,12 +43,43 @@ const options = [
     ]
   },
   {
+    name: "STORE",
+    description: "Katalog Produk Digital Siap Pesan",
+    rotation: -16.5,
+    zIndex: 2,
+    offsetX: -49,
+    offsetY: 27,
+    fontSize: "4.7rem",
+    bannerScaleX: 1.0,
+    bannerScaleY: 3.2,
+    tag: "TOKO PRODUK DIGITAL",
+    summary: "16 produk digital yang bisa saya buatkan untuk Anda: ERP, SIMRS, LMS, POS, HRIS, e-commerce, dan lainnya",
+    cards: [
+      {
+        title: "Sistem Enterprise",
+        desc: "ERP, SIMRS, EMS, Inventory, HRIS, CRM, dan WMS yang dirancang mengikuti alur kerja bisnis Anda."
+      },
+      {
+        title: "Website & Landing Page",
+        desc: "Company profile, landing page, CMS, LMS, undangan digital, dan toko online siap pakai."
+      },
+      {
+        title: "Aplikasi Mobile",
+        desc: "Aplikasi kehadiran berbasis GPS/QR dan aplikasi QR menu untuk restoran serta kafe."
+      },
+      {
+        title: "Cara Pesan",
+        desc: "Konsultasi kebutuhan, pilih paket, kami desain dan kembangkan, lalu serah terima beserta pelatihan."
+      }
+    ]
+  },
+  {
     name: "EDUCATION",
     description: "Riwayat Pendidikan Formal",
-    rotation: -16,
-    zIndex: 2,
-    offsetX: -54,
-    offsetY: 27,
+    rotation: -12,
+    zIndex: 3,
+    offsetX: -57,
+    offsetY: 29,
     fontSize: "4.3rem",
     bannerScaleX: 1.0,
     bannerScaleY: 3.0,
@@ -72,10 +103,10 @@ const options = [
   {
     name: "ORGANIZATION",
     description: "Organisasi & Social Link",
-    rotation: -11,
-    zIndex: 3,
+    rotation: -7.5,
+    zIndex: 4,
     offsetX: -66,
-    offsetY: 30,
+    offsetY: 32,
     fontSize: "3.95rem",
     bannerScaleX: 0.86,
     bannerScaleY: 2.9,
@@ -95,10 +126,10 @@ const options = [
   {
     name: "SKILLS",
     description: "Keahlian Teknis & Stack",
-    rotation: -6,
-    zIndex: 4,
-    offsetX: -76,
-    offsetY: 33,
+    rotation: -3,
+    zIndex: 5,
+    offsetX: -74,
+    offsetY: 34,
     fontSize: "4.35rem",
     bannerScaleX: 0.94,
     bannerScaleY: 3.05,
@@ -126,10 +157,10 @@ const options = [
   {
     name: "GEAR",
     description: "Perangkat Kerja Harian",
-    rotation: -1,
-    zIndex: 5,
-    offsetX: -85,
-    offsetY: 36,
+    rotation: 2,
+    zIndex: 6,
+    offsetX: -83,
+    offsetY: 37,
     fontSize: "4.5rem",
     bannerScaleX: 0.82,
     bannerScaleY: 3.1,
@@ -161,10 +192,10 @@ const options = [
   {
     name: "ABOUT",
     description: "Profil & Filosofi Kerja",
-    rotation: 5,
-    zIndex: 6,
-    offsetX: -93,
-    offsetY: 39,
+    rotation: 7,
+    zIndex: 7,
+    offsetX: -92,
+    offsetY: 40,
     fontSize: "4.6rem",
     bannerScaleX: 1.0,
     bannerScaleY: 3.25,
@@ -193,7 +224,7 @@ const options = [
     name: "CONTACT",
     description: "Mulai Komunikasi",
     rotation: 12,
-    zIndex: 7,
+    zIndex: 8,
     offsetX: -100,
     offsetY: 42,
     fontSize: "4.4rem",
@@ -431,6 +462,143 @@ const skillGroupsData = [
 ];
 
 // --------------------------------------------------------------------------
+// STORE - Product Category Menu & Product Catalogue (16 sellable products)
+// Each product carries its own inline SVG illustration (`icon`) so the grid
+// stays asset-free: no extra files, no build step, no broken image links.
+// cat: enterprise | web | mobile | commerce
+// --------------------------------------------------------------------------
+const storeTabsList = [
+  { id: "all", code: "01", label: "ALL" },
+  { id: "enterprise", code: "02", label: "ENTERPRISE" },
+  { id: "web", code: "03", label: "WEB" },
+  { id: "mobile", code: "04", label: "MOBILE" },
+  { id: "commerce", code: "05", label: "COMMERCE" }
+];
+
+const storeCategoryLabels = {
+  all: "ALL PRODUCTS",
+  enterprise: "ENTERPRISE SYSTEM",
+  web: "WEBSITE & WEB APP",
+  mobile: "MOBILE APP",
+  commerce: "COMMERCE & POS"
+};
+
+const storeProductsData = [
+  {
+    code: "01",
+    name: "ERP",
+    cat: "enterprise",
+    desc: "Sistem terintegrasi akuntansi, pembelian, penjualan, stok, dan laporan keuangan real-time.",
+    icon: '<rect x="7" y="10" width="50" height="44" rx="4"/><line x1="7" y1="23" x2="57" y2="23"/><rect class="acc-f" x="13" y="30" width="15" height="17" rx="2"/><rect x="34" y="30" width="17" height="6" rx="3"/><rect x="34" y="41" width="17" height="6" rx="3"/><circle class="acc-f" cx="13" cy="16.5" r="2.5"/><circle cx="22" cy="16.5" r="2.5"/>'
+  },
+  {
+    code: "02",
+    name: "SIMRS",
+    cat: "enterprise",
+    desc: "Sistem informasi rumah sakit: rawat jalan, rawat inap, kasir, dan rekam medis elektronik.",
+    icon: '<rect x="6" y="10" width="52" height="34" rx="4"/><line x1="24" y1="52" x2="40" y2="52"/><line x1="32" y1="44" x2="32" y2="52"/><path class="acc-s" stroke-width="5" d="M32 16v18M23 25h18"/>'
+  },
+  {
+    code: "03",
+    name: "LMS",
+    cat: "web",
+    desc: "Platform belajar online: kelas, kuis, sertifikat, dan pemantauan progress siswa.",
+    icon: '<path d="M32 12 6 24l26 12 26-12z"/><path d="M16 30v13c0 4 7 8 16 8s16-4 16-8V30"/><path class="acc-s" d="M56 26v16"/>'
+  },
+  {
+    code: "04",
+    name: "CMS",
+    cat: "web",
+    desc: "Kelola konten website tanpa sentuh kode, lengkap dengan editor dan pembagian role user.",
+    icon: '<rect x="6" y="12" width="52" height="40" rx="4"/><line x1="6" y1="23" x2="58" y2="23"/><circle class="acc-f" cx="14" cy="17.5" r="2"/><circle class="acc-f" cx="22" cy="17.5" r="2"/><rect class="acc-f" x="12" y="30" width="16" height="16" rx="2"/><line x1="34" y1="32" x2="52" y2="32"/><line x1="34" y1="39" x2="52" y2="39"/><line x1="34" y1="46" x2="46" y2="46"/>'
+  },
+  {
+    code: "05",
+    name: "EMS",
+    cat: "enterprise",
+    desc: "Monitoring energi dan utilitas dengan dashboard konsumsi, tren, serta peringatan otomatis.",
+    icon: '<line x1="8" y1="54" x2="56" y2="54"/><rect x="14" y="34" width="9" height="16"/><rect x="28" y="26" width="9" height="24"/><rect class="acc-f" x="42" y="16" width="9" height="34"/><path class="acc-s" d="M12 24l10-8 8 6 12-10"/>'
+  },
+  {
+    code: "06",
+    name: "POS",
+    cat: "commerce",
+    desc: "Kasir toko modern: struk belanja, manajemen stok, shift kasir, dan laporan penjualan harian.",
+    icon: '<rect x="12" y="8" width="40" height="48" rx="4"/><line x1="20" y1="22" x2="44" y2="22"/><line x1="20" y1="32" x2="44" y2="32"/><path class="acc-s" d="M20 44h16"/><line x1="20" y1="48" x2="36" y2="48"/>'
+  },
+  {
+    code: "07",
+    name: "INVENTORY",
+    cat: "enterprise",
+    desc: "Kontrol stok multi-gudang dengan barcode, stock opname, dan notifikasi stok minimum.",
+    icon: '<rect x="8" y="34" width="21" height="18"/><rect x="35" y="34" width="21" height="18"/><rect class="acc-f" x="21" y="12" width="22" height="18" rx="2"/><line x1="8" y1="43" x2="29" y2="43"/><line x1="35" y1="43" x2="56" y2="43"/>'
+  },
+  {
+    code: "08",
+    name: "HRIS",
+    cat: "enterprise",
+    desc: "Data karyawan, absensi, cuti, penggajian, dan struktur organisasi dalam satu panel.",
+    icon: '<circle cx="24" cy="22" r="9"/><path d="M8 52c0-9 7-16 16-16s16 7 16 16"/><circle class="acc-s" cx="46" cy="26" r="7"/><path class="acc-s" d="M38 52c0-8 4-13 10-13s10 5 10 13"/>'
+  },
+  {
+    code: "09",
+    name: "CRM",
+    cat: "enterprise",
+    desc: "Pipeline prospek, follow-up klien, dan laporan penjualan yang mudah dibaca.",
+    icon: '<path d="M32 52S11 39 11 26a10 10 0 0 1 21-4 10 10 0 0 1 21 4c0 13-21 26-21 26z"/><path class="acc-s" d="M14 30h8l4-7 6 14 4-7h13"/>'
+  },
+  {
+    code: "10",
+    name: "WMS",
+    cat: "enterprise",
+    desc: "Manajemen gudang: penerimaan barang, picking, shipping, dan pelacakan pengiriman.",
+    icon: '<path d="M6 28 22 15l16 13v26H6z"/><line x1="16" y1="54" x2="16" y2="37"/><line x1="27" y1="54" x2="27" y2="37"/><rect class="acc-s" x="41" y="36" width="16" height="18" rx="2"/><path class="acc-s" d="M41 44h16"/>'
+  },
+  {
+    code: "11",
+    name: "COMPANY PROFILE",
+    cat: "web",
+    desc: "Profil perusahaan profesional: profil singkat, layanan, portofolio, dan kanal kontak.",
+    icon: '<rect x="10" y="10" width="30" height="44"/><rect class="acc-f" x="46" y="26" width="10" height="28"/><rect class="acc-f" x="16" y="17" width="7" height="7"/><rect class="acc-f" x="28" y="17" width="7" height="7"/><rect class="acc-f" x="16" y="30" width="7" height="7"/><rect class="acc-f" x="28" y="30" width="7" height="7"/><rect x="20" y="43" width="11" height="11"/>'
+  },
+  {
+    code: "12",
+    name: "LANDING PAGE",
+    cat: "web",
+    desc: "Halaman promosi fokus konversi, ringan dibuka, dan siap dipasang untuk iklan.",
+    icon: '<rect x="6" y="12" width="52" height="40" rx="4"/><line x1="6" y1="23" x2="58" y2="23"/><circle class="acc-f" cx="14" cy="17.5" r="2"/><rect class="acc-f" x="14" y="30" width="26" height="9" rx="2"/><rect class="acc-s" x="14" y="43" width="17" height="6" rx="3"/><line x1="46" y1="46" x2="52" y2="46"/>'
+  },
+  {
+    code: "13",
+    name: "UNDANGAN DIGITAL",
+    cat: "web",
+    desc: "Undangan pernikahan online dengan RSVP, galeri, peta lokasi, dan musik latar.",
+    icon: '<rect x="6" y="18" width="52" height="34" rx="4"/><path d="M7 21l25 18 25-18"/><path class="acc-f" d="M45 16c0-4 6-6 8-2 2-4 8-2 8 2 0 5-8 10-8 10s-8-5-8-10z"/>'
+  },
+  {
+    code: "14",
+    name: "E-COMMERCE",
+    cat: "commerce",
+    desc: "Toko online lengkap: katalog, keranjang, pembayaran, voucher, dan notifikasi pesanan.",
+    icon: '<path d="M8 12h8l7 28h26l6-20H20"/><circle cx="26" cy="50" r="4"/><circle cx="46" cy="50" r="4"/><path class="acc-f" d="M26 20h22l-4 11H26z"/>'
+  },
+  {
+    code: "15",
+    name: "APK KEHADIRAN",
+    cat: "mobile",
+    desc: "Aplikasi absensi karyawan berbasis GPS dan QR code beserta laporan kehadiran harian.",
+    icon: '<rect x="16" y="6" width="32" height="52" rx="6"/><line x1="28" y1="13" x2="36" y2="13"/><path class="acc-s" stroke-width="4" d="M23 33l6 6 12-15"/><line x1="26" y1="49" x2="38" y2="49"/>'
+  },
+  {
+    code: "16",
+    name: "APLIKASI QR MENU",
+    cat: "mobile",
+    desc: "Menu digital berbasis scan QR: ganti harga dan foto menu instan tanpa cetak ulang.",
+    icon: '<rect x="8" y="8" width="18" height="18"/><rect x="38" y="8" width="18" height="18"/><rect x="8" y="38" width="18" height="18"/><rect class="acc-f" x="13.5" y="13.5" width="7" height="7"/><rect class="acc-f" x="43.5" y="13.5" width="7" height="7"/><rect class="acc-f" x="13.5" y="43.5" width="7" height="7"/><path d="M38 38h8v8h-8zM52 38h4v4M38 52h4v4M48 50h8v6"/>'
+  }
+];
+
+// --------------------------------------------------------------------------
 // 2. Global State & DOM Element Cache
 // --------------------------------------------------------------------------
 let isLoaded = false;
@@ -447,6 +615,9 @@ let isGearPageOpen = false;
 let selectedGearIndex = 0;
 let isSkillPageOpen = false;
 let currentSkillTab = "frontend";
+let isStorePageOpen = false;
+let currentStoreTab = "all";
+let selectedStoreIndex = 0;
 let isAboutPageOpen = false;
 let isContactPageOpen = false;
 let selectedContactIndex = 0;
@@ -508,6 +679,18 @@ const p3rSkillsContainer = document.getElementById("p3r-skills-container");
 const skillBackBtn = document.getElementById("skill-back-btn");
 const skillTabPrevBtn = document.getElementById("skill-tab-prev-btn");
 const skillTabNextBtn = document.getElementById("skill-tab-next-btn");
+
+// DOM Elements: Store Screen (Product Catalogue)
+const storePage = document.getElementById("store-page");
+const storeBgVideo = document.getElementById("store-bg-video");
+const storeHeaderDiv = document.getElementById("store-header-div");
+const storeTabsNav = document.getElementById("store-tabs-nav");
+const storeGrid = document.getElementById("p3r-store-grid");
+const storeCounter = document.getElementById("store-count");
+const storeCategoryLabel = document.getElementById("store-category-label");
+const storeBackBtn = document.getElementById("store-back-btn");
+const storeTabPrevBtn = document.getElementById("store-tab-prev-btn");
+const storeTabNextBtn = document.getElementById("store-tab-next-btn");
 
 // DOM Elements: About Screen
 const aboutPage = document.getElementById("about-page");
@@ -963,12 +1146,13 @@ function setIndex(index) {
 
   // Speculatively preload the selected subpage's video just in time
   if (index === 0 && slinkBgVideo && slinkBgVideo.preload !== "auto") slinkBgVideo.preload = "auto";
-  else if (index === 1 && educationBgVideo && educationBgVideo.preload !== "auto") educationBgVideo.preload = "auto";
-  else if (index === 2 && organizationBgVideo && organizationBgVideo.preload !== "auto") organizationBgVideo.preload = "auto";
-  else if (index === 3 && skillBgVideo && skillBgVideo.preload !== "auto") skillBgVideo.preload = "auto";
-  else if (index === 4 && gearBgVideo && gearBgVideo.preload !== "auto") gearBgVideo.preload = "auto";
-  else if (index === 5 && aboutBgVideo && aboutBgVideo.preload !== "auto") aboutBgVideo.preload = "auto";
-  else if (index === 6 && contactBgVideo && contactBgVideo.preload !== "auto") contactBgVideo.preload = "auto";
+  else if (index === 1 && storeBgVideo && storeBgVideo.preload !== "auto") storeBgVideo.preload = "auto";
+  else if (index === 2 && educationBgVideo && educationBgVideo.preload !== "auto") educationBgVideo.preload = "auto";
+  else if (index === 3 && organizationBgVideo && organizationBgVideo.preload !== "auto") organizationBgVideo.preload = "auto";
+  else if (index === 4 && skillBgVideo && skillBgVideo.preload !== "auto") skillBgVideo.preload = "auto";
+  else if (index === 5 && gearBgVideo && gearBgVideo.preload !== "auto") gearBgVideo.preload = "auto";
+  else if (index === 6 && aboutBgVideo && aboutBgVideo.preload !== "auto") aboutBgVideo.preload = "auto";
+  else if (index === 7 && contactBgVideo && contactBgVideo.preload !== "auto") contactBgVideo.preload = "auto";
 
   for (let idx = 0; idx < cachedOptionItems.length; idx++) {
     const item = cachedOptionItems[idx];
@@ -1073,16 +1257,18 @@ function getExitOrigin(buttonElOrId, fallbackX, fallbackY) {
 }
 
 // Named Aliases for Backward Compatibility & Direct Script Control (Updated for menu layout)
-// Menu order: 0 PROJECT · 1 EDUCATION · 2 ORGANIZATION · 3 SKILLS · 4 GEAR · 5 ABOUT · 6 CONTACT
-const getProjectOptionCenter     = (evt) => getOptionCenter(0, evt, 0.62, 0.34);
-const getEducationOptionCenter   = (evt) => getOptionCenter(1, evt, 0.61, 0.40);
-const getOrganizationOptionCenter = (evt) => getOptionCenter(2, evt, 0.60, 0.46);
-const getSkillOptionCenter       = (evt) => getOptionCenter(3, evt, 0.60, 0.52);
-const getGearOptionCenter        = (evt) => getOptionCenter(4, evt, 0.59, 0.58);
-const getAboutOptionCenter       = (evt) => getOptionCenter(5, evt, 0.58, 0.65);
-const getContactOptionCenter     = (evt) => getOptionCenter(6, evt, 0.57, 0.71);
+// Menu order: 0 PROJECT · 1 STORE · 2 EDUCATION · 3 ORGANIZATION · 4 SKILLS · 5 GEAR · 6 ABOUT · 7 CONTACT
+const getProjectOptionCenter     = (evt) => getOptionCenter(0, evt, 0.62, 0.32);
+const getStoreOptionCenter       = (evt) => getOptionCenter(1, evt, 0.61, 0.38);
+const getEducationOptionCenter   = (evt) => getOptionCenter(2, evt, 0.61, 0.44);
+const getOrganizationOptionCenter = (evt) => getOptionCenter(3, evt, 0.60, 0.50);
+const getSkillOptionCenter       = (evt) => getOptionCenter(4, evt, 0.60, 0.55);
+const getGearOptionCenter        = (evt) => getOptionCenter(5, evt, 0.59, 0.61);
+const getAboutOptionCenter       = (evt) => getOptionCenter(6, evt, 0.58, 0.67);
+const getContactOptionCenter     = (evt) => getOptionCenter(7, evt, 0.57, 0.73);
 
 const getProjectExitOrigin     = () => getExitOrigin(slinkBackBtn, window.innerWidth - 120, window.innerHeight - 55);
+const getStoreExitOrigin       = () => getExitOrigin(storeBackBtn, window.innerWidth - 120, window.innerHeight - 55);
 const getEducationExitOrigin   = () => getExitOrigin(educationBackBtn, window.innerWidth - 120, window.innerHeight - 55);
 const getOrganizationExitOrigin = () => getExitOrigin(organizationBackBtn, window.innerWidth - 120, window.innerHeight - 55);
 const getSkillExitOrigin       = () => getExitOrigin(skillBackBtn, window.innerWidth - 120, window.innerHeight - 55);
@@ -1844,6 +2030,168 @@ function closeSkillPage() {
 }
 
 // --------------------------------------------------------------------------
+// 7.5. Subpage: STORE (Product Catalogue - 16 sellable digital products)
+// --------------------------------------------------------------------------
+function triggerStoreTitleAnimation() {
+  if (storeHeaderDiv) {
+    storeHeaderDiv.classList.remove("animating");
+    void storeHeaderDiv.offsetWidth;
+    storeHeaderDiv.classList.add("animating");
+  }
+}
+
+function getStoreProducts(category = "all") {
+  if (!category || category === "all") return storeProductsData;
+  return storeProductsData.filter((p) => p.cat === category);
+}
+
+function renderStoreTabs() {
+  if (!storeTabsNav) return;
+  storeTabsNav.innerHTML = "";
+
+  storeTabsList.forEach((tab) => {
+    const btn = document.createElement("button");
+    const isActive = (tab.id === currentStoreTab);
+    btn.className = `p3r-skill-tab p3r-store-tab ${isActive ? "active" : ""}`;
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-selected", isActive ? "true" : "false");
+    btn.innerHTML = `
+      <span class="p3r-tab-tag">${tab.code}</span>
+      <span class="p3r-tab-label">${tab.label}</span>
+    `;
+
+    btn.addEventListener("click", () => {
+      if (currentStoreTab !== tab.id) setStoreTab(tab.id);
+    });
+
+    storeTabsNav.appendChild(btn);
+  });
+}
+
+function setStoreTab(tabId) {
+  currentStoreTab = tabId;
+  selectedStoreIndex = 0;
+  playSFX();
+  renderStoreTabs();
+  renderStoreProducts(currentStoreTab);
+}
+
+function prevStoreTab() {
+  const currIdx = storeTabsList.findIndex(t => t.id === currentStoreTab);
+  const prevIdx = (currIdx - 1 + storeTabsList.length) % storeTabsList.length;
+  setStoreTab(storeTabsList[prevIdx].id);
+}
+
+function nextStoreTab() {
+  const currIdx = storeTabsList.findIndex(t => t.id === currentStoreTab);
+  const nextIdx = (currIdx + 1) % storeTabsList.length;
+  setStoreTab(storeTabsList[nextIdx].id);
+}
+
+function selectStoreCard(index) {
+  const cards = storeGrid ? storeGrid.querySelectorAll(".p3r-product-card") : [];
+  if (!cards.length) return;
+
+  selectedStoreIndex = Math.max(0, Math.min(index, cards.length - 1));
+
+  cards.forEach((card, idx) => {
+    const isActive = idx === selectedStoreIndex;
+    card.classList.toggle("active", isActive);
+    card.setAttribute("aria-selected", isActive ? "true" : "false");
+    if (isActive && typeof card.scrollIntoView === "function") {
+      card.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+  });
+}
+
+function renderStoreProducts(category = "all") {
+  if (!storeGrid) return;
+
+  const list = getStoreProducts(category);
+  storeGrid.innerHTML = "";
+
+  if (storeCounter) storeCounter.textContent = list.length.toString().padStart(2, "0");
+  if (storeCategoryLabel) storeCategoryLabel.textContent = storeCategoryLabels[category] || storeCategoryLabels.all;
+
+  list.forEach((product, idx) => {
+    const card = document.createElement("article");
+    card.className = "p3r-product-card";
+    card.dataset.cat = product.cat;
+    card.setAttribute("role", "button");
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("aria-selected", "false");
+    card.setAttribute("aria-label", product.name);
+    card.style.animationDelay = `${(idx % 8) * 0.05}s`;
+
+    card.innerHTML = `
+      <div class="p3r-product-head">
+        <span class="p3r-product-num">${product.code}</span>
+        <span class="p3r-product-cat">${product.cat.toUpperCase()}</span>
+      </div>
+      <div class="p3r-product-art" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">${product.icon}</svg>
+      </div>
+      <h3 class="p3r-product-name">${product.name}</h3>
+      <p class="p3r-product-desc">${product.desc}</p>
+      <div class="p3r-product-cta" aria-hidden="true">
+        <span>PESAN CUSTOM</span>
+        <span class="p3r-product-arrow">&#8594;</span>
+      </div>
+    `;
+
+    card.addEventListener("mouseenter", () => {
+      if (isStorePageOpen && selectedStoreIndex !== idx) selectStoreCard(idx);
+    });
+    card.addEventListener("click", () => {
+      if (!isStorePageOpen || isWavyTransitionRunning) return;
+      selectStoreCard(idx);
+      playSFX();
+    });
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        selectStoreCard(idx);
+        playSFX();
+      }
+    });
+
+    storeGrid.appendChild(card);
+  });
+
+  selectStoreCard(0);
+}
+
+function openStorePage(clickEvent) {
+  if (isStorePageOpen || isWavyTransitionRunning) return;
+  isStorePageOpen = true;
+  playSFX();
+
+  executeWavyReveal({
+    pageEl: storePage,
+    origin: getStoreOptionCenter(clickEvent),
+    bodyClass: "store-screen-active",
+    videoEl: storeBgVideo,
+    onStart: () => {
+      renderStoreTabs();
+      renderStoreProducts(currentStoreTab);
+      triggerStoreTitleAnimation();
+    }
+  });
+}
+
+function closeStorePage() {
+  if (!isStorePageOpen || isWavyTransitionRunning) return;
+  isStorePageOpen = false;
+
+  executeWavyClose({
+    pageEl: storePage,
+    exitOrigin: getStoreExitOrigin(),
+    bodyClass: "store-screen-active",
+    videoEl: storeBgVideo
+  });
+}
+
+// --------------------------------------------------------------------------
 // 8. Subpage: ABOUT (Profile & Philosophy Interface)
 // --------------------------------------------------------------------------
 function triggerAboutTitleAnimation() {
@@ -2013,21 +2361,23 @@ function closeModal() {
   };
 }
 
-// Option Confirmation Dispatcher (Strictly 7 Options: PROJECT, EDUCATION, ORGANIZATION, SKILLS, GEAR, ABOUT, CONTACT)
+// Option Confirmation Dispatcher (Strictly 8 Options: PROJECT, STORE, EDUCATION, ORGANIZATION, SKILLS, GEAR, ABOUT, CONTACT)
 function handleOptionConfirm(index, clickEvent) {
   if (index === 0) {
     openProjectPage(clickEvent);
   } else if (index === 1) {
-    openEducationPage(clickEvent);
+    openStorePage(clickEvent);
   } else if (index === 2) {
-    openOrganizationPage(clickEvent);
+    openEducationPage(clickEvent);
   } else if (index === 3) {
-    openSkillPage(clickEvent);
+    openOrganizationPage(clickEvent);
   } else if (index === 4) {
-    openGearPage(clickEvent);
+    openSkillPage(clickEvent);
   } else if (index === 5) {
-    openAboutPage(clickEvent);
+    openGearPage(clickEvent);
   } else if (index === 6) {
+    openAboutPage(clickEvent);
+  } else if (index === 7) {
     openContactPage(clickEvent);
   }
 }
@@ -2217,6 +2567,9 @@ if (gearBackBtn) gearBackBtn.addEventListener("click", closeGearPage);
 if (skillBackBtn) skillBackBtn.addEventListener("click", closeSkillPage);
 if (skillTabPrevBtn) skillTabPrevBtn.addEventListener("click", prevSkillTab);
 if (skillTabNextBtn) skillTabNextBtn.addEventListener("click", nextSkillTab);
+if (storeBackBtn) storeBackBtn.addEventListener("click", closeStorePage);
+if (storeTabPrevBtn) storeTabPrevBtn.addEventListener("click", prevStoreTab);
+if (storeTabNextBtn) storeTabNextBtn.addEventListener("click", nextStoreTab);
 if (aboutBackBtn) aboutBackBtn.addEventListener("click", closeAboutPage);
 if (contactBackBtn) contactBackBtn.addEventListener("click", closeContactPage);
 
@@ -2251,6 +2604,35 @@ document.addEventListener("keydown", (e) => {
     } else if (e.key === "Enter" || e.key === " " || e.key.toLowerCase() === "a") {
       e.preventDefault();
       confirmSlinkSelection();
+    }
+    return;
+  }
+
+  // Active Screen: Store (Product Catalogue)
+  if (isStorePageOpen) {
+    if (e.key === "Escape" || e.key.toLowerCase() === "b" || e.key.toLowerCase() === "backspace") {
+      e.preventDefault();
+      closeStorePage();
+    } else if (e.key.toLowerCase() === "q" || e.key === "ArrowLeft") {
+      e.preventDefault();
+      prevStoreTab();
+    } else if (e.key.toLowerCase() === "e" || e.key === "ArrowRight") {
+      e.preventDefault();
+      nextStoreTab();
+    } else if (e.key === "ArrowDown" || e.key.toLowerCase() === "s") {
+      e.preventDefault();
+      const total = getStoreProducts(currentStoreTab).length;
+      if (total > 0) selectStoreCard((selectedStoreIndex + 1) % total);
+      playSFX();
+    } else if (e.key === "ArrowUp" || e.key.toLowerCase() === "w") {
+      e.preventDefault();
+      const total = getStoreProducts(currentStoreTab).length;
+      if (total > 0) selectStoreCard((selectedStoreIndex - 1 + total) % total);
+      playSFX();
+    } else if (e.key === "Enter" || e.key === " " || e.key.toLowerCase() === "a") {
+      e.preventDefault();
+      selectStoreCard(selectedStoreIndex);
+      playSFX();
     }
     return;
   }
@@ -2399,6 +2781,8 @@ window.openGearPage = openGearPage;
 window.closeGearPage = closeGearPage;
 window.openSkillPage = openSkillPage;
 window.closeSkillPage = closeSkillPage;
+window.openStorePage = openStorePage;
+window.closeStorePage = closeStorePage;
 window.openAboutPage = openAboutPage;
 window.closeAboutPage = closeAboutPage;
 window.openContactPage = openContactPage;
@@ -2422,6 +2806,16 @@ if (window.innerWidth < 1024) {
   isLoaded = true;
   openProjectPage();
   triggerProjectTitleAnimation();
+} else if (urlParams.get("page") === "store") {
+  if (loadingScreen) loadingScreen.style.display = "none";
+  isStarted = true;
+  isLoaded = true;
+  const storeTabParam = urlParams.get("tab") || urlParams.get("cat");
+  if (storeTabParam && storeTabsList.some((t) => t.id === storeTabParam)) {
+    currentStoreTab = storeTabParam;
+  }
+  openStorePage();
+  triggerStoreTitleAnimation();
 } else if (urlParams.get("page") === "education") {
   if (loadingScreen) loadingScreen.style.display = "none";
   isStarted = true;
