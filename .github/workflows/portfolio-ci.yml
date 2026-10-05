@@ -1,0 +1,68 @@
+name: Portfolio CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: JavaScript syntax check
+        run: node --check js/main.js
+
+      - name: Required assets check
+        run: |
+          set -e
+          missing=0
+          for f in \
+            index.html \
+            README.md \
+            docs/PORTFOLIO.md \
+            css/style.css \
+            js/main.js \
+            assets/profile.jpg \
+            assets/favicon.png \
+            assets/screenshots/main-menu.png \
+            music/ost.mp3 \
+            sfx/menu-utama.mp3
+          do
+            if [ ! -f "$f" ]; then
+              echo "::error::Missing required file: $f"
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - name: Internal link sanity check
+        run: |
+          set -e
+          # Every local asset referenced by index.html must exist
+          grep -oE '(href|src)="[^"]+"' index.html \
+            | sed -E 's/^(href|src)="//; s/"$//' \
+            | grep -vE '^(https?:|mailto:|tel:|#|data:)' \
+            | sed 's/[?#].*$//' \
+            | sort -u \
+            | while read -r path; do
+                [ -z "$path" ] && continue
+                if [ ! -e "$path" ]; then
+                  echo "::error::Broken local reference: $path"
+                  exit 1
+                fi
+              done
+          echo "All local references resolved."
