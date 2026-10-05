@@ -266,6 +266,7 @@ A **menu-driven, single-page portfolio** engineered with plain HTML, CSS and Jav
 - 🎬 Dedicated background video per section with preloading
 - 🎵 Original audio design: looping backsound with fade-in, plus menu and navigation SFX
 - 🃏 Skewed card-stack sub-pages with auto-scroll and selection tracking
+- ⚔️ Persona-style skill screen — skill groups presented as Personas (Orpheus, Thanatos, Orpheus Telos, Messiah) with element-typed chips and fully readable skill names
 - ⌨️ Keyboard-first navigation and routable deep links (`?page=…`)
 - 🌐 Cross-browser audio recovery (Chrome, Firefox) with a desktop-first notice for small screens
 

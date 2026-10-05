@@ -369,55 +369,63 @@ const skillTabsList = [
   { id: "languages", code: "04", label: "LANGUAGES" }
 ];
 
+// Each category is presented as a Persona (P3R skill-list style):
+// - `persona` : Persona name shown on the group header
+// - `tag`     : skill type chip (shown on every skill row)
+// - `elem`    : Persona element color -> almighty | wind | ice | elec | psy | fire | phys
 const skillGroupsData = [
   {
     id: "frontend",
     title: "FRONTEND & WEB ENGINEERING",
     code: "01",
+    persona: "ORPHEUS",
     skills: [
-      { name: "HTML5 · CSS3 · JavaScript (ES6+)", level: 95 },
-      { name: "Vue.js · React", level: 90 },
-      { name: "Bootstrap · Tailwind CSS · Livewire", level: 92 },
-      { name: "Responsive Design · PWA", level: 88 },
-      { name: "UI/UX Design · Figma · Adobe XD", level: 86 },
-      { name: "JavaScript Algorithms & Data Structures", level: 85 }
+      { name: "HTML5 · CSS3 · JavaScript (ES6+)", level: 95, tag: "CORE", elem: "almighty" },
+      { name: "Vue.js · React", level: 90, tag: "FRAMEWORK", elem: "wind" },
+      { name: "Bootstrap · Tailwind CSS · Livewire", level: 92, tag: "STYLING", elem: "ice" },
+      { name: "Responsive Design · PWA", level: 88, tag: "MOBILE", elem: "elec" },
+      { name: "UI/UX Design · Figma · Adobe XD", level: 86, tag: "UI / UX", elem: "psy" },
+      { name: "JavaScript Algorithms & Data Structures", level: 85, tag: "ALGORITHM", elem: "fire" }
     ]
   },
   {
     id: "backend",
     title: "BACKEND, DATABASE & TOOLS",
     code: "02",
+    persona: "THANATOS",
     skills: [
-      { name: "PHP · Laravel · MVC & OOP", level: 95 },
-      { name: "Node.js · REST API · WebSockets", level: 88 },
-      { name: "MySQL · MariaDB", level: 92 },
-      { name: "Go (Golang) · Python", level: 84 },
-      { name: "Git · GitHub · GitLab", level: 90 },
-      { name: "NPM · Composer · Electron.js", level: 86 }
+      { name: "PHP · Laravel · MVC & OOP", level: 95, tag: "BACKEND", elem: "fire" },
+      { name: "Node.js · REST API · WebSockets", level: 88, tag: "API", elem: "elec" },
+      { name: "MySQL · MariaDB", level: 92, tag: "DATABASE", elem: "ice" },
+      { name: "Go (Golang) · Python", level: 84, tag: "LANGUAGE", elem: "wind" },
+      { name: "Git · GitHub · GitLab", level: 90, tag: "VERSIONING", elem: "psy" },
+      { name: "NPM · Composer · Electron.js", level: 86, tag: "TOOLING", elem: "almighty" }
     ]
   },
   {
     id: "design",
     title: "GRAPHIC DESIGN, VIDEO & OFFICE",
     code: "03",
+    persona: "ORPHEUS TELOS",
     skills: [
-      { name: "Adobe Photoshop", level: 90 },
-      { name: "Adobe Illustrator", level: 88 },
-      { name: "Affinity Designer · Canva", level: 86 },
-      { name: "Adobe Premiere Pro · CapCut · Sony Vegas", level: 84 },
-      { name: "Microsoft Office (Word · Excel · PowerPoint)", level: 92 },
-      { name: "Windows · macOS · Linux (Ubuntu · Arch)", level: 88 }
+      { name: "Adobe Photoshop", level: 90, tag: "IMAGE", elem: "psy" },
+      { name: "Adobe Illustrator", level: 88, tag: "VECTOR", elem: "elec" },
+      { name: "Affinity Designer · Canva", level: 86, tag: "DESIGN", elem: "wind" },
+      { name: "Adobe Premiere Pro · CapCut · Sony Vegas", level: 84, tag: "VIDEO", elem: "ice" },
+      { name: "Microsoft Office (Word · Excel · PowerPoint)", level: 92, tag: "OFFICE", elem: "almighty" },
+      { name: "Windows · macOS · Linux (Ubuntu · Arch)", level: 88, tag: "SYSTEM", elem: "phys" }
     ]
   },
   {
     id: "languages",
     title: "LANGUAGE PROFICIENCY",
     code: "04",
+    persona: "MESSIAH",
     skills: [
-      { name: "Bahasa Indonesia (Native / Fluent)", level: 100 },
-      { name: "English (Technical & Documentation)", level: 86 },
-      { name: "English (Writing & Documentation)", level: 82 },
-      { name: "English (Spoken & Conversational)", level: 78 }
+      { name: "Bahasa Indonesia — Native / Fluent", level: 100, tag: "NATIVE", elem: "fire" },
+      { name: "English — Technical Reading & Documentation", level: 86, tag: "TECHNICAL", elem: "ice" },
+      { name: "English — Writing & Documentation", level: 82, tag: "WRITING", elem: "wind" },
+      { name: "English — Spoken & Conversational", level: 78, tag: "SPOKEN", elem: "elec" }
     ]
   }
 ];
@@ -1770,19 +1778,20 @@ function renderSkillStats(category = "frontend") {
 
     let rowsHTML = "";
     group.skills.forEach((skill, idx) => {
+      const elem = skill.elem || "almighty";
+      const tag = skill.tag || "";
       rowsHTML += `
         <div class="p3r-stat-row" style="animation-delay: ${idx * 0.06}s;">
+          <span class="p3r-skill-chip" data-elem="${elem}">
+            <span class="p3r-skill-chip-inner">${tag}</span>
+          </span>
           <div class="p3r-stat-name-col">
             <span class="p3r-stat-name">${skill.name}</span>
           </div>
-          <div class="p3r-stat-bar-track">
+          <div class="p3r-stat-bar-track" role="img" aria-label="${skill.name} level ${skill.level} of 100">
             <div class="p3r-stat-bar-fill" data-v="${skill.level}" style="width: ${skill.level}%;">
               <div class="p3r-stat-bar-tip" aria-hidden="true"></div>
             </div>
-          </div>
-          <div class="p3r-stat-lv">
-            <span class="p3r-stat-lv-prefix">LV</span>
-            <span class="p3r-stat-lv-val">${skill.level}</span>
           </div>
         </div>
       `;
@@ -1790,8 +1799,10 @@ function renderSkillStats(category = "frontend") {
 
     groupDiv.innerHTML = `
       <div class="p3r-skill-group-header">
+        <span class="p3r-group-badge" aria-hidden="true"><span>${group.code}</span></span>
         <h3 class="p3r-group-title">${group.title}</h3>
         <div class="p3r-group-line"></div>
+        <span class="p3r-group-persona">PERSONA · <strong>${group.persona}</strong></span>
       </div>
       <div class="p3r-skill-rows-list">
         ${rowsHTML}

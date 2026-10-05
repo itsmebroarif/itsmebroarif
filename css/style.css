@@ -1098,6 +1098,26 @@ body.project-screen-active .side-number {
   padding-top: 10px;
 }
 
+/* Small Cyan Kicker above/beside the Persona title (keeps the SKILLS menu context) */
+.p3r-banner-kicker {
+  position: absolute;
+  right: clamp(64px, 6vw, 108px);
+  bottom: clamp(14px, 1.8vh, 22px);
+  z-index: 3;
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: clamp(0.66rem, 0.72vw, 0.8rem);
+  font-weight: 900;
+  font-style: italic;
+  color: #16cffb;
+  letter-spacing: 0.34em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
+  transform: skewX(-14deg);
+  white-space: nowrap;
+  user-select: none;
+}
+
 /* ==========================================================================
    Cards Stack (Collinear Parallel Slanted Layout: -22deg matching Screenshot)
    ========================================================================== */
@@ -1520,7 +1540,8 @@ body.about-screen-active .character-viewport {
 .p3r-skill-group-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 14px;
   margin-bottom: 14px;
   user-select: none;
 }
@@ -1532,10 +1553,17 @@ body.about-screen-active .character-viewport {
   font-style: italic;
   font-weight: 900;
   font-size: 0.9rem;
-  padding: 3px 8px;
+  padding: 3px 10px;
   transform: skewX(-14deg);
   display: inline-block;
   letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+/* Un-skew the digits so the section code stays perfectly legible */
+.p3r-group-badge > span {
+  display: inline-block;
+  transform: skewX(14deg);
 }
 
 .p3r-group-title {
@@ -1548,12 +1576,33 @@ body.about-screen-active .character-viewport {
   margin: 0;
   text-transform: uppercase;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.95);
+  line-height: 1.25;
 }
 
 .p3r-group-line {
-  flex: 1;
+  flex: 1 1 90px;
+  min-width: 60px;
   height: 2px;
   background: linear-gradient(90deg, #16cffb 0%, rgba(22, 207, 251, 0.3) 60%, transparent 100%);
+}
+
+/* "PERSONA · ORPHEUS" label — each skill category is themed as a Persona */
+.p3r-group-persona {
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(0.72rem, 0.8vw, 0.85rem);
+  color: #7fd8f5;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.95);
+  flex-shrink: 0;
+}
+
+.p3r-group-persona strong {
+  color: #ffffff;
+  font-weight: 900;
 }
 
 .p3r-skill-rows-list {
@@ -1562,14 +1611,17 @@ body.about-screen-active .character-viewport {
   gap: 12px;
 }
 
-/* Individual Stat Skill Row (Staggered Animation Entrance) */
+/* Individual Stat Skill Row (Staggered Animation Entrance)
+   Persona 3 Reload skill-list slab: type chip · skill name · meter.
+   Row is skewed for the P3R look, inner text is un-skewed for readability. */
 .p3r-stat-row {
   display: flex;
   align-items: center;
-  gap: 22px;
-  padding: 10px 20px;
-  background: rgba(2, 9, 20, 0.82);
-  border-left: 4px solid #16cffb;
+  gap: clamp(14px, 1.6vw, 26px);
+  min-height: 62px;
+  padding: 12px 24px 12px 20px;
+  background: linear-gradient(90deg, rgba(2, 9, 20, 0.94) 0%, rgba(4, 16, 34, 0.9) 100%);
+  border-left: 5px solid #16cffb;
   border-bottom: 1px solid rgba(22, 207, 251, 0.18);
   transform: skewX(-14deg);
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, border-left-color 0.2s ease;
@@ -1602,31 +1654,83 @@ body.about-screen-active .character-viewport {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
 }
 
+/* Persona-style Skill Type Chip (element colored, un-skewed label) */
+.p3r-skill-chip {
+  --chip: #b8ecff;
+  --chip-bg: rgba(184, 236, 255, 0.14);
+  flex: 0 0 auto;
+  min-width: clamp(96px, 9vw, 132px);
+  padding: 6px 12px;
+  transform: skewX(-14deg);
+  background: var(--chip-bg);
+  border: 1.5px solid var(--chip);
+  color: var(--chip);
+  text-align: center;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.p3r-skill-chip[data-elem="fire"] { --chip: #ff5b47; --chip-bg: rgba(255, 91, 71, 0.16); }
+.p3r-skill-chip[data-elem="ice"] { --chip: #6fd4ff; --chip-bg: rgba(111, 212, 255, 0.16); }
+.p3r-skill-chip[data-elem="elec"] { --chip: #ffd23f; --chip-bg: rgba(255, 210, 63, 0.16); }
+.p3r-skill-chip[data-elem="wind"] { --chip: #7ce38b; --chip-bg: rgba(124, 227, 139, 0.16); }
+.p3r-skill-chip[data-elem="psy"] { --chip: #ff9a3c; --chip-bg: rgba(255, 154, 60, 0.16); }
+.p3r-skill-chip[data-elem="phys"] { --chip: #e2e6ee; --chip-bg: rgba(226, 230, 238, 0.14); }
+.p3r-skill-chip[data-elem="almighty"] { --chip: #b8ecff; --chip-bg: rgba(184, 236, 255, 0.14); }
+
+/* Un-skew the chip label so short type names stay crisp */
+.p3r-skill-chip-inner {
+  display: block;
+  transform: skewX(14deg);
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(0.66rem, 0.72vw, 0.78rem);
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
+}
+
+/* Skill name column: flexible + wraps instead of truncating with "..." */
 .p3r-stat-name-col {
-  width: clamp(280px, 24vw, 410px);
-  flex-shrink: 0;
+  flex: 1 1 auto;
+  min-width: 0;
   transform: skewX(14deg); /* Unskew text for crisp readability */
-  overflow: hidden;
 }
 
 .p3r-stat-name {
   font-family: var(--font-skip), sans-serif;
   font-style: italic;
   font-weight: 700;
-  font-size: clamp(1.02rem, 1.12vw, 1.22rem);
+  font-size: clamp(1.06rem, 1.2vw, 1.3rem);
+  line-height: 1.32;
   color: #ffffff;
   letter-spacing: 0.02em;
   display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.95);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95);
+}
+
+/* Row hover: brighten the chip together with the slab */
+.p3r-stat-row:hover .p3r-skill-chip {
+  background: var(--chip);
+  color: #020914;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+.p3r-stat-row:hover .p3r-skill-chip-inner {
+  color: #020914;
+  text-shadow: none;
 }
 
 /* Slanted Brilliant White Progress Bar (Indikator Putih Solid - Tanpa Glowing) */
 .p3r-stat-bar-track {
-  flex: 1;
-  height: 20px;
+  flex: 0 1 clamp(240px, 30vw, 420px);
+  min-width: 170px;
+  height: 22px;
   background: rgba(2, 12, 28, 0.75);
   border: 1.5px solid rgba(255, 255, 255, 0.65);
   transform: skewX(-8deg);
@@ -1658,6 +1762,32 @@ body.about-screen-active .character-viewport {
 /* Level Indicator Dihilangkan Sesuai Permintaan */
 .p3r-stat-lv {
   display: none !important;
+}
+
+/* Narrower desktops: let the meter drop to its own line so names keep full width */
+@media (max-width: 1180px) {
+  .p3r-stat-row {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 20px 14px 16px;
+  }
+  .p3r-stat-name-col {
+    flex: 1 1 240px;
+  }
+  .p3r-stat-bar-track {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+  .p3r-skill-chip {
+    min-width: 104px;
+  }
+  /* Keep the group header on a single readable line */
+  .p3r-group-line {
+    display: none;
+  }
+  .p3r-group-persona {
+    margin-left: auto;
+  }
 }
 
 /* ==========================================================================

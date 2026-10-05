@@ -50,7 +50,7 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 | 1 | **PROJECT** | Scrollable stack of 11 work experiences — Sintesa Persada, Sadaraga, Hangang Solution, Young On Top, Rumah Coding and more |
 | 2 | **EDUCATION** | FreeCodeCamp, SMK Taruna Bhakti Depok, SMP Yapemri Depok |
 | 3 | **ORGANIZATION** | Social links — Karang Taruna (2025), Kafeinarts Tech Organization (2022) |
-| 4 | **SKILLS** | Four skill tabs — frontend, backend, design, languages |
+| 4 | **SKILLS** | Persona-style skill screen — four tabs (frontend, backend, design, languages), each group presented as a Persona (Orpheus, Thanatos, Orpheus Telos, Messiah) with element-typed skill chips and meters |
 | 5 | **GEAR** | Daily hardware — monitor, laptop, mouse, keyboard, earphone |
 | 6 | **ABOUT** | Full biography, philosophy and contact channels |
 | 7 | **CONTACT** | Email, Discord, Instagram and phone |
@@ -65,6 +65,7 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 - 🎬 **Background video per section** (`intro`, `loop`, `skills`, `about`, `contact`) with preloading on hover
 - 🎵 **Full audio design** — looping backsound (`music/ost.mp3`) with fade-in, plus menu, navigation and close SFX
 - 🃏 **Card-stack sub-pages** — skewed, overflowing cards with smooth auto-scroll and selection tracking
+- ⚔️ **Persona-style skill screen** — every skill group is presented as a Persona (Orpheus, Thanatos, Orpheus Telos, Messiah) with element-colored type chips, wrap-safe skill names and animated meters
 - ⌨️ **Keyboard-first navigation** — arrow keys, `Enter` to confirm, `Esc` to go back
 - 🔗 **Deep links** — every section is routable (`?page=project`, `?page=education`, `?page=organization`, `?page=skill`, `?page=gear`, `?page=about`, `?page=contact`)
 - 📱 **Loading screen with progress bar** and a clear desktop-only notice for small screens
@@ -151,7 +152,7 @@ Everything is plain data — no templates to rebuild:
 | Education | `js/main.js` → `educationData` |
 | Organization | `js/main.js` → `organizationData` |
 | Gear | `js/main.js` → `gearData` |
-| Skills | `js/main.js` → `skillTabsList`, `skillGroupsData` |
+| Skills | `js/main.js` → `skillTabsList`, `skillGroupsData` (`persona` per group, `tag` + `elem` per skill) |
 | About, contact channels, profile | `index.html` |
 | Backsound & SFX | `music/`, `sfx/` + `js/main.js` audio engine |
 
