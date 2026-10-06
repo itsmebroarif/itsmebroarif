@@ -2660,6 +2660,645 @@ body.minigame-screen-active .character-viewport {
 }
 
 /* ==========================================================================
+   MICRO TARTARUS - battle HUD, minimap, THEURGY gauge (game 05)
+   ========================================================================== */
+/* Battle root - only visible while a fight is running ---------------------- */
+.p3r-battle {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.p3r-battle.on {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* keep the shared HUD clear of the foe plate while a fight runs */
+.p3r-minigame-canvas-wrap.battle-on .p3r-minigame-hud {
+  right: 248px;
+}
+
+/* Round chip ---------------------------------------------------------------- */
+.p3r-battle-round {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%) skewX(-14deg);
+  padding: 4px 16px;
+  background: rgba(2, 11, 24, 0.86);
+  border: 1px solid rgba(22, 207, 251, 0.55);
+  color: #7de6fd;
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  opacity: 0;
+  white-space: nowrap;
+}
+
+.p3r-battle-round.show {
+  animation: p3rRoundPop 2.4s ease forwards;
+}
+
+@keyframes p3rRoundPop {
+  0% { opacity: 0; transform: translateX(-50%) skewX(-14deg) translateY(-10px); }
+  12% { opacity: 1; transform: translateX(-50%) skewX(-14deg) translateY(0); }
+  74% { opacity: 1; transform: translateX(-50%) skewX(-14deg) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) skewX(-14deg) translateY(-6px); }
+}
+
+/* Battle log ---------------------------------------------------------------- */
+.p3r-battle-log {
+  position: absolute;
+  top: clamp(56px, 17%, 82px);
+  left: 15px;
+  width: min(54%, 340px);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: clamp(0.58rem, 0.75vw, 0.7rem);
+  line-height: 1.35;
+  color: rgba(224, 246, 255, 0.85);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
+}
+
+.p3r-battle-log div {
+  padding: 2px 8px 2px 7px;
+  border-left: 2px solid rgba(22, 207, 251, 0.7);
+  background: linear-gradient(90deg, rgba(2, 11, 24, 0.72), rgba(2, 11, 24, 0));
+}
+
+.p3r-battle-log div:last-child {
+  color: #ffffff;
+  border-left-color: #ffd23f;
+}
+
+/* Foe plate ----------------------------------------------------------------- */
+.p3r-battle-foe {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: clamp(152px, 30%, 232px);
+  padding: 8px 11px 9px;
+  transform: skewX(-8deg);
+  background: linear-gradient(150deg, rgba(34, 4, 16, 0.92), rgba(2, 11, 24, 0.94));
+  border: 1px solid rgba(230, 0, 36, 0.75);
+  border-left: 4px solid #e60024;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+}
+
+.p3r-battle-foe > * {
+  transform: skewX(8deg);
+}
+
+.p3r-battle-foe-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.p3r-battle-foe-name {
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: clamp(0.7rem, 1vw, 0.86rem);
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+}
+
+.p3r-battle-foe-hpnum {
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  color: #ffb9c6;
+  white-space: nowrap;
+}
+
+.p3r-battle-tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 5px;
+}
+
+.p3r-battle-weak {
+  font-size: 0.54rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #0b1020;
+  background: #ffd23f;
+  padding: 1px 6px;
+}
+
+.p3r-battle-down {
+  display: none;
+  font-size: 0.54rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  background: #e60024;
+  padding: 1px 6px;
+}
+
+.p3r-battle-down.on {
+  display: inline-block;
+  animation: p3rDownPulse 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes p3rDownPulse {
+  from { box-shadow: 0 0 0 rgba(230, 0, 36, 0.2); }
+  to { box-shadow: 0 0 14px rgba(230, 0, 36, 0.95); }
+}
+
+/* HP bars ------------------------------------------------------------------- */
+.p3r-battle-bar {
+  position: relative;
+  height: 7px;
+  margin-top: 5px;
+  background: rgba(2, 11, 24, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  overflow: hidden;
+}
+
+.p3r-battle-bar > i {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #7ce38b, #3fd67a);
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.p3r-battle-bar > i.mid {
+  background: linear-gradient(90deg, #ffd23f, #ffa62b);
+}
+
+.p3r-battle-bar > i.low {
+  background: linear-gradient(90deg, #ff5f7a, #e60024);
+}
+
+/* Banner -------------------------------------------------------------------- */
+.p3r-battle-banner {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  transform: translate(-50%, -50%) skewX(-12deg) scale(0.7);
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: clamp(1.2rem, 3.6vw, 2.4rem);
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  color: #ffffff;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  text-shadow: 0 0 26px rgba(22, 207, 251, 0.9), 0 6px 18px rgba(0, 0, 0, 0.9);
+}
+
+.p3r-battle-banner.show {
+  animation: p3rBannerPop 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes p3rBannerPop {
+  0% { opacity: 0; transform: translate(-50%, -50%) skewX(-12deg) scale(0.7); }
+  16% { opacity: 1; transform: translate(-50%, -50%) skewX(-12deg) scale(1.08); }
+  30% { transform: translate(-50%, -50%) skewX(-12deg) scale(1); }
+  76% { opacity: 1; transform: translate(-50%, -50%) skewX(-12deg) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) skewX(-12deg) scale(1.05); }
+}
+
+.p3r-battle-banner.crit { color: #ffd23f; text-shadow: 0 0 30px rgba(255, 210, 63, 0.95), 0 6px 18px #000; }
+.p3r-battle-banner.warn { color: #ff8098; text-shadow: 0 0 30px rgba(230, 0, 36, 0.9), 0 6px 18px #000; }
+.p3r-battle-banner.allout { color: #fff3c4; text-shadow: 0 0 34px rgba(255, 210, 63, 0.95), 0 6px 18px #000; }
+.p3r-battle-banner.theurgy { color: #ff9df7; text-shadow: 0 0 36px rgba(255, 107, 245, 0.95), 0 6px 18px #000; }
+.p3r-battle-banner.win { color: #7ce38b; text-shadow: 0 0 30px rgba(124, 227, 139, 0.9), 0 6px 18px #000; }
+.p3r-battle-banner.lose { color: #ff5f7a; text-shadow: 0 0 30px rgba(230, 0, 36, 0.9), 0 6px 18px #000; }
+.p3r-battle-banner.more { color: #7de6fd; font-size: clamp(1rem, 3vw, 1.9rem); }
+.p3r-battle-banner.ko { color: #ff9a5c; font-size: clamp(0.95rem, 2.6vw, 1.6rem); }
+
+/* Bottom row: party cards + command menu ----------------------------------- */
+.p3r-battle-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px 12px;
+}
+
+.p3r-battle-party {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  min-width: 0;
+}
+
+.p3r-battle-card {
+  position: relative;
+  width: clamp(82px, 9.5vw, 124px);
+  padding: 6px 8px 7px;
+  transform: skewX(-8deg);
+  background: linear-gradient(160deg, rgba(7, 26, 56, 0.95), rgba(2, 10, 26, 0.97));
+  border: 1px solid rgba(22, 207, 251, 0.5);
+  border-left: 3px solid #16cffb;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.p3r-battle-card > * {
+  transform: skewX(8deg);
+}
+
+.p3r-battle-card.active {
+  border-color: #ffffff;
+  border-left-color: #ffd23f;
+  box-shadow: 0 0 16px rgba(22, 207, 251, 0.65);
+  transform: skewX(-8deg) translateY(-4px);
+}
+
+.p3r-battle-card.down {
+  opacity: 0.55;
+  border-left-color: #e60024;
+  filter: grayscale(0.7);
+}
+
+.p3r-battle-card-name {
+  display: block;
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: clamp(0.58rem, 0.75vw, 0.68rem);
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  color: #cfeeff;
+}
+
+.p3r-battle-card-hp {
+  display: block;
+  font-size: 0.55rem;
+  letter-spacing: 0.04em;
+  color: rgba(224, 246, 255, 0.78);
+}
+
+.p3r-battle-card .p3r-battle-bar {
+  margin-top: 3px;
+  height: 6px;
+}
+
+.p3r-battle-card-sp {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.53rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #ffd23f;
+}
+
+/* Command menu -------------------------------------------------------------- */
+.p3r-battle-menu {
+  width: clamp(142px, 17vw, 196px);
+  padding: 7px 9px 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  background: linear-gradient(160deg, rgba(7, 26, 56, 0.97), rgba(2, 10, 26, 0.98));
+  border: 1px solid rgba(22, 207, 251, 0.55);
+  border-right: 4px solid #e60024;
+  clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%, 0 14px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.p3r-battle-menu.on {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.p3r-battle-menu-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+  padding-bottom: 4px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid rgba(22, 207, 251, 0.35);
+}
+
+.p3r-battle-menu-head span {
+  font-size: 0.54rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  color: #7de6fd;
+}
+
+.p3r-battle-actor {
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: 0.6rem;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: #ffd23f;
+}
+
+.p3r-battle-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.p3r-battle-opt {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 7px 4px 15px;
+  background: rgba(22, 207, 251, 0.06);
+  border-left: 3px solid transparent;
+  color: rgba(207, 238, 255, 0.78);
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: clamp(0.6rem, 0.8vw, 0.7rem);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  transition: background 0.12s ease, color 0.12s ease, transform 0.12s ease;
+}
+
+.p3r-battle-opt em {
+  font-family: var(--font-poppins), sans-serif;
+  font-style: normal;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(224, 246, 255, 0.62);
+  white-space: nowrap;
+}
+
+.p3r-battle-opt.sel {
+  color: #02101f;
+  background: linear-gradient(90deg, #16cffb, #7de6fd);
+  border-left-color: #ffffff;
+  transform: translateX(4px);
+  box-shadow: 0 0 14px rgba(22, 207, 251, 0.55);
+}
+
+.p3r-battle-opt.sel em {
+  color: #02324f;
+}
+
+.p3r-battle-opt.sel::before {
+  content: "\25B6";
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.5rem;
+}
+
+.p3r-battle-opt.off {
+  color: rgba(160, 182, 198, 0.42);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.p3r-battle-opt.off em {
+  color: rgba(255, 122, 144, 0.7);
+}
+
+.p3r-battle-opt .p3r-battle-wk {
+  font-family: var(--font-poppins), sans-serif;
+  font-style: normal;
+  font-size: 0.5rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #0b1020;
+  background: #ffd23f;
+  padding: 0 5px;
+}
+
+.p3r-battle-menu-hint {
+  min-height: 13px;
+  margin-top: 5px;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 0.55rem;
+  line-height: 1.3;
+  color: rgba(224, 246, 255, 0.72);
+}
+
+.p3r-battle-menu.shake {
+  animation: p3rShake 0.3s ease;
+}
+
+@keyframes p3rShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
+}
+
+/* Floating damage numbers ---------------------------------------------------- */
+.p3r-float {
+  position: absolute;
+  z-index: 4;
+  transform: translate(-50%, -50%) skewX(-8deg);
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: clamp(0.95rem, 2.2vw, 1.5rem);
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.95), 0 0 16px rgba(0, 0, 0, 0.9);
+  animation: p3rFloatUp 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes p3rFloatUp {
+  0% { opacity: 0; transform: translate(-50%, -20%) skewX(-8deg) scale(0.6); }
+  20% { opacity: 1; transform: translate(-50%, -60%) skewX(-8deg) scale(1.12); }
+  42% { transform: translate(-50%, -75%) skewX(-8deg) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -175%) skewX(-8deg) scale(1); }
+}
+
+/* Screen flash --------------------------------------------------------------- */
+.p3r-mg-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.p3r-mg-flash.on {
+  animation: p3rFlash 0.45s ease-out forwards;
+}
+
+@keyframes p3rFlash {
+  0% { opacity: 0.78; }
+  100% { opacity: 0; }
+}
+
+/* Minimap (dungeon mode only) ------------------------------------------------ */
+.p3r-mg-map {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+.p3r-mg-map.on {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.p3r-mg-map canvas {
+  display: block;
+  background: rgba(2, 11, 24, 0.88);
+  border: 1px solid rgba(22, 207, 251, 0.55);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.65);
+}
+
+.p3r-mg-map span {
+  transform: skewX(-14deg);
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: 0.52rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  color: #7de6fd;
+}
+
+/* Objective toast ------------------------------------------------------------- */
+.p3r-mg-toast {
+  position: absolute;
+  left: 50%;
+  top: 15%;
+  z-index: 3;
+  transform: translateX(-50%) skewX(-14deg);
+  padding: 7px 16px;
+  background: rgba(2, 11, 24, 0.92);
+  border: 1px solid rgba(22, 207, 251, 0.6);
+  color: #cfeeff;
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: clamp(0.6rem, 0.9vw, 0.72rem);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.p3r-mg-toast.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* THEURGY gauge (lives inside the shared HUD) --------------------------------- */
+.p3r-mg-gauge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transform: skewX(-14deg);
+  background: rgba(2, 11, 24, 0.8);
+  border: 1px solid rgba(255, 107, 245, 0.55);
+  padding: 5px 12px;
+  color: #ffd9fb;
+  font-family: var(--font-new-rodin-ub), sans-serif;
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.p3r-mg-gauge > * {
+  transform: skewX(14deg);
+}
+
+.p3r-mg-gauge-bar {
+  width: clamp(54px, 7vw, 92px);
+  height: 7px;
+  background: rgba(2, 11, 24, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  overflow: hidden;
+}
+
+.p3r-mg-gauge-fill {
+  display: block;
+  height: 100%;
+  width: 65%;
+  background: linear-gradient(90deg, #8a1fd4, #ff6bf5);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.p3r-mg-gauge strong {
+  color: #ff9df7;
+}
+
+.p3r-mg-gauge.full {
+  border-color: #ffd23f;
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(255, 210, 63, 0.55);
+}
+
+.p3r-mg-gauge.full .p3r-mg-gauge-bar {
+  animation: p3rGaugePulse 1s ease-in-out infinite alternate;
+}
+
+.p3r-mg-gauge.full strong {
+  color: #ffd23f;
+}
+
+@keyframes p3rGaugePulse {
+  from { box-shadow: 0 0 0 rgba(255, 210, 63, 0); }
+  to { box-shadow: 0 0 12px rgba(255, 210, 63, 0.9); }
+}
+
+/* Denser battle layout on short viewports ------------------------------------- */
+@media (max-height: 740px) {
+  .p3r-battle-opt {
+    font-size: 0.6rem;
+    padding: 3px 6px 3px 14px;
+  }
+
+  .p3r-battle-menu {
+    padding: 6px 8px 7px;
+  }
+
+  .p3r-battle-menu-hint {
+    display: none;
+  }
+
+  .p3r-battle-card {
+    padding: 5px 7px 6px;
+  }
+
+  .p3r-battle-log {
+    font-size: 0.56rem;
+    top: 54px;
+  }
+}
+
+/* ==========================================================================
    PERSONA 3 RELOAD - ABOUT ME PAGE
    Simple Left-Docked Layout with Photo Frame Placeholder & Developer Bio
    ========================================================================== */

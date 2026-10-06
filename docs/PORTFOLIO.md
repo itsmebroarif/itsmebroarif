@@ -49,7 +49,7 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 |:-:|---|---|
 | 1 | **PROJECT** | Scrollable stack of 11 work experiences — Sintesa Persada, Sadaraga, Hangang Solution, Young On Top, Rumah Coding and more |
 | 2 | **STORE** | `PRODUCT` menu — a filterable catalogue of 16 digital products I can build (ERP, SIMRS, LMS, CMS, EMS, POS, Inventory, HRIS, CRM, WMS, Company Profile, Landing Page, Undangan Digital, E-Commerce, APK Kehadiran, QR Menu), each on an illustrated card |
-| 3 | **MINI GAMES** | `ARCADE` menu — four playable three.js 3D mini games (**Shadow Dodge**, **Evoker Target**, **Block Breaker**, **Ring Rush**) rendered live in the page, each with its own HUD, best score and dossier |
+| 3 | **MINI GAMES** | `ARCADE` menu — five playable three.js 3D mini games (**Shadow Dodge**, **Evoker Target**, **Block Breaker**, **Ring Rush**, **Micro Tartarus**) rendered live in the page, each with its own HUD, best score and dossier |
 | 4 | **EDUCATION** | FreeCodeCamp, SMK Taruna Bhakti Depok, SMP Yapemri Depok |
 | 5 | **ORGANIZATION** | Social links — Karang Taruna (2025), Kafeinarts Tech Organization (2022) |
 | 6 | **SKILLS** | Persona-style skill screen — four tabs (frontend, backend, design, languages), each group presented as a Persona (Orpheus, Thanatos, Orpheus Telos, Messiah) with element-typed skill chips and meters |
@@ -65,7 +65,8 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 
 - 🎴 **Nine-entry slanted main menu** with per-item banner, rotation, depth and focus highlighting
 - 🛍️ **Store / PRODUCT catalogue** — category menu (`ALL`, `ENTERPRISE`, `WEB`, `MOBILE`, `COMMERCE`) over a responsive grid of illustrated product cards with live counter and hover/keyboard selection
-- 🕹️ **three.js arcade** — a `MINI GAMES` section running four 3D games in a real WebGL renderer: endless corridor dodging (**Shadow Dodge**), a shooting-gallery aim test (**Evoker Target**), neon **Block Breaker** with levels, and an endless ring-flight (**Ring Rush**). Tab menu, live HUD (score / time / lives), attract mode behind the dossier, procedural WebAudio SFX, `localStorage` best scores — all local, no CDN
+- 🕹️ **three.js arcade** — a `MINI GAMES` section running five 3D games in a real WebGL renderer: endless corridor dodging (**Shadow Dodge**), a shooting-gallery aim test (**Evoker Target**), neon **Block Breaker** with levels, an endless ring-flight (**Ring Rush**) and a pocket dungeon (**Micro Tartarus**). Tab menu, live HUD (score / time / lives), attract mode behind the dossier, procedural WebAudio SFX, `localStorage` best scores — all local, no CDN
+- 🗼 **Micro Tartarus (game 05)** — a procedurally generated Tartarus floor you actually walk around in (recursive-backtracker maze, instanced walls, live minimap) with the party trailing the leader in formation and **5 roaming shadows**; touching one starts a **Persona-style turn-based battle**: elemental weaknesses → knockdown → **1 MORE** → **ALL-OUT ATTACK**, a charging **THEURGY** gauge for the party's almighty ultimate, agility-ordered turns, animated lunges, screen shake, floating damage numbers and a full command menu
 - 🎬 **Background video per section** (`intro`, `loop`, `skills`, `about`, `contact`) with preloading on hover
 - 🎵 **Full audio design** — looping backsound (`music/ost.mp3`) with fade-in, plus menu, navigation and close SFX
 - 🃏 **Card-stack sub-pages** — skewed, overflowing cards with smooth auto-scroll and selection tracking
@@ -91,10 +92,13 @@ Instead of a conventional scroll-down page, visitors start at a **Persona 3 Relo
 
 | Key | Action |
 |---|---|
-| `↑` `↓` `←` `→` / `W` `A` `S` `D` | Pick a game (idle) · steer / aim (playing) |
-| `Enter` / `Space` | Start · launch the ball · fire the Evoker |
-| `Esc` | Stop the current run → second `Esc` leaves the section |
-| Mouse | Aim the Evoker reticle, click to shoot |
+| `↑` `↓` `←` `→` / `W` `A` `S` `D` | Pick a game (idle) · steer / aim (playing) · roam the floor or move the battle cursor |
+| `Enter` / `Space` | Start · launch the ball · fire the Evoker · confirm a battle command |
+| `Esc` | Stop the current run → second `Esc` leaves the section (in a battle menu it goes back) |
+| Mouse | Aim the Evoker reticle, click to shoot · click to confirm a battle command |
+
+**Micro Tartarus** also shows a floor minimap (bottom-right), the party cards and the
+command menu during a fight, plus a `THEURGY` gauge inside the shared HUD.
 
 ---
 
@@ -121,7 +125,7 @@ itsmebroarif/
 │   └── style.css              # Full theme, menu, card stack, scrollbars, arcade
 ├── js/
 │   ├── main.js                # Data, routing, audio engine, UI state machine
-│   ├── minigames.js           # MINI GAMES section: engine + 4 three.js games
+│   ├── minigames.js           # MINI GAMES section: engine + 5 three.js games
 │   └── three.module.min.js    # Vendored three.js r169 (ES module, no CDN)
 ├── assets/
 │   ├── profile.jpg            # Profile portrait

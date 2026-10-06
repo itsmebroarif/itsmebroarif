@@ -2,13 +2,14 @@
  * ==========================================================================
  * Persona 3 Reload - Mini Games Arcade (three.js)
  * --------------------------------------------------------------------------
- * Four self-contained 3D mini games rendered with a locally vendored copy of
+ * Five self-contained 3D mini games rendered with a locally vendored copy of
  * three.js (js/three.module.min.js - no CDN, no build step):
  *
  *   01 SHADOW DODGE   survive a neon corridor, dodge shadows, grab orbs
  *   02 EVOKER TARGET  aim & shoot floating targets, 30s combo run
  *   03 BLOCK BREAKER  paddle / ball / block wall, 3 lives, level ups
  *   04 RING RUSH      fly through rings before the shields drop
+ *   05 MICRO TARTARUS roam a procedural floor & win Persona style battles
  *
  * main.js owns the page shell (tabs, routing, HUD buttons) and talks to this
  * module through window.MiniGames. Everything below only cares about the
@@ -85,6 +86,25 @@ const GAMES = [
     hudTime: true,
     hudTimeLabel: "TIME",
     hudLivesLabel: "SHIELDS"
+  },
+  {
+    id: "micro-tartarus",
+    code: "05",
+    name: "MICRO TARTARUS",
+    desc: "Jelajahi lantai Tartarus mikro lalu kalahkan 5 bayangan dengan pertarungan giliran ala Persona.",
+    controls: [
+      { key: "W A S D", label: "Jelajahi lantai" },
+      { key: "\u2190 \u2191 \u2193 \u2192", label: "Pilih menu battle" },
+      { key: "ENTER", label: "Konfirmasi aksi" },
+      { key: "ESC", label: "Batal / berhenti" }
+    ],
+    icon: '<path d="M20 56V24l12-16 12 16v32"/><path d="M13 56h38"/><path class="acc-s" d="M27 56V42h10v14"/><circle class="acc-f" cx="32" cy="30" r="3.6"/>',
+    time: 0,
+    lives: 3,
+    shadows: 5,
+    hudTime: true,
+    hudTimeLabel: "SHADOWS",
+    hudLivesLabel: "PARTY"
   }
 ];
 
@@ -131,6 +151,7 @@ const state = {
   bestCombo: 0,
   lives: 3,
   level: 1,
+  shadows: 0,
   time: 0,
   shots: 0,
   hits: 0,
@@ -246,7 +267,10 @@ function updateHUD() {
     if (el.hudTime.style.display !== showTime) el.hudTime.style.display = showTime;
     if (g.hudTime) {
       setNode(el.timeLabel, "timeLabel", g.hudTimeLabel || "TIME");
-      setNode(el.time, "time", g.hudTimeLabel === "LEVEL" ? pad2(state.level) : pad2(state.time));
+      let value = pad2(state.time);
+      if (g.hudTimeLabel === "LEVEL") value = pad2(state.level);
+      else if (g.hudTimeLabel === "SHADOWS") value = pad2(state.shadows);
+      setNode(el.time, "time", value);
     }
   }
 
@@ -295,6 +319,7 @@ function renderInfo() {
   state.score = 0;
   state.combo = 0;
   state.lives = g.lives || 0;
+  state.shadows = g.shadows || 0;
   state.time = g.time || 0;
   state.shots = 0;
   state.hits = 0;
@@ -426,7 +451,7 @@ function removeMesh(s, mesh, list, index) {
 /* -------------------------------------------------------------------------
  * Attract mode (idle showcase rendered behind the dossier panel)
  * ---------------------------------------------------------------------- */
-const ATTRACT_GEOS = ["octahedron", "torus", "box", "knot"];
+const ATTRACT_GEOS = ["octahedron", "torus", "box", "knot", "tower"];
 
 function makeAttractGeo(kind, THREE_) {
   switch (kind) {
@@ -436,6 +461,9 @@ function makeAttractGeo(kind, THREE_) {
       return new THREE_.BoxGeometry(2.4, 1.2, 1.2);
     case "knot":
       return new THREE_.TorusKnotGeometry(1.25, 0.3, 130, 18);
+    case "tower":
+      /* tapered hexagonal spire - the Tartarus silhouette */
+      return new THREE_.CylinderGeometry(0.7, 1.8, 2.9, 6, 1);
     default:
       return new THREE_.OctahedronGeometry(1.7, 0);
   }
@@ -1275,11 +1303,1831 @@ function gameRingRush() {
   };
 }
 
+/* =========================================================================
+ * GAME 05 - MICRO TARTARUS
+ * --------------------------------------------------------------------------
+ * Two halves in one scene:
+ *   - a procedural Tartarus floor the player walks around in, with the
+ *     party trailing the leader in formation and 5 shadows roaming it
+ *   - a separate battle stage (high up on Y) for a Persona style turn
+ *     based fight: elemental weaknesses, 1 MORE, ALL-OUT ATTACK and a
+ *     party THEURGY ultimate
+ * ====================================================================== */
+function gameMicroTartarus() {
+  /* ---- world scale ----------------------------------------------------- */
+  const GW = 19;                 /* tiles across  (odd)                     */
+  const GH = 15;                 /* tiles down    (odd)                     */
+  const TILE = 3;
+  const WALL_H = 2.7;
+  const ARENA_Y = 60;            /* battle stage floats above the floor     */
+  const MOVE_R = 0.62;
+  const HERO_SPEED = 5.7;
+  const MAP_W = 133;
+  const MAP_H = 105;
+  const SHADOWS_TOTAL = 5;
+
+  const SKILL_NAMES = { fire: "AGI", ice: "BUFU", elec: "ZIO", wind: "GARU" };
+
+  const ELEM = {
+    fire: { tag: "FIRE", color: 0xff7a3c, css: "#ff9a5c", freq: 640 },
+    ice: { tag: "ICE", color: 0x7ce3ff, css: "#9fe9ff", freq: 940 },
+    elec: { tag: "ELEC", color: 0xffe14d, css: "#ffe97a", freq: 1240 },
+    wind: { tag: "WIND", color: 0x8fffb0, css: "#a8ffc4", freq: 1060 },
+    phys: { tag: "PHYS", color: 0xffffff, css: "#ffffff", freq: 330 },
+    heal: { tag: "HEAL", color: 0x7ce38b, css: "#9df0b4", freq: 780 },
+    almighty: { tag: "ALMIGHTY", color: 0xff6bf5, css: "#ff9df7", freq: 520 }
+  };
+
+  /* the five shadows of this floor - weakest one sits nearest the stairs */
+  const FOES = [
+    { name: "STRAY SHADE", hp: 84, agi: 26, atk: 13, weak: "ice", elem: "phys", color: 0x9b6bff, reward: 450 },
+    { name: "HOLLOW WISP", hp: 106, agi: 33, atk: 16, weak: "elec", elem: "wind", color: 0x39e2ff, reward: 620 },
+    { name: "IRON MASK", hp: 134, agi: 22, atk: 19, weak: "fire", elem: "ice", color: 0xffc857, reward: 800 },
+    { name: "CRIMSON FIEND", hp: 160, agi: 39, atk: 22, weak: "wind", elem: "fire", color: 0xff5f7a, reward: 1000 },
+    { name: "UMBRA KING", hp: 214, agi: 46, atk: 27, weak: "elec", elem: "elec", color: 0xe60024, reward: 1500 }
+  ];
+
+  const HEROES = [
+    {
+      name: "MAKOTO", color: 0x16cffb, hp: 152, sp: 48, agi: 42, atk: 26, weak: null,
+      skills: [
+        { name: "AGI", el: "fire", cost: 8, power: 36 },
+        { name: "BUFU", el: "ice", cost: 8, power: 36 },
+        { name: "ZIO", el: "elec", cost: 8, power: 36 },
+        { name: "GARU", el: "wind", cost: 8, power: 36 }
+      ]
+    },
+    {
+      name: "YUKARI", color: 0x7ce38b, hp: 118, sp: 46, agi: 35, atk: 21, weak: "ice",
+      skills: [
+        { name: "GARU", el: "wind", cost: 8, power: 31 },
+        { name: "DIARAMA", el: "heal", cost: 12, power: 0.55 },
+        { name: "PATRA", el: "heal", cost: 10, power: 0.34 }
+      ]
+    },
+    {
+      name: "AKIHIKO", color: 0xffb020, hp: 142, sp: 34, agi: 38, atk: 24, weak: "wind",
+      skills: [
+        { name: "ZIO", el: "elec", cost: 8, power: 34 },
+        { name: "SCRATCH", el: "phys", cost: 6, power: 45 }
+      ]
+    }
+  ];
+
+  const HERO_HOME = [
+    { x: -3.7, z: 3.6 },
+    { x: -1.1, z: 4.4 },
+    { x: 1.5, z: 3.6 }
+  ];
+  const FOE_HOME = { x: 0.7, z: -3.6 };
+
+  /* ---- small helpers --------------------------------------------------- */
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const ramp = (t, a, b) => {
+    const x = clamp((t - a) / (b - a || 1), 0, 1);
+    return x * x * (3 - 2 * x);
+  };
+  const worldX = (tx) => (tx - (GW - 1) / 2) * TILE;
+  const worldZ = (tz) => (tz - (GH - 1) / 2) * TILE;
+
+  function setTxt(node, value) {
+    if (node && node.textContent !== value) node.textContent = value;
+  }
+
+  function setBar(node, ratio, cls) {
+    if (!node) return;
+    const w = Math.round(clamp(ratio, 0, 1) * 100) + "%";
+    if (node.style.width !== w) node.style.width = w;
+    const next = cls + (ratio <= 0.3 ? " low" : ratio <= 0.6 ? " mid" : "");
+    if (node.className !== next) node.className = next;
+  }
+
+  function makeFigure(color, scale) {
+    const g = new THREE.Group();
+    const bodyMat = new THREE.MeshStandardMaterial({
+      color: 0x0b2444, emissive: color, emissiveIntensity: 0.45, metalness: 0.55, roughness: 0.35
+    });
+    const body = wireWrap(new THREE.Mesh(new THREE.CapsuleGeometry(0.32, 0.72, 4, 12), bodyMat), 0xffffff);
+    body.position.y = 0.86;
+    const headMat = new THREE.MeshStandardMaterial({
+      color: 0x14406e, emissive: color, emissiveIntensity: 0.6, metalness: 0.4, roughness: 0.3
+    });
+    const head = wireWrap(new THREE.Mesh(new THREE.SphereGeometry(0.25, 16, 12), headMat), 0xffffff);
+    head.position.y = 1.56;
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(0.52, 0.05, 8, 26),
+      new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.95 })
+    );
+    ring.rotation.x = Math.PI / 2;
+    ring.position.y = 0.06;
+    const halo = glowSprite(color, 2.6);
+    halo.position.y = 1.15;
+    g.add(body, head, ring, halo);
+    g.userData.ring = ring;
+    g.userData.mats = [bodyMat, headMat];
+    g.userData.base = [0.45, 0.6];
+    g.scale.setScalar(scale || 1);
+    return g;
+  }
+
+  function makeShadowMesh(def, scale) {
+    const g = new THREE.Group();
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: 0x150c2e, emissive: def.color, emissiveIntensity: 0.55, metalness: 0.6, roughness: 0.3
+    });
+    const core = wireWrap(new THREE.Mesh(new THREE.IcosahedronGeometry(0.74, 0), coreMat), def.color);
+    core.position.y = 1.3;
+    const ringMat = new THREE.MeshStandardMaterial({
+      color: def.color, emissive: def.color, emissiveIntensity: 1.15, metalness: 0.5, roughness: 0.3
+    });
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(1.05, 0.07, 8, 34), ringMat);
+    ring.rotation.x = Math.PI / 2;
+    ring.position.y = 1.3;
+    const crown = wireWrap(
+      new THREE.Mesh(
+        new THREE.ConeGeometry(0.34, 0.8, 5),
+        new THREE.MeshStandardMaterial({
+          color: 0x0d0620, emissive: def.color, emissiveIntensity: 0.7, metalness: 0.5, roughness: 0.35
+        })
+      ),
+      def.color
+    );
+    crown.position.y = 2.0;
+    const halo = glowSprite(def.color, 5);
+    halo.position.y = 1.3;
+    g.add(core, ring, crown, halo);
+    g.userData.ring = ring;
+    g.userData.mats = [coreMat, ringMat];
+    g.userData.base = [0.55, 1.15];
+    g.scale.setScalar(scale || 1);
+    return g;
+  }
+
+  function setFlash(mesh, amount) {
+    if (!mesh || !mesh.userData.mats) return;
+    const mats = mesh.userData.mats;
+    const base = mesh.userData.base;
+    for (let i = 0; i < mats.length; i++) mats[i].emissiveIntensity = base[i] + amount * 5;
+  }
+
+  function faceGroup(g, target, dt) {
+    if (!g) return;
+    let d = target - g.rotation.y;
+    while (d > Math.PI) d -= Math.PI * 2;
+    while (d < -Math.PI) d += Math.PI * 2;
+    g.rotation.y += d * Math.min(1, dt * 9);
+  }
+
+  /* ---- maze ------------------------------------------------------------ */
+  let grid = null;
+  let floorList = [];
+
+  function genMaze() {
+    grid = [];
+    for (let z = 0; z < GH; z++) grid.push(new Array(GW).fill(1));
+    grid[1][1] = 0;
+
+    const stack = [[1, 1]];
+    while (stack.length) {
+      const cur = stack[stack.length - 1];
+      const x = cur[0];
+      const y = cur[1];
+      const dirs = [[2, 0], [-2, 0], [0, 2], [0, -2]];
+      for (let i = dirs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const t = dirs[i];
+        dirs[i] = dirs[j];
+        dirs[j] = t;
+      }
+      let moved = false;
+      for (let d = 0; d < dirs.length; d++) {
+        const nx = x + dirs[d][0];
+        const ny = y + dirs[d][1];
+        if (nx > 0 && ny > 0 && nx < GW - 1 && ny < GH - 1 && grid[ny][nx] === 1) {
+          grid[y + dirs[d][1] / 2][x + dirs[d][0] / 2] = 0;
+          grid[ny][nx] = 0;
+          stack.push([nx, ny]);
+          moved = true;
+          break;
+        }
+      }
+      if (!moved) stack.pop();
+    }
+
+    /* knock a few holes in so the floor is not a pure tree */
+    for (let i = 0; i < 14; i++) {
+      const x = 1 + Math.floor(Math.random() * (GW - 2));
+      const y = 1 + Math.floor(Math.random() * (GH - 2));
+      if (grid[y][x] !== 1) continue;
+      const h = grid[y][x - 1] === 0 && grid[y][x + 1] === 0;
+      const v = grid[y - 1][x] === 0 && grid[y + 1][x] === 0;
+      if (h || v) grid[y][x] = 0;
+    }
+
+    floorList = [];
+    for (let z = 0; z < GH; z++) {
+      for (let x = 0; x < GW; x++) if (grid[z][x] === 0) floorList.push({ x: x, z: z });
+    }
+  }
+
+  function bfsDist(sx, sy) {
+    const dist = [];
+    for (let z = 0; z < GH; z++) dist.push(new Array(GW).fill(-1));
+    const queue = [[sx, sy]];
+    dist[sy][sx] = 0;
+    for (let i = 0; i < queue.length; i++) {
+      const x = queue[i][0];
+      const y = queue[i][1];
+      const around = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+      for (let a = 0; a < around.length; a++) {
+        const nx = x + around[a][0];
+        const ny = y + around[a][1];
+        if (nx < 0 || ny < 0 || nx >= GW || ny >= GH) continue;
+        if (grid[ny][nx] !== 0 || dist[ny][nx] !== -1) continue;
+        dist[ny][nx] = dist[y][x] + 1;
+        queue.push([nx, ny]);
+      }
+    }
+    return dist;
+  }
+
+  function pickShadowTiles() {
+    const dist = bfsDist(1, 1);
+    const cands = floorList
+      .filter((t) => dist[t.z][t.x] > 0)
+      .sort((a, b) => dist[b.z][b.x] - dist[a.z][a.x]);
+
+    const picked = [];
+    let sep = 7;
+    while (picked.length < SHADOWS_TOTAL && sep > 1) {
+      for (let i = 0; i < cands.length && picked.length < SHADOWS_TOTAL; i++) {
+        const t = cands[i];
+        let ok = true;
+        for (let p = 0; p < picked.length; p++) {
+          const d = Math.abs(picked[p].x - t.x) + Math.abs(picked[p].z - t.z);
+          if (d < sep) { ok = false; break; }
+        }
+        if (ok) picked.push(t);
+      }
+      sep -= 2;
+    }
+    let idx = 0;
+    while (picked.length < SHADOWS_TOTAL && idx < cands.length) {
+      const t = cands[idx++];
+      if (picked.indexOf(t) === -1) picked.push(t);
+    }
+    picked.sort((a, b) => dist[a.z][a.x] - dist[b.z][b.x]);
+    return picked;
+  }
+
+  function tileAt(x, z) {
+    const tx = Math.round(x / TILE + (GW - 1) / 2);
+    const tz = Math.round(z / TILE + (GH - 1) / 2);
+    if (tx < 0 || tz < 0 || tx >= GW || tz >= GH) return 1;
+    return grid[tz][tx];
+  }
+
+  function blocked(x, z, r) {
+    return (
+      tileAt(x - r, z - r) === 1 ||
+      tileAt(x + r, z - r) === 1 ||
+      tileAt(x - r, z + r) === 1 ||
+      tileAt(x + r, z + r) === 1
+    );
+  }
+
+  /* Corner assist - turning into an opening while hugging the side wall would
+   * wedge the party against the diagonal tile. Ease it back to the middle of
+   * the corridor it is trying to enter so a single direction always gets thru. */
+  function slip(dx, dz, amount) {
+    if (dz) {
+      const tx = Math.round(leader.x / TILE + (GW - 1) / 2);
+      const tz = Math.round(leader.z / TILE + (GH - 1) / 2) + (dz > 0 ? 1 : -1);
+      if (tx < 0 || tx >= GW || tz < 0 || tz >= GH || grid[tz][tx] !== 0) return;
+      const d = worldX(tx) - leader.x;
+      if (Math.abs(d) > 0.015) leader.x += Math.sign(d) * Math.min(Math.abs(d), amount);
+    } else if (dx) {
+      const tz = Math.round(leader.z / TILE + (GH - 1) / 2);
+      const tx = Math.round(leader.x / TILE + (GW - 1) / 2) + (dx > 0 ? 1 : -1);
+      if (tx < 0 || tx >= GW || tz < 0 || tz >= GH || grid[tz][tx] !== 0) return;
+      const d = worldZ(tz) - leader.z;
+      if (Math.abs(d) > 0.015) leader.z += Math.sign(d) * Math.min(Math.abs(d), amount);
+    }
+  }
+
+  /* ---- scene pieces ----------------------------------------------------- */
+  let dungeonGroup = null;
+  let arenaGroup = null;
+  let mapCanvas = null;
+  let mapCtx = null;
+  const shadeList = [];
+  const leader = { x: 0, z: 0 };
+  const trail = [];
+  let arrow = null;
+  let bursts = [];
+
+  const ui = {};
+
+  function makeTileGrid() {
+    const pts = [];
+    const hw = (GW * TILE) / 2;
+    const hh = (GH * TILE) / 2;
+    for (let x = 0; x <= GW; x++) {
+      const px = -hw + x * TILE;
+      pts.push(px, 0.02, -hh, px, 0.02, hh);
+    }
+    for (let z = 0; z <= GH; z++) {
+      const pz = -hh + z * TILE;
+      pts.push(-hw, 0.02, pz, hw, 0.02, pz);
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
+    return new THREE.LineSegments(
+      g,
+      new THREE.LineBasicMaterial({ color: 0x0e63a0, transparent: true, opacity: 0.55 })
+    );
+  }
+
+  function buildDungeon() {
+    dungeonGroup = new THREE.Group();
+    scene.add(dungeonGroup);
+
+    const floor = new THREE.Mesh(
+      new THREE.PlaneGeometry(GW * TILE, GH * TILE),
+      new THREE.MeshStandardMaterial({
+        color: 0x04101f, emissive: 0x062a4d, emissiveIntensity: 0.35, roughness: 0.88, metalness: 0.12
+      })
+    );
+    floor.rotation.x = -Math.PI / 2;
+    dungeonGroup.add(floor);
+    dungeonGroup.add(makeTileGrid());
+
+    const boxGeo = new THREE.BoxGeometry(TILE, WALL_H, TILE);
+    const wallMat = new THREE.MeshStandardMaterial({
+      color: 0x0a1c36, emissive: 0x0b3a66, emissiveIntensity: 0.5, roughness: 0.55, metalness: 0.35
+    });
+    const cells = [];
+    for (let z = 0; z < GH; z++) {
+      for (let x = 0; x < GW; x++) if (grid[z][x] === 1) cells.push({ x: x, z: z });
+    }
+
+    const inst = new THREE.InstancedMesh(boxGeo, wallMat, cells.length);
+    const m4 = new THREE.Matrix4();
+    const col = new THREE.Color();
+    cells.forEach((c, i) => {
+      m4.makeTranslation(worldX(c.x), WALL_H / 2, worldZ(c.z));
+      inst.setMatrixAt(i, m4);
+      col.setHex((c.x + c.z) % 2 === 0 ? 0x113358 : 0x0a2142);
+      inst.setColorAt(i, col);
+    });
+    inst.instanceMatrix.needsUpdate = true;
+    if (inst.instanceColor) inst.instanceColor.needsUpdate = true;
+    inst.frustumCulled = false;
+    dungeonGroup.add(inst);
+
+    /* one merged wireframe holding the edges of every wall block */
+    const edgeSrc = new THREE.EdgesGeometry(boxGeo);
+    const ep = edgeSrc.getAttribute("position");
+    const out = new Float32Array(ep.count * cells.length * 3);
+    const v = new THREE.Vector3();
+    let o = 0;
+    cells.forEach((c) => {
+      m4.makeTranslation(worldX(c.x), WALL_H / 2, worldZ(c.z));
+      for (let i = 0; i < ep.count; i++) {
+        v.fromBufferAttribute(ep, i).applyMatrix4(m4);
+        out[o++] = v.x;
+        out[o++] = v.y;
+        out[o++] = v.z;
+      }
+    });
+    edgeSrc.dispose();
+    const lineGeo = new THREE.BufferGeometry();
+    lineGeo.setAttribute("position", new THREE.BufferAttribute(out, 3));
+    const lines = new THREE.LineSegments(
+      lineGeo,
+      new THREE.LineBasicMaterial({ color: 0x16cffb, transparent: true, opacity: 0.5 })
+    );
+    lines.frustumCulled = false;
+    dungeonGroup.add(lines);
+
+    const stars = starfield(360, 130, 0x8fd8ff, 0.13);
+    stars.position.y = 14;
+    dungeonGroup.add(stars);
+
+    heroes.forEach((h, i) => {
+      h.dgn = makeFigure(h.color, i === 0 ? 1 : 0.92);
+      dungeonGroup.add(h.dgn);
+    });
+
+    shadeList.length = 0;
+    const spots = pickShadowTiles();
+    spots.forEach((t, i) => {
+      const def = FOES[i] || FOES[FOES.length - 1];
+      const mesh = makeShadowMesh(def, 0.78);
+      const s = {
+        index: i,
+        def: def,
+        x: worldX(t.x),
+        z: worldZ(t.z),
+        tx: t.x,
+        tz: t.z,
+        phase: Math.random() * 6.28,
+        retarget: rnd(1.5, 4),
+        dead: false,
+        mesh: mesh
+      };
+      mesh.position.set(s.x, 0, s.z);
+      dungeonGroup.add(mesh);
+      shadeList.push(s);
+    });
+  }
+
+  function buildArena() {
+    arenaGroup = new THREE.Group();
+    arenaGroup.position.y = ARENA_Y;
+    arenaGroup.visible = false;
+    scene.add(arenaGroup);
+
+    const disc = new THREE.Mesh(
+      new THREE.CylinderGeometry(9.6, 9.6, 0.5, 46),
+      new THREE.MeshStandardMaterial({
+        color: 0x05182f, emissive: 0x0a3b66, emissiveIntensity: 0.5, roughness: 0.5, metalness: 0.45
+      })
+    );
+    disc.position.y = -0.25;
+    arenaGroup.add(disc);
+
+    const rim = new THREE.Mesh(
+      new THREE.TorusGeometry(9.6, 0.13, 10, 64),
+      new THREE.MeshStandardMaterial({ color: 0x16cffb, emissive: 0x16cffb, emissiveIntensity: 1.1 })
+    );
+    rim.rotation.x = Math.PI / 2;
+    rim.position.y = 0.04;
+    arenaGroup.add(rim);
+
+    const inner = new THREE.Mesh(
+      new THREE.TorusGeometry(5.4, 0.07, 8, 48),
+      new THREE.MeshStandardMaterial({ color: 0xe60024, emissive: 0xe60024, emissiveIntensity: 0.9 })
+    );
+    inner.rotation.x = Math.PI / 2;
+    inner.position.y = 0.04;
+    arenaGroup.add(inner);
+
+    const gridFloor = new THREE.GridHelper(19, 19, 0x16cffb, 0x0a3160);
+    gridFloor.position.y = 0.03;
+    gridFloor.material.transparent = true;
+    gridFloor.material.opacity = 0.4;
+    arenaGroup.add(gridFloor);
+
+    const stars = starfield(460, 110, 0xbfefff, 0.14);
+    stars.position.y = 6;
+    arenaGroup.add(stars);
+
+    const key = new THREE.PointLight(0x16cffb, 70, 46);
+    key.position.set(-5, 7, 6);
+    arenaGroup.add(key);
+    const fill = new THREE.PointLight(0xe60024, 50, 46);
+    fill.position.set(6, 5, -5);
+    arenaGroup.add(fill);
+
+    heroes.forEach((h, i) => {
+      h.mesh = makeFigure(h.color, 1);
+      h.home = HERO_HOME[i];
+      h.mesh.position.set(h.home.x, 0, h.home.z);
+      h.mesh.rotation.y = Math.PI;
+      arenaGroup.add(h.mesh);
+    });
+
+    arrow = new THREE.Mesh(
+      new THREE.ConeGeometry(0.3, 0.56, 4),
+      new THREE.MeshStandardMaterial({ color: 0x16cffb, emissive: 0x16cffb, emissiveIntensity: 1.3 })
+    );
+    arrow.rotation.x = Math.PI;
+    arrow.visible = false;
+    arenaGroup.add(arrow);
+  }
+
+  /* ---- party (persists between battles) ---------------------------------- */
+  const heroes = HEROES.map((d, i) => ({
+    def: d,
+    index: i,
+    isFoe: false,
+    name: d.name,
+    color: d.color,
+    weak: d.weak,
+    skills: d.skills,
+    maxHp: d.hp,
+    hp: d.hp,
+    maxSp: d.sp,
+    sp: d.sp,
+    agi: d.agi,
+    atk: d.atk,
+    alive: true,
+    down: false,
+    guarding: false,
+    hitT: 0,
+    mesh: null,
+    dgn: null,
+    home: HERO_HOME[i]
+  }));
+
+  let foe = null;
+  let activeShade = null;
+
+  /* ---- battle state ------------------------------------------------------ */
+  let phase = "dungeon";   /* dungeon|intro|menu|act|gap|victory|defeat */
+  let phaseT = 0;
+  let gapT = 0;
+  let pendingExtra = false;
+  let queue = [];
+  let current = null;
+  let anim = null;
+  let entries = [];
+  let cursor = 0;
+  let subMenu = null;
+  let round = 0;
+  let gauge = 65;
+  let shake = 0;
+  let bannerT = 0;
+  let toastT = 0;
+  let uiDirty = true;
+  const logLines = [];
+  let camMode = "dungeon";
+  let camPos = null;
+  let camLook = null;
+  let elapsed = 0;
+
+  /* ---- DOM ---------------------------------------------------------------- */
+  function makeDiv(cls, html) {
+    const d = document.createElement("div");
+    if (cls) d.className = cls;
+    if (html) d.innerHTML = html || "";
+    return d;
+  }
+
+  function buildUI() {
+    if (!el.wrap) return;
+
+    ui.root = makeDiv(
+      "p3r-battle",
+      '<div class="p3r-battle-round"></div>' +
+        '<div class="p3r-battle-log"></div>' +
+        '<div class="p3r-battle-foe">' +
+          '<div class="p3r-battle-foe-head"><span class="p3r-battle-foe-name"></span><span class="p3r-battle-foe-hpnum"></span></div>' +
+          '<div class="p3r-battle-bar p3r-battle-foe-bar"><i></i></div>' +
+          '<div class="p3r-battle-tags"><span class="p3r-battle-weak"></span><span class="p3r-battle-down">DOWN</span></div>' +
+        "</div>" +
+        '<div class="p3r-battle-banner"></div>' +
+        '<div class="p3r-battle-bottom">' +
+          '<div class="p3r-battle-party"></div>' +
+          '<div class="p3r-battle-menu">' +
+            '<div class="p3r-battle-menu-head"><span>COMMAND</span><b class="p3r-battle-actor"></b></div>' +
+            '<ul class="p3r-battle-menu-list"></ul>' +
+            '<div class="p3r-battle-menu-hint"></div>' +
+          "</div>" +
+        "</div>"
+    );
+    el.wrap.appendChild(ui.root);
+
+    ui.round = ui.root.querySelector(".p3r-battle-round");
+    ui.log = ui.root.querySelector(".p3r-battle-log");
+    ui.foeName = ui.root.querySelector(".p3r-battle-foe-name");
+    ui.foeHpNum = ui.root.querySelector(".p3r-battle-foe-hpnum");
+    ui.foeBar = ui.root.querySelector(".p3r-battle-foe-bar i");
+    ui.foeWeak = ui.root.querySelector(".p3r-battle-weak");
+    ui.foeDown = ui.root.querySelector(".p3r-battle-down");
+    ui.banner = ui.root.querySelector(".p3r-battle-banner");
+    ui.party = ui.root.querySelector(".p3r-battle-party");
+    ui.menu = ui.root.querySelector(".p3r-battle-menu");
+    ui.menuList = ui.root.querySelector(".p3r-battle-menu-list");
+    ui.menuActor = ui.root.querySelector(".p3r-battle-actor");
+    ui.menuHint = ui.root.querySelector(".p3r-battle-menu-hint");
+
+    ui.cards = heroes.map((h) => {
+      const card = makeDiv(
+        "p3r-battle-card",
+        '<span class="p3r-battle-card-name">' + h.name + "</span>" +
+          '<span class="p3r-battle-card-hp"></span>' +
+          '<div class="p3r-battle-bar"><i></i></div>' +
+          '<span class="p3r-battle-card-sp"></span>'
+      );
+      ui.party.appendChild(card);
+      return {
+        root: card,
+        hp: card.querySelector(".p3r-battle-card-hp"),
+        bar: card.querySelector(".p3r-battle-bar i"),
+        sp: card.querySelector(".p3r-battle-card-sp")
+      };
+    });
+
+    ui.map = makeDiv("p3r-mg-map");
+    ui.map.innerHTML =
+      '<canvas width="' + MAP_W + '" height="' + MAP_H + '"></canvas><span>TARTARUS &middot; B1F</span>';
+    el.wrap.appendChild(ui.map);
+    mapCanvas = ui.map.querySelector("canvas");
+    mapCtx = mapCanvas ? mapCanvas.getContext("2d") : null;
+
+    ui.toast = makeDiv("p3r-mg-toast");
+    el.wrap.appendChild(ui.toast);
+
+    ui.flash = makeDiv("p3r-mg-flash");
+    el.wrap.appendChild(ui.flash);
+
+    ui.gauge = makeDiv(
+      "p3r-mg-gauge",
+      '<span>THEURGY</span><div class="p3r-mg-gauge-bar"><i></i></div><strong>65</strong>'
+    );
+    const hud = document.getElementById("minigame-hud");
+    if (hud) hud.appendChild(ui.gauge);
+    ui.gaugeBar = ui.gauge.querySelector("i");
+    ui.gaugeNum = ui.gauge.querySelector("strong");
+  }
+
+  function killUI() {
+    if (el.wrap) el.wrap.classList.remove("battle-on");
+    ["root", "map", "toast", "flash", "gauge"].forEach((k) => {
+      const n = ui[k];
+      if (n && n.parentNode) n.parentNode.removeChild(n);
+      ui[k] = null;
+    });
+    ui.cards = null;
+    ui.round = null;
+    ui.log = null;
+    ui.foeName = null;
+    ui.foeHpNum = null;
+    ui.foeBar = null;
+    ui.foeWeak = null;
+    ui.foeDown = null;
+    ui.banner = null;
+    ui.party = null;
+    ui.menu = null;
+    ui.menuList = null;
+    ui.menuActor = null;
+    ui.menuHint = null;
+    ui.gaugeBar = null;
+    ui.gaugeNum = null;
+    mapCtx = null;
+    mapCanvas = null;
+  }
+
+  function log(text) {
+    logLines.push(text);
+    if (logLines.length > 3) logLines.shift();
+    if (ui.log) ui.log.innerHTML = logLines.map((t) => "<div>" + t + "</div>").join("");
+  }
+
+  function showBanner(text, cls) {
+    if (!ui.banner) return;
+    ui.banner.textContent = text;
+    ui.banner.className = "p3r-battle-banner " + (cls || "");
+    void ui.banner.offsetWidth;
+    ui.banner.classList.add("show");
+    bannerT = 1.15;
+  }
+
+  function showToast(text, dur) {
+    if (!ui.toast) return;
+    ui.toast.textContent = text;
+    ui.toast.classList.add("show");
+    toastT = dur || 2.6;
+  }
+
+  function flash() {
+    if (!ui.flash) return;
+    ui.flash.classList.remove("on");
+    void ui.flash.offsetWidth;
+    ui.flash.classList.add("on");
+  }
+
+  function spawnFloat(text, cssColor, mesh) {
+    if (!ui.root || !mesh || !camera || !el.wrap) return;
+    const w = new THREE.Vector3();
+    mesh.getWorldPosition(w);
+    w.y += 2.1;
+    const rect = el.wrap.getBoundingClientRect();
+    const p = w.project(camera);
+    const f = document.createElement("div");
+    f.className = "p3r-float";
+    f.textContent = text;
+    f.style.color = cssColor || "#ffffff";
+    f.style.left = (p.x * 0.5 + 0.5) * rect.width + "px";
+    f.style.top = (-p.y * 0.5 + 0.5) * rect.height + "px";
+    ui.root.appendChild(f);
+    window.setTimeout(() => {
+      if (f.parentNode) f.parentNode.removeChild(f);
+    }, 1000);
+  }
+
+  function spawnBurst(pos, color, big) {
+    if (!arenaGroup) return;
+    const s = glowSprite(color, big ? 11 : 5.5);
+    s.position.copy(pos);
+    arenaGroup.add(s);
+    bursts.push({ obj: s, t: 0, dur: big ? 0.75 : 0.45, ring: false });
+
+    const r = new THREE.Mesh(
+      new THREE.TorusGeometry(0.7, 0.07, 8, 34),
+      new THREE.MeshBasicMaterial({
+        color: color,
+        transparent: true,
+        opacity: 0.95,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      })
+    );
+    r.position.copy(pos);
+    r.rotation.x = Math.PI / 2;
+    arenaGroup.add(r);
+    bursts.push({ obj: r, t: 0, dur: big ? 0.8 : 0.55, ring: true });
+  }
+
+  function updateBursts(dt) {
+    for (let i = bursts.length - 1; i >= 0; i--) {
+      const b = bursts[i];
+      b.t += dt;
+      const k = clamp(b.t / b.dur, 0, 1);
+      if (b.ring) {
+        b.obj.scale.setScalar(1 + k * (b.dur > 0.7 ? 9 : 4.5));
+        b.obj.material.opacity = (1 - k) * 0.95;
+      } else {
+        b.obj.scale.setScalar((b.dur > 0.7 ? 11 : 5.5) * (0.5 + k * 1.5));
+        b.obj.material.opacity = 1 - k;
+      }
+      if (k >= 1) {
+        if (b.obj.parent) b.obj.parent.remove(b.obj);
+        if (b.obj.material) b.obj.material.dispose();
+        bursts.splice(i, 1);
+      }
+    }
+  }
+
+  /* ---- UI rendering ------------------------------------------------------ */
+  function renderCards() {
+    if (!ui.cards) return;
+    heroes.forEach((h, i) => {
+      const c = ui.cards[i];
+      if (!c) return;
+      setTxt(c.hp, h.hp + "/" + h.maxHp);
+      setBar(c.bar, h.hp / h.maxHp, "p3r-battle-bar-fill");
+      setTxt(c.sp, "SP " + h.sp);
+      const cls =
+        "p3r-battle-card" +
+        (!h.alive || h.down ? " down" : "") +
+        (phase !== "dungeon" && current === h ? " active" : "");
+      if (c.root.className !== cls) c.root.className = cls;
+    });
+  }
+
+  function renderFoe() {
+    if (!ui.root || !ui.foeName) return;
+    const on = !!foe;
+    if (on !== ui.root.classList.contains("has-foe")) ui.root.classList.toggle("has-foe", on);
+    if (!on) return;
+    setTxt(ui.foeName, foe.name);
+    setTxt(ui.foeHpNum, foe.hp + "/" + foe.maxHp);
+    setBar(ui.foeBar, foe.hp / foe.maxHp, "p3r-battle-bar-fill");
+    setTxt(ui.foeWeak, "WEAK \u00b7 " + (ELEM[foe.weak] ? ELEM[foe.weak].tag : "-"));
+    ui.foeDown.classList.toggle("on", foe.down);
+  }
+
+  function renderGauge() {
+    if (!ui.gaugeBar) return;
+    const v = Math.round(gauge);
+    setBar(ui.gaugeBar, v / 100, "p3r-mg-gauge-fill");
+    setTxt(ui.gaugeNum, String(v));
+    ui.gauge.classList.toggle("full", v >= 100);
+  }
+
+  function renderMenu() {
+    if (!ui.menuList) return;
+    ui.menuList.innerHTML = entries
+      .map((e, i) => {
+        const cls = ["p3r-battle-opt"];
+        if (i === cursor) cls.push("sel");
+        if (!e.ok) cls.push("off");
+        if (e.weak) cls.push("weak");
+        const right =
+          (e.weak ? '<i class="p3r-battle-wk">LEMAH</i>' : "") +
+          (e.hint ? "<em>" + e.hint + "</em>" : "");
+        return '<li class="' + cls.join(" ") + '"><span>' + e.label + "</span>" + right + "</li>";
+      })
+      .join("");
+    setTxt(ui.menuActor, current && !current.isFoe ? current.name : "SHADOW");
+    const e = entries[cursor];
+    setTxt(ui.menuHint, e && e.desc ? e.desc : "");
+  }
+
+  function renderFrame() {
+    uiDirty = false;
+    if (!ui.root) return;
+    ui.menu.classList.toggle("on", phase === "menu");
+    renderCards();
+    renderFoe();
+    renderGauge();
+  }
+
+  /* ---- minimap ------------------------------------------------------------ */
+  function drawMinimap() {
+    if (!mapCtx || !grid) return;
+    const cw = MAP_W / GW;
+    const ch = MAP_H / GH;
+    mapCtx.clearRect(0, 0, MAP_W, MAP_H);
+    mapCtx.fillStyle = "rgba(2, 11, 24, 0.86)";
+    mapCtx.fillRect(0, 0, MAP_W, MAP_H);
+    mapCtx.fillStyle = "rgba(22, 207, 251, 0.26)";
+    for (let z = 0; z < GH; z++) {
+      for (let x = 0; x < GW; x++) {
+        if (grid[z][x] === 1) mapCtx.fillRect(x * cw, z * ch, cw + 0.5, ch + 0.5);
+      }
+    }
+    for (let i = 0; i < shadeList.length; i++) {
+      const s = shadeList[i];
+      if (s.dead) continue;
+      mapCtx.fillStyle = "#e60024";
+      mapCtx.beginPath();
+      mapCtx.arc(
+        (s.x / TILE + (GW - 1) / 2 + 0.5) * cw,
+        (s.z / TILE + (GH - 1) / 2 + 0.5) * ch,
+        3,
+        0,
+        6.283
+      );
+      mapCtx.fill();
+    }
+    for (let i = heroes.length - 1; i >= 0; i--) {
+      const m = heroes[i].dgn;
+      if (!m) continue;
+      const px = (m.position.x / TILE + (GW - 1) / 2 + 0.5) * cw;
+      const pz = (m.position.z / TILE + (GH - 1) / 2 + 0.5) * ch;
+      mapCtx.fillStyle = i === 0 ? "#7de6fd" : "#" + heroes[i].color.toString(16).padStart(6, "0");
+      mapCtx.beginPath();
+      mapCtx.arc(px, pz, i === 0 ? 3.4 : 2.2, 0, 6.283);
+      mapCtx.fill();
+    }
+  }
+
+  /* ---- roaming the floor -------------------------------------------------- */
+  function trailAt(dist) {
+    let acc = 0;
+    for (let i = trail.length - 1; i > 0; i--) {
+      const a = trail[i];
+      const b = trail[i - 1];
+      const d = Math.hypot(a.x - b.x, a.z - b.z);
+      if (acc + d >= dist && d > 0.0001) {
+        const k = (dist - acc) / d;
+        return { x: a.x + (b.x - a.x) * k, z: a.z + (b.z - a.z) * k };
+      }
+      acc += d;
+    }
+    return trail.length ? trail[0] : { x: leader.x, z: leader.z };
+  }
+
+  function pickShadeTarget(s) {
+    let best = null;
+    const stx = Math.round(s.x / TILE + (GW - 1) / 2);
+    const stz = Math.round(s.z / TILE + (GH - 1) / 2);
+    for (let i = 0; i < 16; i++) {
+      const t = floorList[Math.floor(Math.random() * floorList.length)];
+      if (!t) continue;
+      const d = Math.abs(t.x - stx) + Math.abs(t.z - stz);
+      if (d >= 3 && d <= 8) {
+        best = t;
+        break;
+      }
+      if (!best) best = t;
+    }
+    if (best) {
+      s.tx = best.x;
+      s.tz = best.z;
+    }
+    s.retarget = rnd(3.5, 7);
+  }
+
+  function updateDungeon(dt) {
+    const dx = (keyDown("ArrowRight", "d") ? 1 : 0) - (keyDown("ArrowLeft", "a") ? 1 : 0);
+    const dz = (keyDown("ArrowDown", "s") ? 1 : 0) - (keyDown("ArrowUp", "w") ? 1 : 0);
+    if (dx || dz) {
+      const len = Math.hypot(dx, dz);
+      const vx = (dx / len) * HERO_SPEED * dt;
+      const vz = (dz / len) * HERO_SPEED * dt;
+      const ox = leader.x;
+      const oz = leader.z;
+      if (!blocked(leader.x + vx, leader.z, MOVE_R)) leader.x += vx;
+      if (!blocked(leader.x, leader.z + vz, MOVE_R)) leader.z += vz;
+      if (dz && !dx && leader.z === oz) slip(dx, dz, HERO_SPEED * 0.85 * dt);
+      else if (dx && !dz && leader.x === ox) slip(dx, dz, HERO_SPEED * 0.85 * dt);
+      faceGroup(heroes[0].dgn, Math.atan2(vx, vz), dt);
+    }
+
+    const last = trail[trail.length - 1];
+    if (!last || Math.hypot(last.x - leader.x, last.z - leader.z) > 0.13) {
+      trail.push({ x: leader.x, z: leader.z });
+      if (trail.length > 150) trail.shift();
+    }
+
+    heroes[0].dgn.position.x = leader.x;
+    heroes[0].dgn.position.z = leader.z;
+    for (let i = 1; i < heroes.length; i++) {
+      const m = heroes[i].dgn;
+      if (!m) continue;
+      const p = trailAt(i * 1.9);
+      const ox = m.position.x;
+      const oz = m.position.z;
+      m.position.x = p.x;
+      m.position.z = p.z;
+      if (Math.hypot(p.x - ox, p.z - oz) > 0.005) faceGroup(m, Math.atan2(p.x - ox, p.z - oz), dt);
+      if (m.userData.ring) m.userData.ring.rotation.z += dt * 1.4;
+    }
+
+    let triggered = null;
+    for (let i = 0; i < shadeList.length; i++) {
+      const s = shadeList[i];
+      if (s.dead) continue;
+      s.retarget -= dt;
+      s.mesh.rotation.y += dt * 0.9;
+      if (s.mesh.userData.ring) s.mesh.userData.ring.rotation.z += dt * 2;
+      s.mesh.position.y = Math.sin(elapsed * 2 + s.phase) * 0.18;
+
+      const tx = worldX(s.tx);
+      const tz = worldZ(s.tz);
+      const ddx = tx - s.x;
+      const ddz = tz - s.z;
+      const dd = Math.hypot(ddx, ddz);
+      if (dd < 0.16 || s.retarget <= 0) {
+        pickShadeTarget(s);
+      } else {
+        const step = 1.9 * dt;
+        const nx = s.x + (ddx / dd) * step;
+        const nz = s.z + (ddz / dd) * step;
+        if (!blocked(nx, nz, 0.5)) {
+          s.x = nx;
+          s.z = nz;
+        } else pickShadeTarget(s);
+      }
+      s.mesh.position.x = s.x;
+      s.mesh.position.z = s.z;
+
+      const near = Math.hypot(s.x - leader.x, s.z - leader.z);
+      setFlash(s.mesh, near < 5.5 ? (1 - near / 5.5) * 0.5 : 0);
+      if (near < 2.1) {
+        triggered = s;
+        break;
+      }
+    }
+
+    drawMinimap();
+    if (triggered) beginBattle(triggered);
+  }
+
+  function nearestShadeTiles() {
+    let best = null;
+    let bd = Infinity;
+    for (let i = 0; i < shadeList.length; i++) {
+      const s = shadeList[i];
+      if (s.dead) continue;
+      const d = Math.hypot(s.x - leader.x, s.z - leader.z) / TILE;
+      if (d < bd) {
+        bd = d;
+        best = s;
+      }
+    }
+    return best ? Math.round(bd) : -1;
+  }
+
+  /* ---- battle: setup ------------------------------------------------------- */
+  function beginBattle(s) {
+    activeShade = s;
+    const def = s.def;
+    foe = {
+      isFoe: true,
+      name: def.name,
+      weak: def.weak,
+      elem: def.elem,
+      color: def.color,
+      reward: def.reward,
+      maxHp: def.hp,
+      hp: def.hp,
+      agi: def.agi,
+      atk: def.atk,
+      alive: true,
+      down: false,
+      guarding: false,
+      hitT: 0,
+      turns: 0,
+      home: FOE_HOME,
+      mesh: makeShadowMesh(def, 1.35)
+    };
+    foe.mesh.position.set(FOE_HOME.x, 0, FOE_HOME.z);
+    foe.mesh.rotation.y = Math.PI;
+    arenaGroup.add(foe.mesh);
+
+    heroes.forEach((h) => {
+      h.down = false;
+      h.guarding = false;
+      h.hitT = 0;
+      h.mesh.position.set(h.home.x, 0, h.home.z);
+      h.mesh.rotation.y = Math.PI;
+      setFlash(h.mesh, 0);
+    });
+
+    dungeonGroup.visible = false;
+    arenaGroup.visible = true;
+    camMode = "battle";
+    phase = "intro";
+    phaseT = 0;
+    round = 0;
+    queue = [];
+    current = null;
+    anim = null;
+    subMenu = null;
+    cursor = 0;
+    pendingExtra = false;
+    logLines.length = 0;
+    if (ui.log) ui.log.innerHTML = "";
+    if (ui.round) ui.round.classList.remove("show");
+
+    if (ui.root) ui.root.classList.add("on");
+    if (ui.map) ui.map.classList.remove("on");
+    if (el.wrap) el.wrap.classList.add("battle-on");
+    showBanner("SHADOW APPEARS!", "warn");
+    log("Bayangan menghadang party!");
+    uiDirty = true;
+    shake = 0.5;
+    blip(170, 0.4, "sawtooth", 0.07);
+    window.setTimeout(() => blip(240, 0.3, "square", 0.05), 140);
+    updateHUD();
+  }
+
+  function hideBattleUI() {
+    if (ui.root) ui.root.classList.remove("on");
+    if (ui.map) ui.map.classList.remove("on");
+    if (el.wrap) el.wrap.classList.remove("battle-on");
+    if (ui.banner) ui.banner.classList.remove("show");
+    if (ui.round) ui.round.classList.remove("show");
+    bannerT = 0;
+  }
+
+  function returnToDungeon() {
+    if (foe && foe.mesh) {
+      arenaGroup.remove(foe.mesh);
+      killObject(foe.mesh);
+      foe = null;
+    }
+    activeShade = null;
+    phase = "dungeon";
+    current = null;
+    anim = null;
+    queue = [];
+    if (arrow) arrow.visible = false;
+    arenaGroup.visible = false;
+    dungeonGroup.visible = true;
+    camMode = "dungeon";
+    hideBattleUI();
+    if (ui.map) ui.map.classList.add("on");
+    showToast("SISA BAYANGAN: " + state.shadows, 2.4);
+    uiDirty = true;
+    updateHUD();
+  }
+
+  /* ---- battle: turn order --------------------------------------------------- */
+  function advance() {
+    let guard = 0;
+    for (;;) {
+      if (++guard > 60) return;
+      if (foe && !foe.alive) { doVictory(); return; }
+      if (!heroes.some((h) => h.alive)) { doDefeat(); return; }
+      if (queue.length === 0) { beginRound(); return; }
+      const a = queue.shift();
+      if (!a || !a.alive) continue;
+      if (a.down) {
+        a.down = false;
+        log(a.name + " bangkit kembali.");
+        uiDirty = true;
+        continue;
+      }
+      current = a;
+      if (a.isFoe) foeTurn();
+      else openMenu();
+      return;
+    }
+  }
+
+  function beginRound() {
+    round += 1;
+    const actors = [];
+    if (foe && foe.alive) actors.push(foe);
+    heroes.forEach((h) => { if (h.alive) actors.push(h); });
+    actors.sort((a, b) => b.agi - a.agi);
+    queue = actors;
+    if (ui.round) {
+      ui.round.textContent = "ROUND " + round;
+      ui.round.classList.remove("show");
+      void ui.round.offsetWidth;
+      ui.round.classList.add("show");
+    }
+    advance();
+  }
+
+  function openMenu() {
+    if (current.guarding) current.guarding = false;
+    phase = "menu";
+    subMenu = null;
+    cursor = 0;
+    entries = rootEntries();
+    renderMenu();
+    uiDirty = true;
+    blip(720, 0.05, "square", 0.035);
+  }
+
+  function rootEntries() {
+    const h = current;
+    return [
+      {
+        label: "ATTACK",
+        ok: true,
+        desc: "Serangan fisik biasa",
+        run: () => heroStrike({ kind: "strike", el: "phys", name: "ATTACK", power: h.atk })
+      },
+      {
+        label: "SKILL",
+        ok: true,
+        hint: h.skills.length + " buah",
+        desc: "Magic &amp; elemen - cek kelemahan",
+        sub: "skill"
+      },
+      {
+        label: "ALL-OUT",
+        ok: !!(foe && foe.down),
+        hint: foe && foe.down ? "READY" : "butuh DOWN",
+        desc: "Serangan tim penuh saat bayangan DOWN",
+        run: () => heroAllOut()
+      },
+      {
+        label: "THEURGY",
+        ok: gauge >= 100,
+        hint: Math.round(gauge) + "%",
+        desc: "Ultimate party - damage ALMIGHTY",
+        run: () => heroTheurgy()
+      },
+      {
+        label: "GUARD",
+        ok: true,
+        desc: "Turunkan damage sampai giliran berikutnya",
+        run: () => heroGuard()
+      }
+    ];
+  }
+
+  function skillEntries() {
+    const h = current;
+    const list = h.skills.map((sk) => ({
+      label: sk.name,
+      hint: sk.cost + " SP",
+      ok: h.sp >= sk.cost,
+      weak: !!(foe && sk.el === foe.weak),
+      desc: ELEM[sk.el].tag + (foe && sk.el === foe.weak ? " - LEMAH!" : ""),
+      run: () => heroSkill(sk)
+    }));
+    list.push({
+      label: "KEMBALI",
+      ok: true,
+      hint: "ESC",
+      desc: "Kembali ke menu utama",
+      back: true
+    });
+    return list;
+  }
+
+  function moveCursor(delta) {
+    if (phase !== "menu" || entries.length === 0) return;
+    cursor = (cursor + delta + entries.length) % entries.length;
+    renderMenu();
+    blip(560, 0.035, "square", 0.03);
+  }
+
+  function closeSub() {
+    subMenu = null;
+    cursor = 0;
+    entries = rootEntries();
+    renderMenu();
+    blip(420, 0.05, "square", 0.035);
+  }
+
+  function confirmMenu() {
+    if (phase !== "menu") return;
+    const e = entries[cursor];
+    if (!e) return;
+    if (!e.ok) {
+      blip(150, 0.13, "square", 0.05);
+      if (ui.menu) {
+        ui.menu.classList.remove("shake");
+        void ui.menu.offsetWidth;
+        ui.menu.classList.add("shake");
+      }
+      return;
+    }
+    if (e.back) { closeSub(); return; }
+    if (e.sub === "skill") {
+      subMenu = "skill";
+      cursor = 0;
+      entries = skillEntries();
+      renderMenu();
+      blip(760, 0.06, "square", 0.04);
+      return;
+    }
+    if (typeof e.run === "function") {
+      subMenu = null;
+      blip(880, 0.07, "square", 0.045);
+      e.run();
+    }
+  }
+
+  /* ---- battle: action plumbing ---------------------------------------------- */
+  function lungeDest(from, to, reach) {
+    const dx = to.x - from.x;
+    const dz = to.z - from.z;
+    const d = Math.hypot(dx, dz) || 1;
+    const k = Math.max(0, d - reach) / d;
+    return { x: from.x + dx * k, z: from.z + dz * k };
+  }
+
+  function beginAction(cfg) {
+    cfg.dur = cfg.dur || 1.05;
+    cfg.lunges = cfg.lunges || [];
+    anim = { t: 0, hit: false, cfg: cfg };
+    phase = "act";
+    uiDirty = true;
+  }
+
+  function afterAction(delay, extra) {
+    pendingExtra = !!extra;
+    gapT = delay;
+    phase = "gap";
+    uiDirty = true;
+  }
+
+  function stepAnim(dt) {
+    anim.t += dt;
+    const a = anim;
+    const k = clamp(ramp(a.t, 0.06, 0.42) - ramp(a.t, 0.5, 0.94), 0, 1);
+    for (let i = 0; i < a.cfg.lunges.length; i++) {
+      const l = a.cfg.lunges[i];
+      l.mesh.position.x = l.from.x + (l.to.x - l.from.x) * k;
+      l.mesh.position.z = l.from.z + (l.to.z - l.from.z) * k;
+    }
+    if (!a.hit && a.t >= 0.44) {
+      a.hit = true;
+      a.cfg.onImpact();
+    }
+    if (a.t >= a.cfg.dur) {
+      for (let i = 0; i < a.cfg.lunges.length; i++) {
+        const l = a.cfg.lunges[i];
+        l.mesh.position.x = l.from.x;
+        l.mesh.position.z = l.from.z;
+      }
+      const cfg = a.cfg;
+      anim = null;
+      cfg.onDone();
+    }
+  }
+
+  function calcHit(power, target, el) {
+    let dmg = power * rnd(0.9, 1.12);
+    if (target.guarding) dmg *= 0.45;
+    const magical = el && el !== "phys" && el !== "heal" && el !== "almighty";
+    const exploit = !!magical && target.weak === el;
+    const crit = Math.random() < 0.12;
+    if (crit) dmg *= 1.7;
+    if (exploit) dmg *= 1.65;
+    return { dmg: Math.max(1, Math.round(dmg)), exploit: exploit, crit: crit };
+  }
+
+  function applyDamage(target, dmg, opts) {
+    opts = opts || {};
+    target.hp = Math.max(0, target.hp - dmg);
+    target.hitT = 0.4;
+    const e = ELEM[opts.el] || ELEM.phys;
+    spawnFloat("-" + dmg, opts.css || e.css, target.mesh);
+    spawnBurst(target.mesh.position, e.color, !!opts.big);
+    shake = Math.min(1.3, shake + (opts.big ? 0.75 : 0.32));
+    blip(e.freq, 0.16, "sawtooth", 0.06);
+
+    if (target.isFoe) {
+      state.score += dmg;
+      gauge = Math.min(100, gauge + dmg * 0.13 + (opts.exploit ? 22 : 0));
+      if (opts.exploit) state.score += 180;
+      else if (opts.crit) state.score += 120;
+      if (target.hp <= 0 && target.alive) {
+        target.alive = false;
+        target.down = false;
+      }
+    } else {
+      gauge = Math.min(100, gauge + dmg * 0.26);
+      if (target.hp <= 0) {
+        target.alive = false;
+        target.down = false;
+        log(target.name + " K.O.!");
+        showBanner(target.name + " K.O.!", "ko");
+      }
+      state.lives = heroes.filter((h) => h.alive).length;
+    }
+    uiDirty = true;
+    updateHUD();
+  }
+
+  function logImpact(name, dmg, res, target) {
+    let t = name + " \u2192 " + target.name + " " + dmg;
+    if (res.exploit) t += " LEMAH!";
+    else if (res.crit) t += " CRIT!";
+    log(t);
+  }
+
+  function heroStrike(cfg) {
+    const h = current;
+    const from = { x: h.mesh.position.x, z: h.mesh.position.z };
+    const to = lungeDest(from, foe.mesh.position, 2.6);
+    log(h.name + (cfg.kind === "strike" ? " menyerang!" : " menggunakan " + cfg.name + "!"));
+    beginAction({
+      dur: 1.05,
+      lunges: [{ mesh: h.mesh, from: from, to: to }],
+      onImpact() {
+        foe.guarding = false;
+        const res = calcHit(cfg.power, foe, cfg.el);
+        applyDamage(foe, res.dmg, { el: cfg.el, exploit: res.exploit, crit: res.crit });
+        logImpact(cfg.name, res.dmg, res, foe);
+        if (foe.alive && (res.exploit || res.crit)) {
+          showBanner(res.exploit ? "WEAKNESS!" : "CRITICAL!", "crit");
+          if (!foe.down) {
+            foe.down = true;
+            pendingExtra = true;
+            gauge = Math.min(100, gauge + 8);
+          }
+        }
+        if (!foe.alive) log(foe.name + " dikalahkan!");
+      },
+      onDone() {
+        const extra = pendingExtra;
+        pendingExtra = false;
+        afterAction(extra ? 0.95 : 0.5, extra);
+      }
+    });
+  }
+
+  function heroSkill(sk) {
+    const h = current;
+    if (h.sp < sk.cost) return;
+    h.sp = Math.max(0, h.sp - sk.cost);
+    if (sk.el === "heal") heroHeal(sk);
+    else heroStrike({ kind: "skill", el: sk.el, name: sk.name, power: sk.power });
+    uiDirty = true;
+  }
+
+  function heroHeal(sk) {
+    const h = current;
+    const alive = heroes.filter((x) => x.alive);
+    let targets = alive;
+    if (sk.name !== "PATRA" && alive.length) {
+      const sorted = alive.slice().sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp);
+      targets = [sorted[0]];
+    }
+    log(h.name + " menggunakan " + sk.name + "!");
+    beginAction({
+      dur: 1.0,
+      lunges: [],
+      onImpact() {
+        let total = 0;
+        targets.forEach((t) => {
+          const before = t.hp;
+          t.hp = Math.min(t.maxHp, t.hp + Math.round(t.maxHp * sk.power));
+          const healed = t.hp - before;
+          total += healed;
+          spawnFloat("+" + healed, "#9df0b4", t.mesh);
+          spawnBurst(t.mesh.position, ELEM.heal.color, false);
+        });
+        state.score += 60;
+        blip(880, 0.2, "sine", 0.06);
+        log("Pulih " + total + " HP.");
+        uiDirty = true;
+      },
+      onDone() { afterAction(0.5, false); }
+    });
+  }
+
+  function heroGuard() {
+    const h = current;
+    h.guarding = true;
+    log(h.name + " bertahan.");
+    spawnBurst(h.mesh.position, 0x7de6fd, false);
+    blip(300, 0.14, "triangle", 0.05);
+    afterAction(0.55, false);
+  }
+
+  function teamLunges(reach) {
+    return heroes
+      .filter((h) => h.alive)
+      .map((h) => {
+        const from = { x: h.mesh.position.x, z: h.mesh.position.z };
+        return { mesh: h.mesh, from: from, to: lungeDest(from, foe.mesh.position, reach) };
+      });
+  }
+
+  function heroAllOut() {
+    if (!foe || !foe.down) return;
+    const team = heroes.filter((h) => h.alive);
+    log("ALL-OUT ATTACK!");
+    showBanner("ALL-OUT ATTACK!", "allout");
+    blip(220, 0.3, "sawtooth", 0.07);
+    beginAction({
+      dur: 1.35,
+      lunges: teamLunges(2.5),
+      onImpact() {
+        const power = team.reduce((s, h) => s + h.atk, 0) * 1.15;
+        const res = calcHit(power, foe, "phys");
+        applyDamage(foe, res.dmg, { el: "phys", css: "#ffd23f", big: true });
+        log("Kerusakan " + res.dmg + " ke " + foe.name + "!");
+        state.score += 350;
+        flash();
+      },
+      onDone() {
+        if (foe.alive) foe.down = false;
+        afterAction(0.75, false);
+      }
+    });
+  }
+
+  function heroTheurgy() {
+    if (gauge < 100) return;
+    gauge = 0;
+    log("THEURGY - MEGIDOALA!");
+    showBanner("THEURGY!", "theurgy");
+    blip(140, 0.5, "sawtooth", 0.08);
+    beginAction({
+      dur: 1.6,
+      lunges: teamLunges(3.2),
+      onImpact() {
+        const dmg = Math.round(rnd(105, 148));
+        applyDamage(foe, dmg, { el: "almighty", css: "#ff9df7", big: true });
+        log("THEURGY " + dmg + " ALMIGHTY!");
+        state.score += 500;
+        shake = 1.2;
+        flash();
+        if (foe.alive) foe.down = true;
+      },
+      onDone() { afterAction(0.9, false); }
+    });
+  }
+
+  function foeTurn() {
+    const f = foe;
+    if (f.guarding) f.guarding = false;
+    f.turns += 1;
+    const alive = heroes.filter((h) => h.alive);
+    if (!alive.length) { doDefeat(); return; }
+
+    const r = Math.random();
+    if (f.hp < f.maxHp * 0.35 && r < 0.2 && f.turns > 1) {
+      f.guarding = true;
+      log(f.name + " berlindung.");
+      spawnBurst(f.mesh.position, f.color, false);
+      blip(240, 0.16, "triangle", 0.05);
+      afterAction(0.6, false);
+      return;
+    }
+
+    const heavy = f.turns % 3 === 0;
+    const useElem = f.elem !== "phys" && r > 0.4;
+    const el = useElem ? f.elem : "phys";
+    const name = useElem ? SKILL_NAMES[f.elem] || "MAUL" : heavy ? "RAMPAGE" : "MAUL";
+    const power = f.atk * (useElem ? (heavy ? 1.5 : 1.15) : heavy ? 1.45 : 1.0);
+    const all = heavy && r > 0.72;
+    const target = alive[Math.floor(Math.random() * alive.length)];
+
+    log(f.name + " menggunakan " + name + "!");
+    const from = { x: f.mesh.position.x, z: f.mesh.position.z };
+    beginAction({
+      dur: 1.15,
+      lunges: [{ mesh: f.mesh, from: from, to: lungeDest(from, target.mesh.position, 2.6) }],
+      onImpact() {
+        const victims = all ? alive : [target];
+        victims.forEach((v) => {
+          const res = calcHit(power, v, all ? "phys" : el);
+          applyDamage(v, res.dmg, { el: all ? "phys" : el });
+          log(f.name + " \u2192 " + v.name + " " + res.dmg + (res.crit ? " CRIT" : "") + (res.exploit ? " LEMAH" : ""));
+          if ((res.exploit || res.crit) && v.alive) {
+            showBanner(res.exploit ? "WEAKNESS!" : "CRITICAL!", "crit");
+            v.down = true;
+          }
+        });
+        if (all) showBanner("DARK PULSE!", "warn");
+      },
+      onDone() { afterAction(0.6, false); }
+    });
+  }
+
+  /* ---- battle: end states ---------------------------------------------------- */
+  function doVictory() {
+    phase = "victory";
+    phaseT = 0;
+    queue = [];
+    current = null;
+    pendingExtra = false;
+    if (arrow) arrow.visible = false;
+    const reward = foe ? foe.reward : 500;
+    state.score += reward;
+    state.shadows = Math.max(0, state.shadows - 1);
+    if (activeShade) {
+      activeShade.dead = true;
+      if (activeShade.mesh) activeShade.mesh.visible = false;
+    }
+    if (ui.round) ui.round.classList.remove("show");
+    showBanner("SHADOW PURIFIED!", "win");
+    log((foe ? foe.name : "Bayangan") + " ditaklukkan! +" + reward);
+    blip(880, 0.14, "square", 0.06);
+    window.setTimeout(() => blip(1180, 0.16, "square", 0.06), 150);
+    window.setTimeout(() => blip(1580, 0.26, "square", 0.06), 320);
+    uiDirty = true;
+    updateHUD();
+  }
+
+  function finishVictory() {
+    heroes.forEach((h) => {
+      if (!h.alive) {
+        h.alive = true;
+        h.hp = Math.round(h.maxHp * 0.45);
+        log(h.name + " hidup kembali.");
+      } else {
+        h.hp = Math.min(h.maxHp, h.hp + Math.round(h.maxHp * 0.4));
+      }
+      h.sp = Math.min(h.maxSp, h.sp + 10);
+      h.down = false;
+      h.guarding = false;
+    });
+    state.lives = heroes.filter((h) => h.alive).length;
+    if (state.shadows <= 0) {
+      hideBattleUI();
+      updateHUD();
+      endGame(
+        "FLOOR CLEAR",
+        SHADOWS_TOTAL + " bayangan ditaklukkan - " + Math.floor(state.score) + " poin"
+      );
+    } else {
+      returnToDungeon();
+    }
+  }
+
+  function doDefeat() {
+    phase = "defeat";
+    phaseT = 0;
+    queue = [];
+    current = null;
+    pendingExtra = false;
+    if (arrow) arrow.visible = false;
+    state.lives = 0;
+    showBanner("WIPE OUT", "lose");
+    log("Party gugur...");
+    blip(160, 0.6, "sawtooth", 0.07);
+    uiDirty = true;
+    updateHUD();
+  }
+
+  function finishDefeat() {
+    hideBattleUI();
+    updateHUD();
+    endGame(
+      "WIPE OUT",
+      SHADOWS_TOTAL - state.shadows + " bayangan ditaklukkan - " + Math.floor(state.score) + " poin"
+    );
+  }
+
+  /* ---- rendering per frame ---------------------------------------------------- */
+  function updateCamera(dt) {
+    if (!camPos || !camera) return;
+    let tx, ty, tz, lx, ly, lz;
+    if (camMode === "battle") {
+      tx = 0; ty = 5.6; tz = 13.8;
+      lx = 0; ly = -0.3; lz = 0;
+    } else {
+      tx = leader.x; ty = 11.8; tz = leader.z + 9.6;
+      lx = leader.x; ly = 1.5; lz = leader.z;
+    }
+    const k = 1 - Math.exp(-dt * (camMode === "battle" ? 4.5 : 6));
+    camPos.x += (tx - camPos.x) * k;
+    camPos.y += (ty - camPos.y) * k;
+    camPos.z += (tz - camPos.z) * k;
+    camLook.x += (lx - camLook.x) * k;
+    camLook.y += (ly - camLook.y) * k;
+    camLook.z += (lz - camLook.z) * k;
+    camera.position.set(camPos.x, camPos.y, camPos.z);
+    if (shake > 0) {
+      camera.position.x += rnd(-shake, shake) * 0.4;
+      camera.position.y += rnd(-shake, shake) * 0.4;
+    }
+    camera.lookAt(camLook);
+  }
+
+  function animateBattle(dt) {
+    if (foe && foe.mesh) {
+      foe.mesh.position.y = Math.sin(elapsed * 2.2) * 0.18;
+      foe.mesh.rotation.y += dt * 0.5;
+      if (foe.mesh.userData.ring) foe.mesh.userData.ring.rotation.z += dt * 1.8;
+      foe.hitT = Math.max(0, foe.hitT - dt * 2.6);
+      setFlash(foe.mesh, foe.hitT);
+    }
+    heroes.forEach((h) => {
+      if (!h.mesh) return;
+      h.hitT = Math.max(0, h.hitT - dt * 2.6);
+      setFlash(h.mesh, h.hitT);
+      if (h.mesh.userData.ring) {
+        h.mesh.userData.ring.rotation.z += dt * (current === h && phase === "menu" ? 3.6 : 1.2);
+      }
+    });
+    if (arrow) {
+      const act = current && current.mesh ? current : null;
+      const show = !!act && phase !== "victory" && phase !== "defeat";
+      if (arrow.visible !== show) arrow.visible = show;
+      if (act) {
+        const top = act.isFoe ? 3.5 : 2.4;
+        arrow.position.set(
+          act.mesh.position.x,
+          act.mesh.position.y + top + Math.sin(elapsed * 5) * 0.14,
+          act.mesh.position.z
+        );
+        const hex = act.isFoe ? 0xe60024 : 0x16cffb;
+        if (arrow.material.color.getHex() !== hex) {
+          arrow.material.color.setHex(hex);
+          arrow.material.emissive.setHex(hex);
+        }
+      }
+    }
+  }
+
+  function update(dt) {
+    elapsed += dt;
+    phaseT += dt;
+    if (bannerT > 0) {
+      bannerT -= dt;
+      if (bannerT <= 0 && ui.banner) ui.banner.classList.remove("show");
+    }
+    if (toastT > 0) {
+      toastT -= dt;
+      if (toastT <= 0 && ui.toast) ui.toast.classList.remove("show");
+    }
+    shake = Math.max(0, shake - dt * 1.7);
+    updateBursts(dt);
+
+    if (phase === "dungeon") {
+      updateDungeon(dt);
+    } else {
+      animateBattle(dt);
+      if (phase === "intro") {
+        if (phaseT >= 1.35) {
+          phaseT = 0;
+          beginRound();
+        }
+      } else if (phase === "act" && anim) {
+        stepAnim(dt);
+      } else if (phase === "gap") {
+        gapT -= dt;
+        if (gapT <= 0) {
+          if (pendingExtra && current && current.alive) {
+            queue.unshift(current);
+            log(current.name + " mendapat 1 MORE!");
+            showBanner("1 MORE!", "more");
+          }
+          pendingExtra = false;
+          advance();
+        }
+      } else if (phase === "victory" && phaseT >= 2.0) {
+        finishVictory();
+      } else if (phase === "defeat" && phaseT >= 2.0) {
+        finishDefeat();
+      }
+    }
+
+    updateCamera(dt);
+    if (uiDirty) renderFrame();
+  }
+
+  /* ---- public game interface -------------------------------------------------- */
+  function init() {
+    scene = newScene(0x030a20, 18, 96);
+    camera = new THREE.PerspectiveCamera(56, 1, 0.1, 400);
+    camera.position.set(0, 14, 22);
+    addLights(scene);
+
+    camPos = camera.position.clone();
+    camLook = new THREE.Vector3(0, 1, 0);
+
+    genMaze();
+    buildDungeon();
+    buildArena();
+    buildUI();
+
+    leader.x = worldX(1);
+    leader.z = worldZ(1);
+    trail.length = 0;
+    for (let i = 0; i < 24; i++) trail.push({ x: leader.x, z: leader.z + i * 0.15 });
+    heroes.forEach((h, i) => {
+      if (h.dgn) {
+        h.dgn.position.set(leader.x, 0, leader.z + (i + 1) * 1.9);
+        h.dgn.rotation.y = Math.PI;
+      }
+      if (h.mesh) setFlash(h.mesh, 0);
+    });
+
+    phase = "dungeon";
+    camMode = "dungeon";
+    gauge = 65;
+    round = 0;
+    shake = 0;
+    elapsed = 0;
+    bursts = [];
+    uiDirty = true;
+    if (ui.map) ui.map.classList.add("on");
+    renderGauge();
+    updateHUD();
+    showToast("HUNT THE " + SHADOWS_TOTAL + " SHADOWS", 3);
+    blip(660, 0.1, "square", 0.05);
+  }
+
+  function action() {
+    if (phase === "menu") {
+      confirmMenu();
+      return;
+    }
+    if (phase === "dungeon") {
+      const d = nearestShadeTiles();
+      showToast(d < 0 ? "TIDAK ADA BAYANGAN" : "BAYANGAN TERDEKAT: " + d + " TILE", 1.8);
+      blip(700, 0.06, "square", 0.04);
+    }
+  }
+
+  function handleKey(e, k) {
+    if (phase === "dungeon") return false;
+    const up = k === "ArrowUp" || k === "w" || k === "ArrowLeft" || k === "a";
+    const down = k === "ArrowDown" || k === "s" || k === "ArrowRight" || k === "d";
+    if (up || down) {
+      e.preventDefault();
+      if (phase === "menu") moveCursor(up ? -1 : 1);
+      return true;
+    }
+    if (k === "Enter" || k === "enter" || k === " ") {
+      e.preventDefault();
+      action();
+      return true;
+    }
+    if (k === "escape" || k === "Escape" || k === "b" || k === "backspace") {
+      if (phase === "menu" && subMenu) {
+        e.preventDefault();
+        closeSub();
+        return true;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  function dispose() {
+    killUI();
+    shadeList.length = 0;
+    trail.length = 0;
+    bursts = [];
+    dungeonGroup = null;
+    arenaGroup = null;
+    arrow = null;
+    foe = null;
+    activeShade = null;
+    current = null;
+    queue = [];
+    anim = null;
+    entries = [];
+    grid = null;
+    floorList = [];
+    camPos = null;
+    camLook = null;
+    heroes.forEach((h) => {
+      h.mesh = null;
+      h.dgn = null;
+    });
+    phase = "dungeon";
+  }
+
+  return {
+    id: "micro-tartarus",
+    init,
+    update,
+    action,
+    handleKey,
+    dispose
+  };
+}
+
 const GAME_FACTORIES = {
   "shadow-dodge": gameShadowDodge,
   "evoker-target": gameEvokerTarget,
   "block-breaker": gameBlockBreaker,
-  "ring-rush": gameRingRush
+  "ring-rush": gameRingRush,
+  "micro-tartarus": gameMicroTartarus
 };
 
 /* =========================================================================
@@ -1502,6 +3350,7 @@ async function start() {
   state.bestCombo = 0;
   state.level = 1;
   state.lives = g.lives || 0;
+  state.shadows = g.shadows || 0;
   state.time = g.time || 0;
   state.shots = 0;
   state.hits = 0;
@@ -1587,13 +3436,22 @@ function handleKey(e) {
   if (!state.mounted) return false;
   const k = normalizeKey(e);
 
+  /* A running game may claim the key first (menus, sub-menus, cancels) */
+  if (state.running && game && typeof game.handleKey === "function") {
+    try {
+      if (game.handleKey(e, k) === true) return true;
+    } catch (err) {
+      console.warn("[MiniGames] game.handleKey failed:", err);
+    }
+  }
+
   if (state.running) {
     if (k === "escape" || k === "Escape" || k === "b" || k === "backspace") {
       e.preventDefault();
       stop();
       return true;
     }
-    if (k === " " || k === "enter") {
+    if (k === " " || k === "enter" || k === "Enter") {
       e.preventDefault();
       if (game && game.action) game.action();
       return true;
@@ -1651,6 +3509,7 @@ window.MiniGames = {
       mounted: state.mounted,
       score: Math.floor(state.score),
       lives: state.lives,
+      shadows: state.shadows,
       time: Math.round(state.time * 10) / 10,
       level: state.level,
       frames: frameCount,
