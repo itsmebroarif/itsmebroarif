@@ -2279,8 +2279,17 @@ body.minigame-screen-active .character-viewport {
 .p3r-minigame-info-top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
+}
+
+/* icon + (code / title) stay glued together as one header block */
+.p3r-minigame-heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
 }
 
 .p3r-minigame-icon {
@@ -2313,16 +2322,18 @@ body.minigame-screen-active .character-viewport {
 
 .p3r-minigame-code {
   font-family: var(--font-new-rodin-ub), sans-serif;
-  font-size: clamp(1.3rem, 1.8vw, 1.8rem);
+  font-size: clamp(0.78rem, 0.9vw, 0.92rem);
   font-style: italic;
   font-weight: 900;
   line-height: 1;
-  letter-spacing: 0.06em;
-  color: rgba(22, 207, 251, 0.38);
+  letter-spacing: 0.26em;
+  color: rgba(22, 207, 251, 0.9);
+  text-shadow: 0 0 12px rgba(22, 207, 251, 0.45);
 }
 
 .p3r-minigame-title {
-  margin: 2px 0 0;
+  margin: 0;
+  overflow-wrap: anywhere;
   font-family: var(--font-new-rodin-ub), sans-serif;
   font-size: clamp(1.1rem, 1.5vw, 1.5rem);
   font-style: italic;
@@ -2604,6 +2615,14 @@ body.minigame-screen-active .character-viewport {
   .p3r-minigame-icon {
     width: 40px;
     height: 40px;
+  }
+
+  .p3r-minigame-info-top {
+    gap: 9px;
+  }
+
+  .p3r-minigame-heading {
+    gap: 2px;
   }
 
   .p3r-minigame-icon svg {
