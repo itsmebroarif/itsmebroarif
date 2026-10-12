@@ -43,7 +43,7 @@
 
 His practice deliberately unites two disciplines that are often separated: **the functional discipline of software engineering** and **the aesthetic discipline of interface design**. Working across **Vue.js, React, Laravel, Node.js, Go, MySQL**, and **Figma**, he delivers production websites, registration and reporting systems, REST APIs, and internal tools — and has additionally served as a trainer for HTML, CSS, JavaScript, Vue.js, and Laravel cohorts. Beyond engineering he handles visual identity, video editing, and hardware maintenance, giving him end-to-end ownership of the products he ships.
 
-Currently engaged as a **Fullstack Web Engineer** at **Sintesa Persada Teknologi** and **Sadaraga**, he is selectively open to new collaborations, freelance commissions, and full-time opportunities.
+Currently engaged as a **Fullstack Web Engineer** at **Sintesa Persada Teknologi**, I'm so selectively open to new collaborations, freelance commissions, and full-time opportunities.
 
 ---
 
@@ -111,12 +111,21 @@ flowchart TD
 ## 💼 Experience
 
 | Period | Role | Organisations | Focus |
-|:-:|---|---|---|
-| **2025 — Present** | Fullstack Web Engineer | Sintesa Persada Teknologi · Sadaraga | Company websites, marathon registration & result-serving systems, BIB checking (C#) |
-| **2024** | Vue.js Dev & Website Builder | Hangang Solution (Republic of Korea) · Amie Jaya Motor | Game-developer learning site & forum; static dealer website linked to Yamaha's official site |
-| **2023 — 2024** | Trainer & Digital Speaker | Kafeinarts · Rumah Coding · Young On Top | HTML, CSS, JavaScript, Vue.js, Bootstrap; Laravel, Blade, MVC, OOP, CRUD; digital advertising |
-| **2021 — 2022** | Backend & Tech Content | PT. Spero Mahakarya Nusantara · Guepedia · Hallotrans · Medium | REST API management, frontend collaboration, Laravel/Vue.js applications, web-app maintenance, hardware & software reviews |
-
+|:---:|---|---|---|
+| **2026 — Present** | Fullstack Software Engineer | Medisin — Sintesa Persada Teknologi | SaaS for Electronic Medical Records (RME), SATUSEHAT integration, SPA/PWA architecture, and system security |
+| **2026** | Web Developer | Ayasylfiette | VTuber asset marketplace, e-commerce integration, WhatsApp consultation and ordering |
+| **2025** | Fullstack Web Engineer | Sadaraga | Marathon registration website, race results serving, and C#-based BIB checking system |
+| **2025** | Web Builder | Warkop Galaxy Jati Asri | Business website development, website-based advertising, and Google visibility optimization |
+| **2025** | Laravel Developer | Konpyūtā no Himitsu (Japan) | Computer course website, WhatsApp direct chat, and computer science learning materials |
+| **2025** | Digital Speaker | Young On Top | Static advertising websites, digital advertising presentations, and target-market analysis |
+| **2025** | Website Builder | Amie Jaya Motor | Motorcycle dealer website, product catalog, and integration with Yamaha's official website |
+| **2025** | Vue.js Developer | Hangang Solution (South Korea) | Game development learning platform, developer discussion forum, and console/mobile game research |
+| **2024** | Front-End Trainer | Kafeinarts Studio | HTML, CSS, JavaScript fundamentals, Vue.js, Bootstrap, and portfolio website development |
+| **2024** | Expert Laravel Mentor | Rumah Coding | Laravel Blade templating, CRUD and authentication, MVC architecture, and OOP principles |
+| **2024** | Remote Laravel Developer | Hallotrans | Laravel and Blade application development, remote team collaboration, maintenance, and debugging |
+| **2023** | Tech Blogger | Medium | Technology articles, accessible computer science education, and hardware/software reviews |
+| **2022** | Backend Web Developer | PT. Spero Mahakarya Nusantara | REST API development and management, frontend integration, system maintenance, and optimization |
+| **2021** | Fullstack Web Developer | Guepedia | Laravel and Vue.js application development, feature implementation, maintenance, and debugging |
 <details>
 <summary><b>📄 Detailed project descriptions</b></summary>
 
