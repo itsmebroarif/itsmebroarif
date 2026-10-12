@@ -126,15 +126,6 @@ flowchart TD
 | **2023** | Tech Blogger | Medium | Technology articles, accessible computer science education, and hardware/software reviews |
 | **2022** | Backend Web Developer | PT. Spero Mahakarya Nusantara | REST API development and management, frontend integration, system maintenance, and optimization |
 | **2021** | Fullstack Web Developer | Guepedia | Laravel and Vue.js application development, feature implementation, maintenance, and debugging |
-<details>
-<summary><b>📄 Detailed project descriptions</b></summary>
-
-- **Sintesa Persada Teknologi & Sadaraga** — company website development, marathon registration systems, participant result serving, and BIB checking built on C#.
-- **Hangang Solution (KR)** — website and learning forum for game developers. **Amie Jaya Motor** — static Yamaha dealer website connected to the official site.
-- **Kafeinarts** — teaching HTML, CSS, JavaScript, Vue.js, Bootstrap. **Rumah Coding** — mentoring Laravel, Blade, MVC, OOP, CRUD. **Young On Top** — digital advertising education.
-- **PT. Spero** — REST API management and frontend collaboration. **Guepedia** — Laravel and Vue.js applications. **Hallotrans** — web application maintenance. **Medium** — hardware and software reviews.
-
-</details>
 
 ---
 
