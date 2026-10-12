@@ -290,17 +290,11 @@ A **menu-driven, single-page portfolio** engineered with plain HTML, CSS and Jav
 
 ---
 
-## 📜 Colophon
-
-- **Design direction** inspired by *Persona 3 Reload* (ATLUS / SEGA) — an original, non-commercial homage built for this portfolio.
-- This profile and portfolio are **personal, non-commercial projects**; they are not affiliated with, endorsed by, or sponsored by ATLUS or SEGA, and contain no extracted game assets.
-- **Typefaces:** Poppins (Google Fonts) · Rodin Pro · Skip.
-- Set in **Poppins** and **Rodin Pro**, engineered with vanilla JavaScript, hosted on GitHub Pages.
 
 <div align="center">
 
 **© 2026 Arif Permana Putrasuryana — All rights reserved.**
 
-✦ *Open the Door.* ✦
+✦ *Open to Discuss.* ✦
 
 </div>
